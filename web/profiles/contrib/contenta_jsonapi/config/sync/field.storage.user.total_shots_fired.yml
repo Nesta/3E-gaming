@@ -1,0 +1,20 @@
+uuid: 32676e11-54c1-4abc-a6bd-9ddd10608241
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.total_shots_fired
+field_name: total_shots_fired
+entity_type: user
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

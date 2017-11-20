@@ -1,0 +1,20 @@
+uuid: d42a7888-6c2f-4b55-afcf-238b379123d4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.personaname
+  module:
+    - user
+id: user.user.personaname
+field_name: personaname
+entity_type: user
+bundle: user
+label: 'Username Steam'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

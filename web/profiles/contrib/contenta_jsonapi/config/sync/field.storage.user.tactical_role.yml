@@ -1,0 +1,21 @@
+uuid: 1047c019-93ff-4849-9c4e-2f0b7283c0fc
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.tactical_role
+field_name: tactical_role
+entity_type: user
+type: string
+settings:
+  max_length: 200
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
