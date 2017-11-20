@@ -1,0 +1,26 @@
+uuid: 6d13467e-69dd-4e68-8212-bc910acce64e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.kills_deaths_ratio
+  module:
+    - computed_field
+    - user
+id: user.user.kills_deaths_ratio
+field_name: kills_deaths_ratio
+entity_type: user
+bundle: user
+label: 'Kills/Deaths ratio'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: "$total_deaths = $fields['total_deaths'][0]['value'];\r\n$total_kills = $fields['total_kills'][0]['value'];\r\nif ($total_deaths != null and $total_kills != null) {\r\n  $value = $total_kills / $total_deaths;\r\n}"
+  prefix: ''
+  suffix: ''
+field_type: computed_decimal

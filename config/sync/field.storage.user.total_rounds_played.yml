@@ -1,0 +1,20 @@
+uuid: 90e8ad73-c0e3-44a5-b9b5-cea3cd52beeb
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.total_rounds_played
+field_name: total_rounds_played
+entity_type: user
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
