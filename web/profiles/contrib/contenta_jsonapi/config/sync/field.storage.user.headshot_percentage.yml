@@ -1,0 +1,21 @@
+uuid: e323f9fe-fff8-4360-877f-43bdb6c42f28
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - user
+id: user.headshot_percentage
+field_name: headshot_percentage
+entity_type: user
+type: computed_decimal
+settings:
+  precision: '10'
+  scale: '2'
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

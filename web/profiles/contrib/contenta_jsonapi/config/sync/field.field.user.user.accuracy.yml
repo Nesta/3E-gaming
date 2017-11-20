@@ -1,0 +1,26 @@
+uuid: 9bb09a7c-d5b3-4e17-a7fe-774f0c0f2a35
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.accuracy
+  module:
+    - computed_field
+    - user
+id: user.user.accuracy
+field_name: accuracy
+entity_type: user
+bundle: user
+label: Accuracy
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: "$total_shots_fired = $fields['total_shots_fired'][0]['value'];\r\n$total_shots_hit = $fields['total_shots_hit'][0]['value'];\r\nif ($total_shots_fired != null and $total_shots_hit != null) {\r\n  $value = ($total_shots_hit * 100) / $total_shots_fired;\r\n}"
+  prefix: ''
+  suffix: ''
+field_type: computed_decimal

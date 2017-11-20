@@ -1,0 +1,5 @@
+name: 3E-CSGO Search
+type: module
+description: 'With this module you can search the data of a group or of a user on Steam.'
+core: 8.x
+package: Custom

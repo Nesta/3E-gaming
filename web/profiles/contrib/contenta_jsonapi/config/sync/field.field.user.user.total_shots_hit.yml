@@ -1,0 +1,24 @@
+uuid: 38f52b10-f91c-4cd4-980b-9406c20ba400
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.total_shots_hit
+  module:
+    - user
+id: user.user.total_shots_hit
+field_name: total_shots_hit
+entity_type: user
+bundle: user
+label: 'Total shots hit'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,24 @@
+uuid: 48ffebc3-8641-472b-807f-2322a202509c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.total_shots_fired
+  module:
+    - user
+id: user.user.total_shots_fired
+field_name: total_shots_fired
+entity_type: user
+bundle: user
+label: 'Total shots fired'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

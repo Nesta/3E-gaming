@@ -1,0 +1,24 @@
+uuid: 58fcd042-1880-4118-9173-7c990f81fe63
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.total_wins
+  module:
+    - user
+id: user.user.total_wins
+field_name: total_wins
+entity_type: user
+bundle: user
+label: 'Total wins'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

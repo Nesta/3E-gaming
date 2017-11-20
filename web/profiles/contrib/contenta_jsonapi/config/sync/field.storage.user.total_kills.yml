@@ -1,0 +1,20 @@
+uuid: da017a02-1ad2-49b9-a44e-364a22d7be1d
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.total_kills
+field_name: total_kills
+entity_type: user
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

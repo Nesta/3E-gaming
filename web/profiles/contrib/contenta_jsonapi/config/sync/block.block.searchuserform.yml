@@ -1,0 +1,26 @@
+uuid: 22f335b4-8e4d-419d-b709-c6c064068962
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - threeecsgo_search
+  theme:
+    - material_admin
+id: searchuserform
+theme: material_admin
+region: content
+weight: -1
+provider: null
+plugin: search_block
+settings:
+  id: search_block
+  label: 'Search user form'
+  provider: threeecsgo_search
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

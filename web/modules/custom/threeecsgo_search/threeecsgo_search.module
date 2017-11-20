@@ -1,0 +1,82 @@
+<?php
+
+use Drupal\file\Entity\File;
+
+/**
+ * @file
+ * Contains threeecsgo_search.module.
+ */
+
+/**
+ * Implements hook_user_view().
+ */
+function threeecsgo_search_user_view($account, $view_mode, $langcode) {
+  $username = $account['#user']->get('name')->value;
+
+  $user = user_load_by_name($username);
+
+  if ($user != null) {
+    $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=9B2266D26FF1EEA14F77DFA355BF8FFB&steamids=" . $user->get('steamid')->value;
+    $content_url_1 = file_get_contents($url_api_steam_1);
+    $json_steam_data = json_decode($content_url_1);
+
+    $personaname = $json_steam_data->response->players[0]->personaname;
+
+    $username_drupal = strtolower(str_replace(' ', '', preg_replace('([^A-Za-z0-9])', '',$personaname)));
+
+    $realname = $json_steam_data->response->players[0]->realname;
+    $primaryclanid = $json_steam_data->response->players[0]->primaryclanid;
+    $avatar = $json_steam_data->response->players[0]->avatarfull;
+    $tmp = 'public://tmp/avatar.jpeg';
+    file_put_contents($tmp, file_get_contents($avatar));
+
+    $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=9B2266D26FF1EEA14F77DFA355BF8FFB&steamid=" . $user->get('steamid')->value;
+    $content_url_2 = file_get_contents($url_api_steam_2);
+    $json_steam_stats = json_decode($content_url_2);
+
+    $total_kills = $json_steam_stats->playerstats->stats[0]->value;
+    $total_deaths = $json_steam_stats->playerstats->stats[1]->value;
+    $total_time_played = $json_steam_stats->playerstats->stats[2]->value;
+    $total_wins = $json_steam_stats->playerstats->stats[5]->value;
+    $total_kills_headshot = $json_steam_stats->playerstats->stats[25]->value;
+    $total_mvps = $json_steam_stats->playerstats->stats[102]->value;
+    $total_rounds_played = $json_steam_stats->playerstats->stats[48]->value;
+    $total_shots_fired = $json_steam_stats->playerstats->stats[47]->value;
+    $total_shots_hit = $json_steam_stats->playerstats->stats[46]->value;
+
+    $user->{'personaname'}->setValue($personaname);
+    $user->setUsername(($username_drupal));
+    $user->{'primaryclanid'}->setValue($primaryclanid);
+
+    if ($realname != NULL) {
+      $user->{'realname'}->setValue($realname);
+    }
+    else {
+      $user->{'realname'}->setValue('No name');
+    }
+
+    // Create file object from a locally copied file.
+    $uri = file_unmanaged_copy($avatar, 'public://avatars/' . $user->get('steamid')->value . '.jpg', FILE_EXISTS_REPLACE);
+    $file = File::Create([
+      'uri' => $uri,
+    ]);
+    $file->save();
+
+    // Attach file in node.
+    $user->avatarfull->setValue([
+      'target_id' => $file->id(),
+    ]);
+
+    $user->{'total_deaths'}->setValue($total_deaths);
+    $user->{'total_kills'}->setValue($total_kills);
+    $user->{'total_time_played'}->setValue(($total_time_played/60)/60);
+    $user->{'total_wins'}->setValue($total_wins);
+    $user->{'total_kills_headshot'}->setValue($total_kills_headshot);
+    $user->{'total_mvps'}->setValue($total_mvps);
+    $user->{'total_rounds_played'}->setValue($total_rounds_played);
+    $user->{'total_shots_fired'}->setValue($total_shots_fired);
+    $user->{'total_shots_hit'}->setValue($total_shots_hit);
+
+    $user->save();
+  }
+}
