@@ -1,0 +1,26 @@
+uuid: 8f4f45c4-f9ed-4d6c-aa9c-f037bef6e90c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.rounds_won
+  module:
+    - computed_field
+    - user
+id: user.user.rounds_won
+field_name: rounds_won
+entity_type: user
+bundle: user
+label: 'Rounds won'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: "$total_rounds_played = $fields['total_rounds_played'][0]['value'];\r\n$total_wins = $fields['total_wins'][0]['value'];\r\nif ($total_rounds_played != null and $total_wins != null) {\r\n  $value = ($total_wins * 100) / $total_rounds_played;\r\n}"
+  prefix: ''
+  suffix: ''
+field_type: computed_decimal

@@ -1,0 +1,21 @@
+uuid: 6a7d158e-e583-4f5e-9316-bb5a6d6371c1
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - user
+id: user.accuracy
+field_name: accuracy
+entity_type: user
+type: computed_decimal
+settings:
+  precision: '10'
+  scale: '2'
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
