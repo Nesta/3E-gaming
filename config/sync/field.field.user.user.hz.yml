@@ -1,0 +1,24 @@
+uuid: 37b0b40c-1da3-4b5d-aa1c-42bb84396395
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.hz
+  module:
+    - user
+id: user.user.hz
+field_name: hz
+entity_type: user
+bundle: user
+label: HZ
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

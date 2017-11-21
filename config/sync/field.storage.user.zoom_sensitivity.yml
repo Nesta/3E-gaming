@@ -1,0 +1,20 @@
+uuid: 3592c324-f50c-4d38-b8b7-03d044c5347f
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.zoom_sensitivity
+field_name: zoom_sensitivity
+entity_type: user
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

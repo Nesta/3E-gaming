@@ -1,0 +1,52 @@
+uuid: 53e2f669-2814-4cc1-aa0f-a0e901fd6da6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.settings.dpi
+    - field.field.node.settings.edpi
+    - field.field.node.settings.hz
+    - field.field.node.settings.mouse_acceleration
+    - field.field.node.settings.raw_input
+    - field.field.node.settings.sensitivity
+    - field.field.node.settings.windows_sensitivity
+    - field.field.node.settings.zoom_sensitivity
+    - node.type.settings
+  module:
+    - field_group
+    - user
+third_party_settings:
+  field_group:
+    group_settings:
+      children: {  }
+      parent_name: ''
+      weight: 0
+      format_type: html_element
+      format_settings:
+        label: Settings
+        element: div
+        show_label: true
+        label_element: h3
+        attributes: 'dpi, edpi, hz, mouse_acceleration, raw_input, sensitivity, windows_sensitivity, zoom_sensitivity'
+        effect: none
+        speed: fast
+        id: ''
+        classes: ''
+      label: Settings
+id: node.settings.default
+targetEntityType: node
+bundle: settings
+mode: default
+content: {  }
+hidden:
+  dpi: true
+  edpi: true
+  hz: true
+  langcode: true
+  links: true
+  mouse_acceleration: true
+  raw_input: true
+  sensitivity: true
+  title: true
+  windows_sensitivity: true
+  zoom_sensitivity: true

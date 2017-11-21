@@ -1,0 +1,26 @@
+uuid: 31c83dba-b75e-4f20-ba70-75a848de04a8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.edpi
+    - node.type.settings
+  module:
+    - computed_field
+id: node.settings.edpi
+field_name: edpi
+entity_type: node
+bundle: settings
+label: eDPI
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: '$value = $fields[''dpi''][0][''value''] + $fields[''sensitivity''][0][''value''];'
+  prefix: ''
+  suffix: ''
+field_type: computed_integer

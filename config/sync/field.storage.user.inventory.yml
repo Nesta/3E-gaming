@@ -1,17 +1,13 @@
-uuid: 1005cbf2-9609-4dc9-a55b-ff9291fb627d
+uuid: 640e1b8d-f4b2-4edd-bc14-d53acfe0a9d1
 langcode: en
 status: true
 dependencies:
-  enforced:
-    module:
-      - recipes_magazin
   module:
     - node
-_core:
-  default_config_hash: E2lVYKGaDyFiBSK-W9Aw4b-foBseV-50DQ8CRxfKL2Y
-id: node.field_recipes
-field_name: field_recipes
-entity_type: node
+    - user
+id: user.inventory
+field_name: inventory
+entity_type: user
 type: entity_reference
 settings:
   target_type: node

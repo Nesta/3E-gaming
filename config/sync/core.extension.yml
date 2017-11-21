@@ -19,6 +19,7 @@ module:
   entity_browser: 0
   entity_reference: 0
   field: 0
+  field_group: 0
   field_ui: 0
   fieldable_path: 0
   file: 0
@@ -56,6 +57,7 @@ module:
   taxonomy: 0
   telephone: 0
   text: 0
+  threeecsgo_general: 0
   threeecsgo_search: 0
   toolbar: 0
   update: 0

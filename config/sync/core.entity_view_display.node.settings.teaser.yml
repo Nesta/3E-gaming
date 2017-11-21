@@ -1,17 +1,15 @@
-uuid: 4ebdb721-543f-465c-b26b-98fa1127721e
+uuid: 5b648c80-8ec6-4cb3-8cfe-1f880eb247d6
 langcode: en
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - node.type.article
+    - node.type.settings
   module:
     - user
-_core:
-  default_config_hash: 8RFZfaZXOxZyjVWx9VRYUr1vF1o8inGKr93ek6UjHWE
-id: node.article.teaser
+id: node.settings.teaser
 targetEntityType: node
-bundle: article
+bundle: settings
 mode: teaser
 content:
   links:

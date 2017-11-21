@@ -1,0 +1,23 @@
+uuid: 55b3b81c-242c-4af4-85b8-11ae16bdd6e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.mouse_acceleration
+    - node.type.settings
+id: node.settings.mouse_acceleration
+field_name: mouse_acceleration
+entity_type: node
+bundle: settings
+label: 'Mouse Acceleration'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

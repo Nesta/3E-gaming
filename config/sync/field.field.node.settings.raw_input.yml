@@ -1,0 +1,23 @@
+uuid: ef580020-044b-4c5d-9f0c-c329182db20e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.raw_input
+    - node.type.settings
+id: node.settings.raw_input
+field_name: raw_input
+entity_type: node
+bundle: settings
+label: 'Raw Input'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,17 +1,17 @@
-uuid: c46196db-f601-4247-afc8-58ccf074886f
+uuid: b497a2f7-3a9a-4bdd-9c12-04e7a0d67520
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_recipes
+    - field.storage.user.inventory
     - node.type.article
-_core:
-  default_config_hash: Q-XxosEHs9occrMXCzymAJOalLtedw8e0uXKFGee8zI
-id: node.article.field_recipes
-field_name: field_recipes
-entity_type: node
-bundle: article
-label: Recipes
+  module:
+    - user
+id: user.user.inventory
+field_name: inventory
+entity_type: user
+bundle: user
+label: inventory
 description: ''
 required: false
 translatable: false
@@ -20,9 +20,10 @@ default_value_callback: ''
 settings:
   handler: 'default:node'
   handler_settings:
-    target_bundles: {  }
+    target_bundles:
+      article: article
     sort:
       field: _none
-    auto_create: false
+    auto_create: true
     auto_create_bundle: ''
 field_type: entity_reference
