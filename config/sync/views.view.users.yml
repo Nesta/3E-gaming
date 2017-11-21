@@ -30,9 +30,8 @@ display:
     position: 0
     display_options:
       access:
-        type: perm
-        options:
-          perm: 'access user profiles'
+        type: none
+        options: {  }
       cache:
         type: tag
         options: {  }
@@ -74,6 +73,59 @@ display:
             next: ››
       style:
         type: table
+        options:
+          grouping: {  }
+          row_class: ''
+          default_row_class: true
+          override: true
+          sticky: true
+          caption: ''
+          summary: ''
+          description: ''
+          columns:
+            avatarfull: avatarfull
+            personaname: personaname
+            realname: realname
+            steamid: steamid
+            primaryclanid: primaryclanid
+          info:
+            avatarfull:
+              sortable: false
+              default_sort_order: asc
+              align: views-align-center
+              separator: ''
+              empty_column: false
+              responsive: ''
+            personaname:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            realname:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            steamid:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            primaryclanid:
+              sortable: true
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+          default: '-1'
+          empty_table: false
       row:
         type: fields
       fields:
@@ -455,7 +507,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
-        - user.permissions
       tags:
         - 'config:field.storage.user.avatarfull'
         - 'config:field.storage.user.personaname'
@@ -476,7 +527,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - url.query_args
-        - user.permissions
       tags:
         - 'config:field.storage.user.avatarfull'
         - 'config:field.storage.user.personaname'
@@ -510,7 +560,6 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - request_format
-        - user.permissions
       tags:
         - 'config:field.storage.user.avatarfull'
         - 'config:field.storage.user.personaname'

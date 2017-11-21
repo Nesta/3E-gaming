@@ -11,9 +11,11 @@ use Drupal\file\Entity\File;
  * Implements hook_user_view().
  */
 function threeecsgo_search_user_view($account, $view_mode, $langcode) {
-  $username = $account['#user']->get('name')->value;
+  if ($account['#user']->getUsername() != "admin") {
+    $username = $account['#user']->get('name')->value;
 
-  $user = user_load_by_name($username);
+    $user = user_load_by_name($username);
+  }
 
   if ($user != null) {
     $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=9B2266D26FF1EEA14F77DFA355BF8FFB&steamids=" . $user->get('steamid')->value;

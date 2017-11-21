@@ -137,9 +137,77 @@ class SearchGroupForm extends FormBase {
 
         $user->activate();
         $user->save();
+
+        $this->create_inventory($username_drupal);
       }
     }
 
-    $form_state->setRedirect('view.users.all', ['clanid' => $group_data['groupID64']]);
+    $form_state->setRedirect('view.users_list.all', ['clanid' => $group_data['groupID64']]);
+  }
+
+  public function create_inventory($username_drupal) {
+    $user = user_load_by_name($username_drupal);
+
+    $url_api_steam_3 = "http://steamcommunity.com/profiles/76561198224522144/inventory/json/730/2";
+    $content_url_3 = file_get_contents($url_api_steam_3);
+    $json_steam_inventory = json_decode($content_url_3);
+    $inventory = $json_steam_inventory->rgDescriptions;
+
+    foreach ($inventory as $article) {
+      $node_inventory = Node::create([
+        'title' => $user->username . " - " . $article->market_name,
+        'type' => 'article',
+        'status' => 1,
+      ]);
+
+      // Create file object from a locally copied file.
+      $uri  = file_unmanaged_copy("https://steamcommunity-a.akamaihd.net/economy/image/" . $article->icon_url, 'public://inventory/' . $article->market_name . '.jpg', FILE_EXISTS_REPLACE);
+      $file = File::Create([
+        'uri' => $uri,
+      ]);
+      $file->save();
+
+      // Attach file in node.
+      $node_inventory->image_article->setValue([
+        'target_id' => $file->id(),
+      ]);
+    }
+    /*
+      $inventory = new stdClass();
+      $inventory->title = "My title";
+      $inventory->type = "mycontent";
+      node_object_prepare($inventory);
+      $inventory->uid = $user->uid;
+      $inventory->status = 1;
+      $inventory = node_submit($inventory);
+      node_save($inventory);
+
+      $inventory = Node::create([
+        'title' => $user->username . " " . $name_market,
+        'type' => 'user_steam',
+        'status' => 1,
+      ]);
+
+      $usersteam->{'steamid'}->setValue($steamid);
+      $usersteam->{'username'}->setValue($personaname);
+      if ($realname != null) {
+        $usersteam->{'name'}->setValue($realname);
+      } else {
+        $usersteam->{'name'}->setValue('No name');
+      }
+
+      // Create file object from a locally copied file.
+      $uri  = file_unmanaged_copy($avatar, 'public://avatars/' . $steamid . '.jpg', FILE_EXISTS_REPLACE);
+      $file = File::Create([
+        'uri' => $uri,
+      ]);
+      $file->save();
+
+      // Attach file in node.
+      $usersteam->user_image->setValue([
+        'target_id' => $file->id(),
+      ]);
+
+      $usersteam->save();*/
   }
 }

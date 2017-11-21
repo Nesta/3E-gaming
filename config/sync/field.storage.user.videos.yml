@@ -1,0 +1,19 @@
+uuid: 5b5d056e-10cb-40a8-813b-056545dd6b21
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+    - video_embed_field
+id: user.videos
+field_name: videos
+entity_type: user
+type: video_embed_field
+settings: {  }
+module: video_embed_field
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
