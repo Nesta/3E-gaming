@@ -6,6 +6,7 @@ dependencies:
     - field.field.user.user.accuracy
     - field.field.user.user.avatarfull
     - field.field.user.user.headshot_percentage
+    - field.field.user.user.images
     - field.field.user.user.kills_deaths_ratio
     - field.field.user.user.personaname
     - field.field.user.user.primaryclanid
@@ -22,10 +23,12 @@ dependencies:
     - field.field.user.user.total_shots_hit
     - field.field.user.user.total_time_played
     - field.field.user.user.total_wins
+    - field.field.user.user.videos
     - image.style.thumbnail
   module:
     - image
     - user
+    - video_embed_field
 id: user.user.default
 targetEntityType: user
 bundle: user
@@ -38,6 +41,14 @@ content:
     third_party_settings: {  }
   avatarfull:
     weight: 3
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+    third_party_settings: {  }
+    type: image_image
+    region: content
+  images:
+    weight: 7
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
@@ -70,6 +81,12 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  videos:
+    weight: 6
+    settings: {  }
+    third_party_settings: {  }
+    type: video_embed_field_textfield
+    region: content
 hidden:
   accuracy: true
   headshot_percentage: true

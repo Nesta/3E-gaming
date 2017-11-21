@@ -6,6 +6,7 @@ dependencies:
     - field.field.user.user.accuracy
     - field.field.user.user.avatarfull
     - field.field.user.user.headshot_percentage
+    - field.field.user.user.images
     - field.field.user.user.kills_deaths_ratio
     - field.field.user.user.personaname
     - field.field.user.user.primaryclanid
@@ -22,10 +23,13 @@ dependencies:
     - field.field.user.user.total_shots_hit
     - field.field.user.user.total_time_played
     - field.field.user.user.total_wins
+    - field.field.user.user.videos
+    - image.style.thumbnail
   module:
     - computed_field
     - image
     - user
+    - video_embed_field
 id: user.user.default
 targetEntityType: user
 bundle: user
@@ -45,7 +49,7 @@ content:
     type: computed_decimal
     region: content
   avatarfull:
-    weight: 1
+    weight: 0
     label: above
     settings:
       image_style: ''
@@ -66,6 +70,15 @@ content:
     third_party_settings: {  }
     type: computed_decimal
     region: content
+  images:
+    weight: 14
+    label: above
+    settings:
+      image_style: thumbnail
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
   kills_deaths_ratio:
     weight: 7
     label: above
@@ -80,7 +93,7 @@ content:
     type: computed_decimal
     region: content
   member_for:
-    weight: 0
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -155,6 +168,17 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     type: number_integer
+    region: content
+  videos:
+    weight: 13
+    label: above
+    settings:
+      responsive: true
+      width: 854
+      height: 480
+      autoplay: true
+    third_party_settings: {  }
+    type: video_embed_field_video
     region: content
 hidden:
   langcode: true
