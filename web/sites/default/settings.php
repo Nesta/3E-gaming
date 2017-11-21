@@ -734,6 +734,10 @@ $settings['container_yamls'][] = $app_root . '/' . $site_path . '/services.yml';
  * example.org, with all subdomains included.
  */
 
+$settings['trusted_host_patterns'] = [
+  '^dev-www\.3e-csgo\.com$',
+];
+
 /**
  * The default list of directories that will be ignored by Drupal's file API.
  *
@@ -774,4 +778,4 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
 );
 $settings['install_profile'] = 'contenta_jsonapi';
-$config_directories['sync'] = 'profiles/contrib/contenta_jsonapi/config/sync';
+$config_directories['sync'] = '../config/sync';
