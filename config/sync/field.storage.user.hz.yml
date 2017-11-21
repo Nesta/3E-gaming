@@ -1,0 +1,20 @@
+uuid: 2717e117-b1e6-45bb-8217-5eb44ceb3170
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.hz
+field_name: hz
+entity_type: user
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,29 @@
+uuid: b497a2f7-3a9a-4bdd-9c12-04e7a0d67520
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.inventory
+    - node.type.article
+  module:
+    - user
+id: user.user.inventory
+field_name: inventory
+entity_type: user
+bundle: user
+label: inventory
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      article: article
+    sort:
+      field: _none
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

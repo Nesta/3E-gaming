@@ -1,0 +1,18 @@
+uuid: 220436cc-cd16-43db-a535-406a0f93f58b
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.settings
+id: node.settings.title
+field_name: title
+entity_type: node
+bundle: settings
+label: Settings
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

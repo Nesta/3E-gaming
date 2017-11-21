@@ -1,0 +1,23 @@
+uuid: 119640c3-2b92-4236-9a30-809f1b1adfd4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.dpi
+    - node.type.settings
+id: node.settings.dpi
+field_name: dpi
+entity_type: node
+bundle: settings
+label: DPI
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

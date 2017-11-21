@@ -1,0 +1,23 @@
+uuid: 52d8db9a-7931-44c5-afa9-0ee9755e937f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.hz
+    - node.type.settings
+id: node.settings.hz
+field_name: hz
+entity_type: node
+bundle: settings
+label: HZ
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,5 @@
+name: 3E-CSGO General
+type: module
+description: 'Module General of 3E-CSGO.'
+core: 8.x
+package: Custom

@@ -1,0 +1,20 @@
+uuid: e813d177-69bd-45a8-abe4-ba157c6a0a69
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.dpi
+field_name: dpi
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

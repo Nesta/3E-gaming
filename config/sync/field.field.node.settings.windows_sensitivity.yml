@@ -1,0 +1,23 @@
+uuid: 6692c041-6b4c-4562-bdcc-504a4d4ec654
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.windows_sensitivity
+    - node.type.settings
+id: node.settings.windows_sensitivity
+field_name: windows_sensitivity
+entity_type: node
+bundle: settings
+label: 'Windows Sensitivity'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

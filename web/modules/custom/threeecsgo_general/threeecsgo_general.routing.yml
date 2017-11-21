@@ -1,0 +1,7 @@
+threeecsgo_general.settings:
+    path: '/user/settings'
+    defaults:
+        _controller: '\Drupal\threeecsgo_general\Controller\SettingsController::settingsBuild'
+        _title: 'Settings'
+    requirements:
+        _permission: 'access content'

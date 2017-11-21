@@ -1,0 +1,20 @@
+uuid: 2aa5c507-de0c-4e0d-8a00-a413aab70fd3
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.windows_sensitivity
+field_name: windows_sensitivity
+entity_type: user
+type: decimal
+settings:
+  precision: 10
+  scale: 2
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

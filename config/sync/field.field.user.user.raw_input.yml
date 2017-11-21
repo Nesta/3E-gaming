@@ -1,0 +1,24 @@
+uuid: bbd052a6-d846-4f0d-b336-1c41e8e46042
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.raw_input
+  module:
+    - user
+id: user.user.raw_input
+field_name: raw_input
+entity_type: user
+bundle: user
+label: 'Raw Input'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

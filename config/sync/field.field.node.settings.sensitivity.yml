@@ -1,0 +1,23 @@
+uuid: 16855c8a-7fb6-419e-8abd-1abc7c238535
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.sensitivity
+    - node.type.settings
+id: node.settings.sensitivity
+field_name: sensitivity
+entity_type: node
+bundle: settings
+label: Sensitivity
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

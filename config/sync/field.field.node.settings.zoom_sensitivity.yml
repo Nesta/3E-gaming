@@ -1,0 +1,23 @@
+uuid: 589a6674-88bf-49a9-9143-10d10ded1f21
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.zoom_sensitivity
+    - node.type.settings
+id: node.settings.zoom_sensitivity
+field_name: zoom_sensitivity
+entity_type: node
+bundle: settings
+label: 'Zoom Sensitivity'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: decimal

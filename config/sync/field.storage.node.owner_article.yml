@@ -1,0 +1,20 @@
+uuid: aca7fc67-0e10-4a85-99a1-83a4451e1592
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - user
+id: node.owner_article
+field_name: owner_article
+entity_type: node
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
