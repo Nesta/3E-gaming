@@ -4,6 +4,7 @@ namespace Drupal\threeecsgo_search\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\file\Entity\File;
+use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
 
 /**
@@ -134,15 +135,33 @@ class SearchGroupForm extends FormBase {
         $user->{'total_rounds_played'}->setValue($total_rounds_played);
         $user->{'total_shots_fired'}->setValue($total_shots_fired);
         $user->{'total_shots_hit'}->setValue($total_shots_hit);
+        /*
+        // Create settings node
+        $settings = Node::create([
+          'title' => "Settings of " . $user->getUsername(),
+          'type' => 'settings',
+          'status' => 1,
+        ]);
+        $settings->{'dpi'}->setValue(0);
+        $settings->{'hz'}->setValue(0);
+        $settings->{'mouse_acceleration'}->setValue(0);
+        $settings->{'raw_input'}->setValue(0);
+        $settings->{'sensitivity'}->setValue(0);
+        $settings->{'windows_sensitivity'}->setValue(0);
+        $settings->{'zoom_sensitivity'}->setValue(0);
 
+        $settings->save();
+
+        $user->{'settings'}->setValue($settings->id());
+        */
         $user->activate();
         $user->save();
 
-        $this->create_inventory($username_drupal);
+        //$this->create_inventory($username_drupal);
       }
     }
 
-    $form_state->setRedirect('view.users_list.all', ['clanid' => $group_data['groupID64']]);
+    $form_state->setRedirect('view.users.all', ['clanid' => $group_data['groupID64']]);
   }
 
   public function create_inventory($username_drupal) {
@@ -154,60 +173,35 @@ class SearchGroupForm extends FormBase {
     $inventory = $json_steam_inventory->rgDescriptions;
 
     foreach ($inventory as $article) {
-      $node_inventory = Node::create([
-        'title' => $user->username . " - " . $article->market_name,
-        'type' => 'article',
-        'status' => 1,
-      ]);
+      if (strpos(strtoupper($article->market_name), 'CAJA') !== false) {
+        $node_inventory = Node::create([
+          'title' => $user->getUsername() . " - " . $article->market_name,
+          'type' => 'article',
+          'status' => 1,
+        ]);
 
-      // Create file object from a locally copied file.
-      $uri  = file_unmanaged_copy("https://steamcommunity-a.akamaihd.net/economy/image/" . $article->icon_url, 'public://inventory/' . $article->market_name . '.jpg', FILE_EXISTS_REPLACE);
-      $file = File::Create([
-        'uri' => $uri,
-      ]);
-      $file->save();
+        // Create file object from a locally copied file.
+        $uri = file_unmanaged_copy("https://steamcommunity-a.akamaihd.net/economy/image/" . $article->icon_url, 'public://inventory/' . $article->market_name . '.jpg', FILE_EXISTS_REPLACE);
+        $file = File::Create([
+          'uri' => $uri,
+        ]);
+        $file->save();
 
-      // Attach file in node.
-      $node_inventory->image_article->setValue([
-        'target_id' => $file->id(),
-      ]);
-    }
-    /*
-      $inventory = new stdClass();
-      $inventory->title = "My title";
-      $inventory->type = "mycontent";
-      node_object_prepare($inventory);
-      $inventory->uid = $user->uid;
-      $inventory->status = 1;
-      $inventory = node_submit($inventory);
-      node_save($inventory);
+        // Attach file in node.
+        $node_inventory->image_article->setValue([
+          'target_id' => $file->id(),
+        ]);
 
-      $inventory = Node::create([
-        'title' => $user->username . " " . $name_market,
-        'type' => 'user_steam',
-        'status' => 1,
-      ]);
+        $node_inventory->{'owner_article'}->setValue($user->id());
 
-      $usersteam->{'steamid'}->setValue($steamid);
-      $usersteam->{'username'}->setValue($personaname);
-      if ($realname != null) {
-        $usersteam->{'name'}->setValue($realname);
-      } else {
-        $usersteam->{'name'}->setValue('No name');
+        $node_inventory->save();
+
+        $user->{'inventory'}->setValue($node_inventory->id());
+
+        $user->save();
+
+        break;
       }
-
-      // Create file object from a locally copied file.
-      $uri  = file_unmanaged_copy($avatar, 'public://avatars/' . $steamid . '.jpg', FILE_EXISTS_REPLACE);
-      $file = File::Create([
-        'uri' => $uri,
-      ]);
-      $file->save();
-
-      // Attach file in node.
-      $usersteam->user_image->setValue([
-        'target_id' => $file->id(),
-      ]);
-
-      $usersteam->save();*/
+    }
   }
 }
