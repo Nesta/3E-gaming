@@ -20,7 +20,7 @@ default_value:
     value: 0
 default_value_callback: ''
 settings:
-  code: '$value = $fields[''dpi''][0][''value''] + $fields[''sensitivity''][0][''value''];'
+  code: '$value = $fields[''dpi''][0][''value''] * $fields[''sensitivity''][0][''value''];'
   prefix: ''
   suffix: ''
 field_type: computed_integer

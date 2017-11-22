@@ -1,0 +1,10 @@
+uuid: 85c36f5e-6f28-46d2-8f89-ee107788b909
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.settings
+label: Settings
+targetEntityType: node
+cache: true

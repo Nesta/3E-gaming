@@ -37,14 +37,8 @@ class ButtonSettingsForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $current_user = \Drupal::currentUser();
-    $user = User::load($current_user->id());
     global $base_url;
 
-    if ($user->settings == null) {
-      $form['#redirect'] = $base_url . '/user/settings';
-    } else {
-      $form['#redirect'] = $base_url . '/';
-    }
+    $form_state->setRedirectUrl(Url::fromUri($base_url . '/my-settings'));
   }
 }

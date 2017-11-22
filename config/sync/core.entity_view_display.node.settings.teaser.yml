@@ -1,9 +1,17 @@
 uuid: 5b648c80-8ec6-4cb3-8cfe-1f880eb247d6
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.settings.dpi
+    - field.field.node.settings.edpi
+    - field.field.node.settings.hz
+    - field.field.node.settings.mouse_acceleration
+    - field.field.node.settings.raw_input
+    - field.field.node.settings.sensitivity
+    - field.field.node.settings.windows_sensitivity
+    - field.field.node.settings.zoom_sensitivity
     - node.type.settings
   module:
     - user
@@ -24,4 +32,12 @@ content:
       link_to_entity: false
     third_party_settings: {  }
 hidden:
+  dpi: true
+  edpi: true
+  hz: true
   langcode: true
+  mouse_acceleration: true
+  raw_input: true
+  sensitivity: true
+  windows_sensitivity: true
+  zoom_sensitivity: true

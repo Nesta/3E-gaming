@@ -15,10 +15,17 @@ use Drupal\Core\Block\BlockBase;
 class ButtonSettingsBlock extends BlockBase {
 
   public function build() {
-    return [
-      '#type' => 'markup',
-      '#markup' => render($form = \Drupal::formBuilder()->getForm(\Drupal\threeecsgo_general\Form\ButtonSettingsForm::class)),
-    ];
+    $current_path = \Drupal::service('path.current')->getPath();
+    $user = \Drupal::currentUser();
+    if ( $user->id() != 1 ) {
+      if ($current_path == ("/player/" . $user->id())) {
+        return [
+          '#type' => 'markup',
+          '#markup' => render($form = \Drupal::formBuilder()
+            ->getForm(\Drupal\threeecsgo_general\Form\ButtonSettingsForm::class)),
+        ];
+      }
+    }
   }
 
 }

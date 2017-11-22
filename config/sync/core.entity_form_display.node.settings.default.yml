@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.settings.edpi
     - field.field.node.settings.hz
     - field.field.node.settings.mouse_acceleration
+    - field.field.node.settings.owner_settings
     - field.field.node.settings.raw_input
     - field.field.node.settings.sensitivity
     - field.field.node.settings.windows_sensitivity
@@ -58,6 +59,15 @@ content:
       display_label: true
     third_party_settings: {  }
     type: boolean_checkbox
+    region: content
+  owner_settings:
+    weight: 39
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
     region: content
   path:
     type: path

@@ -1,0 +1,12 @@
+uuid: 94416904-8d81-4bc3-9c9c-a2ef277a9e68
+langcode: en
+status: true
+dependencies: {  }
+id: panelsuserview
+label: PanelsUserView
+description: ''
+use_admin_theme: false
+path: '/player/{id}'
+access_logic: and
+access_conditions: {  }
+parameters: {  }

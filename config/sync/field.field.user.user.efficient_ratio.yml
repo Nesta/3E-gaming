@@ -1,0 +1,26 @@
+uuid: a190ce89-c1de-48ee-a738-4ae7792a5344
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.efficient_ratio
+  module:
+    - computed_field
+    - user
+id: user.user.efficient_ratio
+field_name: efficient_ratio
+entity_type: user
+bundle: user
+label: 'Efficient ratio'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: "$accuracy = $fields['accuracy'][0]['value'];\r\n$headshot_percentage = $fields['headshot_percentage'][0]['value'];\r\n$rounds_won = $fields['rounds_won'][0]['value'];\r\nif ( $accuracy != null and $headshot_percentage != null and $rounds_won != null ) {\r\n  $value = $accuracy + $rounds_won + $rounds_won;\r\n}"
+  prefix: ''
+  suffix: ''
+field_type: computed_decimal

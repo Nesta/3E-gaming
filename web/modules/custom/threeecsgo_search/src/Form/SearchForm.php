@@ -5,6 +5,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
+use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
 
 /**
@@ -77,15 +78,7 @@ class SearchForm extends FormBase {
       $content_url_2 = file_get_contents($url_api_steam_2);
       $json_steam_stats = json_decode($content_url_2);
 
-      $total_kills = $json_steam_stats->playerstats->stats[0]->value;
-      $total_deaths = $json_steam_stats->playerstats->stats[1]->value;
-      $total_time_played = $json_steam_stats->playerstats->stats[2]->value;
-      $total_wins = $json_steam_stats->playerstats->stats[5]->value;
-      $total_kills_headshot = $json_steam_stats->playerstats->stats[25]->value;
-      $total_mvps = $json_steam_stats->playerstats->stats[102]->value;
-      $total_rounds_played = $json_steam_stats->playerstats->stats[48]->value;
-      $total_shots_fired = $json_steam_stats->playerstats->stats[47]->value;
-      $total_shots_hit = $json_steam_stats->playerstats->stats[46]->value;
+      $stats = $json_steam_stats->playerstats->stats;
 
       // Create user object.
       $user = User::create();
@@ -119,22 +112,41 @@ class SearchForm extends FormBase {
         'target_id' => $file->id(),
       ]);
 
-      $user->{'total_deaths'}->setValue($total_deaths);
-      $user->{'total_kills'}->setValue($total_kills);
-      $user->{'total_time_played'}->setValue(($total_time_played/60)/60);
-      $user->{'total_wins'}->setValue($total_wins);
-      $user->{'total_kills_headshot'}->setValue($total_kills_headshot);
-      $user->{'total_mvps'}->setValue($total_mvps);
-      $user->{'total_rounds_played'}->setValue($total_rounds_played);
-      $user->{'total_shots_fired'}->setValue($total_shots_fired);
-      $user->{'total_shots_hit'}->setValue($total_shots_hit);
+      foreach ($stats as $stat) {
+        if($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
+          or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
+          or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
+          $user->{$stat->name}->setValue($stat->value);
+        }
+      }
 
+      // Create settings node
+      $settings = Node::create([
+        'title' => "Settings of " . $user->getUsername(),
+        'type' => 'settings',
+        'status' => 1,
+      ]);
+      $settings->{'dpi'}->setValue(0);
+      $settings->{'hz'}->setValue(0);
+      $settings->{'mouse_acceleration'}->setValue(FALSE);
+      $settings->{'raw_input'}->setValue(FALSE);
+      $settings->{'sensitivity'}->setValue(0);
+      $settings->{'windows_sensitivity'}->setValue(0);
+      $settings->{'zoom_sensitivity'}->setValue(0);
+      $settings->save();
+
+      $user->{'setting'}->setValue($settings->id());
       $user->activate();
       $user->save();
 
-      $form_state->setRedirectUrl(Url::fromUri($base_url . '/user/' . $user->id()));
+      $user_register = user_load_by_name($username_drupal);
+
+      $settings->{'owner_settings'}->setValue($user_register->id());
+      $settings->save();
+
+      $form_state->setRedirectUrl(Url::fromUri($base_url . '/player/' . $user->id()));
     } else {
-      $form_state->setRedirectUrl(Url::fromUri($base_url . '/user/' . $user_register->id()));
+      $form_state->setRedirectUrl(Url::fromUri($base_url . '/player/' . $user_register->id()));
     }
   }
 }

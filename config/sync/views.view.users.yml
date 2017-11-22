@@ -494,7 +494,7 @@ display:
             group_items: {  }
           plugin_id: string
       sorts: {  }
-      title: Users
+      title: Players
       header: {  }
       footer: {  }
       empty: {  }
@@ -520,7 +520,7 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: users
+      path: players
     cache_metadata:
       max-age: 0
       contexts:
@@ -540,7 +540,7 @@ display:
     position: 2
     display_options:
       display_extenders: {  }
-      path: users-data
+      path: players-data
       style:
         type: serializer
       defaults:

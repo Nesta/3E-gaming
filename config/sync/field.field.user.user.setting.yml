@@ -1,0 +1,29 @@
+uuid: ff301996-48e4-42c9-b73f-be2e1da02185
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.setting
+    - node.type.settings
+  module:
+    - user
+id: user.user.setting
+field_name: setting
+entity_type: user
+bundle: user
+label: Settings
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      settings: settings
+    sort:
+      field: _none
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,21 @@
+uuid: 754bc8fd-8fa8-44ea-9fea-4af3402a9826
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - user
+id: user.efficient_ratio
+field_name: efficient_ratio
+entity_type: user
+type: computed_decimal
+settings:
+  precision: '10'
+  scale: '2'
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

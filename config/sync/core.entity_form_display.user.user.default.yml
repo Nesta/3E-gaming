@@ -7,19 +7,17 @@ dependencies:
     - field.field.user.user.avatarfull
     - field.field.user.user.dpi
     - field.field.user.user.edpi
+    - field.field.user.user.efficient_ratio
     - field.field.user.user.headshot_percentage
-    - field.field.user.user.hz
     - field.field.user.user.images
     - field.field.user.user.inventory
     - field.field.user.user.kills_deaths_ratio
     - field.field.user.user.mouse_acceleration
     - field.field.user.user.personaname
     - field.field.user.user.primaryclanid
-    - field.field.user.user.raw_input
     - field.field.user.user.realname
     - field.field.user.user.rounds_won
-    - field.field.user.user.sensitivity
-    - field.field.user.user.settings
+    - field.field.user.user.setting
     - field.field.user.user.steamid
     - field.field.user.user.tactical_role
     - field.field.user.user.total_deaths
@@ -32,8 +30,6 @@ dependencies:
     - field.field.user.user.total_time_played
     - field.field.user.user.total_wins
     - field.field.user.user.videos
-    - field.field.user.user.windows_sensitivity
-    - field.field.user.user.zoom_sensitivity
     - image.style.thumbnail
   module:
     - image
@@ -57,6 +53,13 @@ content:
     third_party_settings: {  }
     type: image_image
     region: content
+  dpi:
+    type: number
+    weight: 9
+    region: content
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
   images:
     weight: 7
     settings:
@@ -79,6 +82,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  mouse_acceleration:
+    weight: 13
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   realname:
     type: string_textfield
     weight: 4
@@ -87,8 +97,8 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  settings:
-    weight: 9
+  setting:
+    weight: 16
     settings:
       match_operator: CONTAINS
       size: 60
@@ -117,18 +127,14 @@ content:
     region: content
 hidden:
   accuracy: true
-  dpi: true
   edpi: true
+  efficient_ratio: true
   headshot_percentage: true
-  hz: true
   kills_deaths_ratio: true
   langcode: true
-  mouse_acceleration: true
   personaname: true
   primaryclanid: true
-  raw_input: true
   rounds_won: true
-  sensitivity: true
   steamid: true
   total_deaths: true
   total_kills: true
@@ -139,5 +145,3 @@ hidden:
   total_shots_hit: true
   total_time_played: true
   total_wins: true
-  windows_sensitivity: true
-  zoom_sensitivity: true

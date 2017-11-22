@@ -1,11 +1,10 @@
 uuid: e3c2305c-997c-45f5-9ccd-ab0aa387594c
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - system
     - threeecsgo_general
-    - user
   theme:
     - material_admin
 id: buttonsettings
@@ -22,13 +21,6 @@ settings:
 visibility:
   request_path:
     id: request_path
-    pages: '/user/*'
+    pages: '/player/*'
     negate: false
     context_mapping: {  }
-  user_role:
-    id: user_role
-    roles:
-      authenticated: authenticated
-    negate: false
-    context_mapping:
-      user: '@user.current_user_context:current_user'
