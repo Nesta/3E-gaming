@@ -157,7 +157,7 @@ class SearchGroupForm extends FormBase {
         }
       }
 
-      $form_state->setRedirect('view.players.all', ['clanid' => $group_data['groupID64']]);
+      $form_state->setRedirect('view.users.all', ['clanid' => $group_data['groupID64']]);
     } else {
       global $base_url;
       $form_state->setRedirectUrl(Url::fromUri($base_url));
