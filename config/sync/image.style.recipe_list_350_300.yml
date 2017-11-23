@@ -3,7 +3,7 @@ langcode: en
 status: true
 dependencies: {  }
 name: recipe_list_350_300
-label: 'Recipe List (350×300)'
+label: 'Images player (350×300)'
 effects:
   b57b5ed8-218f-4604-aee1-818990927b4f:
     uuid: b57b5ed8-218f-4604-aee1-818990927b4f

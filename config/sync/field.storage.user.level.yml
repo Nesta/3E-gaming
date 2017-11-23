@@ -1,18 +1,17 @@
-uuid: d4bba134-d7de-47b8-97bc-45145dcf5f7c
+uuid: 124cd5c8-4082-4e6a-8583-1b9fd7ff80cf
 langcode: en
 status: true
 dependencies:
   module:
-    - computed_field
     - user
-id: user.edpi
-field_name: edpi
+id: user.level
+field_name: level
 entity_type: user
-type: computed_integer
+type: integer
 settings:
   unsigned: false
   size: normal
-module: computed_field
+module: core
 locked: false
 cardinality: 1
 translatable: true

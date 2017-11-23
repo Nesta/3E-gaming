@@ -20,7 +20,7 @@ default_value:
     value: 0
 default_value_callback: ''
 settings:
-  code: "$accuracy = $fields['accuracy'][0]['value'];\r\n$headshot_percentage = $fields['headshot_percentage'][0]['value'];\r\n$rounds_won = $fields['rounds_won'][0]['value'];\r\nif ( $accuracy != null and $headshot_percentage != null and $rounds_won != null ) {\r\n  $value = $accuracy + $rounds_won + $rounds_won;\r\n}"
+  code: "$accuracy = $fields['accuracy'][0]['value'];\r\n$headshot_percentage = $fields['headshot_percentage'][0]['value'];\r\n$rounds_won = $fields['rounds_won'][0]['value'];\r\nif ( $accuracy != null and $headshot_percentage != null and $rounds_won != null ) {\r\n  $value = ($accuracy + $headshot_percentage + $rounds_won) / 100;\r\n}"
   prefix: ''
   suffix: ''
 field_type: computed_decimal

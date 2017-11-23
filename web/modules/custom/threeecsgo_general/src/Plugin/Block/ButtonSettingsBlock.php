@@ -24,7 +24,17 @@ class ButtonSettingsBlock extends BlockBase {
           '#markup' => render($form = \Drupal::formBuilder()
             ->getForm(\Drupal\threeecsgo_general\Form\ButtonSettingsForm::class)),
         ];
+      } else {
+        return [
+          '#type' => 'markup',
+          '#markup' => '',
+        ];
       }
+    } else {
+      return [
+        '#type' => 'markup',
+        '#markup' => '',
+      ];
     }
   }
 

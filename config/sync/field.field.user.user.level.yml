@@ -1,16 +1,16 @@
-uuid: dba5c34a-1e1b-4e64-aa29-58a3d87b547c
+uuid: 30468b34-8d33-44dc-be23-d09aaaf0c360
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.user.dpi
+    - field.storage.user.level
   module:
     - user
-id: user.user.dpi
-field_name: dpi
+id: user.user.level
+field_name: level
 entity_type: user
 bundle: user
-label: DPI
+label: Level
 description: ''
 required: false
 translatable: false

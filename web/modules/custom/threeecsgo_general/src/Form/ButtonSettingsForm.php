@@ -8,7 +8,7 @@ use Drupal\file\Entity\File;
 use Drupal\user\Entity\User;
 
 /**
- * Class SettingsForm.
+ * Class ButtonSettingsForm.
  *
  * @package Drupal\threeecsgo_general\Form
  */
@@ -27,7 +27,7 @@ class ButtonSettingsForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['submit'] = [
       '#type'  => 'submit',
-      '#value' => $this->t('Settings'),
+      '#value' => $this->t('Edit my settings'),
     ];
 
     return $form;

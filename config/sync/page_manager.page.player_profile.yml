@@ -1,9 +1,9 @@
-uuid: 94416904-8d81-4bc3-9c9c-a2ef277a9e68
+uuid: e111615a-8cb9-439e-8099-ccd8585e6701
 langcode: en
 status: true
 dependencies: {  }
-id: panelsuserview
-label: PanelsUserView
+id: player_profile
+label: 'Player profile'
 description: ''
 use_admin_theme: false
 path: '/player/{id}'
