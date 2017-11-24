@@ -1,5 +1,5 @@
 threeecsgo_general.settings:
-    path: '/user/settings'
+    path: '/my-settings'
     defaults:
         _controller: '\Drupal\threeecsgo_general\Controller\SettingsController::settingsBuild'
         _title: 'Settings'

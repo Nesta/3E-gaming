@@ -1,10 +1,11 @@
-uuid: 9f362b59-4358-47cd-898f-cbe25db99e55
+uuid: e5542919-84ab-4067-bab6-4a5867523e68
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.user.tactical_role
   module:
+    - options
     - user
 id: user.user.tactical_role
 field_name: tactical_role
@@ -17,4 +18,4 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: string
+field_type: list_string

@@ -3,6 +3,7 @@ namespace Drupal\threeecsgo_search\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
@@ -52,116 +53,151 @@ class SearchGroupForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    global $base_url;
     $group_name = $form_state->getValue('group_name');
 
     $url_xml_group = "http://steamcommunity.com/groups/" . $group_name . "/memberslistxml/";
     $xml_content = file_get_contents($url_xml_group);
-    $group_data_xml = simplexml_load_string($xml_content);
+    $group_data_xml = simplexml_load_string($xml_content, NULL, LIBXML_NOCDATA);
     $json = json_encode($group_data_xml);
     $group_data = json_decode($json, TRUE);
 
-    $members = $group_data['members']['steamID64'];
+    if ($json != "false") {
 
-    foreach ($members as &$steamid) {
-      $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=9B2266D26FF1EEA14F77DFA355BF8FFB&steamids=" . $steamid;
-      $content_url_1 = file_get_contents($url_api_steam_1);
-      $json_steam_data = json_decode($content_url_1);
+      $members = $group_data['members']['steamID64'];
+      $group_members = $group_data['groupDetails']['memberCount'];
+      $count_members_new = 0;
 
-      $personaname = $json_steam_data->response->players[0]->personaname;
+      foreach ($members as &$steamid) {
+        $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=28ECE97465C977305C7D06CBBA0DE695&steamids=" . $steamid;
+        $content_url_1 = file_get_contents($url_api_steam_1);
+        $json_steam_data = json_decode($content_url_1);
 
-      $username_drupal = strtolower(str_replace(' ', '', preg_replace('([^A-Za-z0-9])', '', $personaname)));
+        $personaname = $json_steam_data->response->players[0]->personaname;
 
-      $user_register = user_load_by_name($username_drupal);
+        $username_drupal = strtolower(str_replace(' ', '', preg_replace('([^A-Za-z0-9])', '', $personaname)));
 
-      if ($user_register == NULL) {
-        $realname = $json_steam_data->response->players[0]->realname;
-        $primaryclanid = $json_steam_data->response->players[0]->primaryclanid;
-        $avatar = $json_steam_data->response->players[0]->avatarfull;
-        $tmp = 'public://tmp/avatar.jpeg';
-        file_put_contents($tmp, file_get_contents($avatar));
+        $user_register = user_load_by_name($username_drupal);
 
-        $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=9B2266D26FF1EEA14F77DFA355BF8FFB&steamid=" . $steamid;
-        $content_url_2 = file_get_contents($url_api_steam_2);
-        $json_steam_stats = json_decode($content_url_2);
+        if ($user_register == NULL) {
+          $realname = $json_steam_data->response->players[0]->realname;
+          $primaryclanid = $json_steam_data->response->players[0]->primaryclanid;
+          $avatar = $json_steam_data->response->players[0]->avatarfull;
+          $tmp = 'public://tmp/avatar.jpeg';
+          file_put_contents($tmp, file_get_contents($avatar));
 
-        $total_kills = $json_steam_stats->playerstats->stats[0]->value;
-        $total_deaths = $json_steam_stats->playerstats->stats[1]->value;
-        $total_time_played = $json_steam_stats->playerstats->stats[2]->value;
-        $total_wins = $json_steam_stats->playerstats->stats[5]->value;
-        $total_kills_headshot = $json_steam_stats->playerstats->stats[25]->value;
-        $total_mvps = $json_steam_stats->playerstats->stats[102]->value;
-        $total_rounds_played = $json_steam_stats->playerstats->stats[48]->value;
-        $total_shots_fired = $json_steam_stats->playerstats->stats[47]->value;
-        $total_shots_hit = $json_steam_stats->playerstats->stats[46]->value;
+          $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=28ECE97465C977305C7D06CBBA0DE695&steamid=" . $steamid;
+          $content_url_2 = file_get_contents($url_api_steam_2);
+          $json_steam_stats = json_decode($content_url_2);
 
-        // Create user object.
-        $user = User::create();
+          $stats = $json_steam_stats->playerstats->stats;
 
-        //Mandatory settings
-        //$user->setPassword("password");
-        $user->enforceIsNew();
-        //$user->setEmail("email");
-        $user->setUsername($username_drupal);
-        //$user->addRole('authenticated');
-        $user->{'steamid'}->setValue($steamid);
-        $user->{'personaname'}->setValue($personaname);
-        $user->{'primaryclanid'}->setValue($primaryclanid);
+          // Create user object.
+          $user = User::create();
 
-        if ($realname != NULL) {
-          $user->{'realname'}->setValue($realname);
+          //Mandatory settings
+          //$user->setPassword("password");
+          $user->enforceIsNew();
+          //$user->setEmail("email");
+          $user->setUsername($username_drupal);
+          //$user->addRole('authenticated');
+          $user->{'steamid'}->setValue($steamid);
+          $user->{'personaname'}->setValue($personaname);
+          $user->{'primaryclanid'}->setValue($primaryclanid);
+
+          if ($realname != NULL) {
+            $user->{'realname'}->setValue($realname);
+          }
+          else {
+            $user->{'realname'}->setValue('No name');
+          }
+
+          // Create file object from a locally copied file.
+          $uri = file_unmanaged_copy($avatar, 'public://avatars/' . $steamid . '.jpg', FILE_EXISTS_REPLACE);
+          $file = File::Create([
+            'uri' => $uri,
+          ]);
+          $file->save();
+
+          // Attach file in node.
+          $user->avatarfull->setValue([
+            'target_id' => $file->id(),
+          ]);
+
+          foreach ($stats as $stat) {
+            if($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
+              or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
+              or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
+              if ( $stat->name == "total_time_played" ) {
+                $user->{$stat->name}->setValue(($stat->value/60)/60);
+              } else {
+                $user->{$stat->name}->setValue($stat->value);
+              }
+            }
+          }
+
+          // Create settings node
+          $settings = Node::create([
+            'title' => "Settings of " . $user->getUsername(),
+            'type' => 'settings',
+            'status' => 1,
+          ]);
+          $settings->{'dpi'}->setValue(0);
+          $settings->{'hz'}->setValue(0);
+          $settings->{'mouse_acceleration'}->setValue(FALSE);
+          $settings->{'raw_input'}->setValue(FALSE);
+          $settings->{'sensitivity'}->setValue(0);
+          $settings->{'windows_sensitivity'}->setValue(0);
+          $settings->{'zoom_sensitivity'}->setValue(0);
+          $settings->save();
+
+          $user->{'setting'}->setValue($settings->id());
+          $user->activate();
+          $user->save();
+
+          $count_members_new ++;
+
+          $user_register = user_load_by_name($username_drupal);
+
+          $settings->{'owner_settings'}->setValue($user_register->id());
+          $settings->save();
+
+          //$this->create_inventory($username_drupal);
         }
-        else {
-          $user->{'realname'}->setValue('No name');
-        }
+      }
 
+      if ( $count_members_new == $group_members ) {
+        $group_name_2 = $group_data['groupDetails']['groupName'];
+        $group_avatar = $group_data['groupDetails']['avatarFull'];
         // Create file object from a locally copied file.
-        $uri = file_unmanaged_copy($avatar, 'public://avatars/' . $steamid . '.jpg', FILE_EXISTS_REPLACE);
+        $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name_2 . '.jpg', FILE_EXISTS_REPLACE);
         $file = File::Create([
           'uri' => $uri,
         ]);
         $file->save();
 
+        // Create settings node
+        $team = Node::create([
+          'title' => $group_name_2,
+          'type' => 'team',
+          'status' => 1,
+        ]);
+        $team->{'groupname'}->setValue($group_name_2);
+        $team->{'clanid'}->setValue($group_data['groupID64']);
+        $team->{'members'}->setValue($group_members);
+
         // Attach file in node.
-        $user->avatarfull->setValue([
+        $team->avatarfull->setValue([
           'target_id' => $file->id(),
         ]);
 
-        $user->{'total_deaths'}->setValue($total_deaths);
-        $user->{'total_kills'}->setValue($total_kills);
-        $user->{'total_time_played'}->setValue(($total_time_played / 60) / 60);
-        $user->{'total_wins'}->setValue($total_wins);
-        $user->{'total_kills_headshot'}->setValue($total_kills_headshot);
-        $user->{'total_mvps'}->setValue($total_mvps);
-        $user->{'total_rounds_played'}->setValue($total_rounds_played);
-        $user->{'total_shots_fired'}->setValue($total_shots_fired);
-        $user->{'total_shots_hit'}->setValue($total_shots_hit);
-        /*
-        // Create settings node
-        $settings = Node::create([
-          'title' => "Settings of " . $user->getUsername(),
-          'type' => 'settings',
-          'status' => 1,
-        ]);
-        $settings->{'dpi'}->setValue(0);
-        $settings->{'hz'}->setValue(0);
-        $settings->{'mouse_acceleration'}->setValue(0);
-        $settings->{'raw_input'}->setValue(0);
-        $settings->{'sensitivity'}->setValue(0);
-        $settings->{'windows_sensitivity'}->setValue(0);
-        $settings->{'zoom_sensitivity'}->setValue(0);
-
-        $settings->save();
-
-        $user->{'settings'}->setValue($settings->id());
-        */
-        $user->activate();
-        $user->save();
-
-        //$this->create_inventory($username_drupal);
+        $team->save();
       }
-    }
 
-    $form_state->setRedirect('view.users.all', ['clanid' => $group_data['groupID64']]);
+      $form_state->setRedirectUrl(Url::fromUri($base_url . '/teams/' . $group_data['groupID64']));
+    } else {
+      $form_state->setRedirectUrl(Url::fromUri($base_url));
+    }
   }
 
   public function create_inventory($username_drupal) {

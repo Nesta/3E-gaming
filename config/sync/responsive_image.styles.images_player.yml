@@ -1,0 +1,19 @@
+uuid: 2bba0f1d-055b-4cd9-8f73-43961a515542
+langcode: en
+status: true
+dependencies:
+  config:
+    - image.style.recipe_list_350_300
+id: images_player
+label: 'Images player'
+image_style_mappings:
+  -
+    breakpoint_id: responsive_image.viewport_sizing
+    multiplier: 1x
+    image_mapping_type: sizes
+    image_mapping:
+      sizes: 15vw
+      sizes_image_styles:
+        - recipe_list_350_300
+breakpoint_group: responsive_image
+fallback_image_style: recipe_list_350_300

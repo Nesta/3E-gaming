@@ -5,21 +5,17 @@ dependencies:
   config:
     - field.field.user.user.accuracy
     - field.field.user.user.avatarfull
-    - field.field.user.user.dpi
-    - field.field.user.user.edpi
+    - field.field.user.user.efficient_ratio
     - field.field.user.user.headshot_percentage
-    - field.field.user.user.hz
     - field.field.user.user.images
     - field.field.user.user.inventory
     - field.field.user.user.kills_deaths_ratio
-    - field.field.user.user.mouse_acceleration
+    - field.field.user.user.level
     - field.field.user.user.personaname
     - field.field.user.user.primaryclanid
-    - field.field.user.user.raw_input
     - field.field.user.user.realname
     - field.field.user.user.rounds_won
-    - field.field.user.user.sensitivity
-    - field.field.user.user.settings
+    - field.field.user.user.setting
     - field.field.user.user.steamid
     - field.field.user.user.tactical_role
     - field.field.user.user.total_deaths
@@ -32,8 +28,6 @@ dependencies:
     - field.field.user.user.total_time_played
     - field.field.user.user.total_wins
     - field.field.user.user.videos
-    - field.field.user.user.windows_sensitivity
-    - field.field.user.user.zoom_sensitivity
     - image.style.thumbnail
   module:
     - image
@@ -49,87 +43,54 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  avatarfull:
-    weight: 3
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
-    type: image_image
-    region: content
   images:
-    weight: 7
+    weight: 4
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
     type: image_image
-    region: content
-  inventory:
-    weight: 8
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
     region: content
   language:
-    weight: 1
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  realname:
-    type: string_textfield
-    weight: 4
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  settings:
-    weight: 9
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: entity_reference_autocomplete
-    region: content
-  tactical_role:
-    weight: 5
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  timezone:
     weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
+  steamid:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  tactical_role:
+    weight: 5
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
   videos:
-    weight: 6
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     type: video_embed_field_textfield
     region: content
 hidden:
   accuracy: true
-  dpi: true
-  edpi: true
+  avatarfull: true
+  efficient_ratio: true
   headshot_percentage: true
-  hz: true
+  inventory: true
   kills_deaths_ratio: true
   langcode: true
-  mouse_acceleration: true
+  level: true
   personaname: true
   primaryclanid: true
-  raw_input: true
+  realname: true
   rounds_won: true
-  sensitivity: true
-  steamid: true
+  setting: true
+  timezone: true
   total_deaths: true
   total_kills: true
   total_kills_headshot: true
@@ -139,5 +100,3 @@ hidden:
   total_shots_hit: true
   total_time_played: true
   total_wins: true
-  windows_sensitivity: true
-  zoom_sensitivity: true

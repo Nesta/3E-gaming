@@ -1,1 +1,75 @@
 <?php
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function threeecsgo_general_form_user_register_form_alter(&$form, &$form_state) {
+  // Modification for the form with the given form ID goes here. For example, if
+  // FORM_ID is "user_register_form" this code would run only on the user
+  // registration form.
+
+  $url_token = $_SERVER['HTTP_REFERER'];
+  $token = str_replace('http://3e-csgo.api.oneall.com/socialize/redirect.html?provider_connection_token=', '', $url_token);
+
+  //Your Site Settings
+  $site_subdomain = '3e-csgo';
+  $site_public_key = 'e1190c31-9d8c-4761-87a3-254ef9ed3b15';
+  $site_private_key = '0fb5637c-21f9-4b23-8d28-1fc3d48a7047';
+
+  //API Access Domain
+  $site_domain = $site_subdomain.'.api.oneall.com';
+
+  //Connection Resource
+  $resource_uri = 'https://'.$site_domain.'/connections/' . $token . '.json';
+
+  //Setup connection
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, $resource_uri);
+  curl_setopt($curl, CURLOPT_HEADER, 0);
+  curl_setopt($curl, CURLOPT_USERPWD, $site_public_key . ":" . $site_private_key);
+  curl_setopt($curl, CURLOPT_TIMEOUT, 15);
+  curl_setopt($curl, CURLOPT_VERBOSE, 0);
+  curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+  curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 1);
+  curl_setopt($curl, CURLOPT_FAILONERROR, 0);
+
+  //Send request
+  $result_json = curl_exec($curl);
+  curl_close($curl);
+
+  //Done
+  $json_user = json_decode($result_json);
+
+  if ( $json_user->response->result->status->code == 200 ) {
+    $steamid = $json_user->response->result->data->user->identity->accounts[0]->userid;
+  }
+
+  if ( $form['account']['name']['#default_value'] != "" ) {
+    $form['account']['name']['#attributes'] = ['readonly' => TRUE];
+    $form['steamid']['#attributes'] = ['readonly' => TRUE];
+    $form['steamid']['widget'][0]['value']['#default_value'] = $steamid;
+  }
+
+  //$form['#submit'][] = 'threecsgo_general_form_user_register_submit';
+  $form['#validate'][0] = 'threeecsgo_general_user_validation';
+  $form['#validate'][1] = '::validateForm';
+  global $base_url;
+  $form_state->setRedirectUrl(\Drupal\Core\Url::fromUri($base_url));
+}
+
+function threeecsgo_general_user_validation(&$form, &$form_state) {
+  $steamid = $form_state->getValue('steamid')[0]['value'];
+
+  $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=28ECE97465C977305C7D06CBBA0DE695&steamids=" . $steamid;
+  $content_url_1 = file_get_contents($url_api_steam_1);
+  $json_steam_data = json_decode($content_url_1);
+
+  $personaname = $json_steam_data->response->players[0]->personaname;
+
+  $username_drupal = strtolower(str_replace(' ', '', preg_replace('([^A-Za-z0-9])', '',$personaname)));
+
+  $user_register = user_load_by_name($username_drupal);
+  if ($user_register->{'steamid'} != null) {
+    user_delete($user_register->{'uid'}->value);
+  }
+}

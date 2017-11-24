@@ -1,0 +1,28 @@
+uuid: 25790b01-55c0-4949-967d-08bd5025674a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.owner_settings
+    - node.type.settings
+id: node.settings.owner_settings
+field_name: owner_settings
+entity_type: node
+bundle: settings
+label: 'Owner settings'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: false
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

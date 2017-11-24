@@ -1,0 +1,87 @@
+uuid: c5052257-ba59-4b04-a9a1-eaf8e96c8699
+langcode: en
+status: true
+dependencies:
+  config:
+    - page_manager.page.player_profile
+    - views.view.images_player
+    - views.view.player
+    - views.view.settings
+    - views.view.videos
+  module:
+    - panels
+    - threeecsgo_general
+    - views
+id: player_profile-panels_variant-0
+label: 'Player profile'
+variant: panels_variant
+variant_settings:
+  blocks:
+    0895d186-66c1-4a49-b219-13fc81231289:
+      id: settings_user_block
+      label: 'Button settings'
+      provider: threeecsgo_general
+      label_display: '0'
+      region: third
+      weight: -1
+      uuid: 0895d186-66c1-4a49-b219-13fc81231289
+      context_mapping: {  }
+    c60dc000-dca8-4025-81bc-1a1d8bcecd3a:
+      id: 'views_block:images_player-block_1'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: '10'
+      region: second
+      weight: 0
+      uuid: c60dc000-dca8-4025-81bc-1a1d8bcecd3a
+      context_mapping: {  }
+    8d4085a6-c7d0-49f1-9dc7-a368dea298b0:
+      id: 'views_block:videos-block_1'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: first
+      weight: 0
+      uuid: 8d4085a6-c7d0-49f1-9dc7-a368dea298b0
+      context_mapping: {  }
+    db6b4efa-fefa-48bd-b3e2-e5ee2f428138:
+      id: 'views_block:player-profile'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: top
+      weight: 0
+      uuid: db6b4efa-fefa-48bd-b3e2-e5ee2f428138
+      context_mapping: {  }
+    9c2f2489-bd1f-48d5-aefe-24058618dd99:
+      id: 'views_block:settings-settings'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: third
+      weight: -2
+      uuid: 9c2f2489-bd1f-48d5-aefe-24058618dd99
+      context_mapping: {  }
+  id: panels_variant
+  uuid: 76a516ec-e7d2-4043-af7d-86cc46a82cf4
+  label: null
+  weight: 0
+  layout: layout_threecol_33_34_33
+  layout_settings: {  }
+  page_title: ''
+  storage_type: page_manager
+  storage_id: player_profile-panels_variant-0
+  builder: standard
+page: player_profile
+weight: 0
+selection_criteria: {  }
+selection_logic: and
+static_context: {  }

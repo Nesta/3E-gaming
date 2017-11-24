@@ -5,21 +5,17 @@ dependencies:
   config:
     - field.field.user.user.accuracy
     - field.field.user.user.avatarfull
-    - field.field.user.user.dpi
-    - field.field.user.user.edpi
+    - field.field.user.user.efficient_ratio
     - field.field.user.user.headshot_percentage
-    - field.field.user.user.hz
     - field.field.user.user.images
     - field.field.user.user.inventory
     - field.field.user.user.kills_deaths_ratio
-    - field.field.user.user.mouse_acceleration
+    - field.field.user.user.level
     - field.field.user.user.personaname
     - field.field.user.user.primaryclanid
-    - field.field.user.user.raw_input
     - field.field.user.user.realname
     - field.field.user.user.rounds_won
-    - field.field.user.user.sensitivity
-    - field.field.user.user.settings
+    - field.field.user.user.setting
     - field.field.user.user.steamid
     - field.field.user.user.tactical_role
     - field.field.user.user.total_deaths
@@ -32,21 +28,18 @@ dependencies:
     - field.field.user.user.total_time_played
     - field.field.user.user.total_wins
     - field.field.user.user.videos
-    - field.field.user.user.windows_sensitivity
-    - field.field.user.user.zoom_sensitivity
-    - image.style.thumbnail
   module:
     - computed_field
     - image
+    - options
     - user
-    - video_embed_field
 id: user.user.default
 targetEntityType: user
 bundle: user
 mode: default
 content:
   accuracy:
-    weight: 11
+    weight: 12
     label: above
     settings:
       cache_unit: -1
@@ -60,15 +53,15 @@ content:
     region: content
   avatarfull:
     weight: 0
-    label: above
+    label: visually_hidden
     settings:
       image_style: ''
       image_link: ''
     third_party_settings: {  }
     type: image
     region: content
-  headshot_percentage:
-    weight: 6
+  efficient_ratio:
+    weight: 14
     label: above
     settings:
       cache_unit: -1
@@ -80,14 +73,18 @@ content:
     third_party_settings: {  }
     type: computed_decimal
     region: content
-  images:
-    weight: 14
+  headshot_percentage:
+    weight: 10
     label: above
     settings:
-      image_style: thumbnail
-      image_link: ''
+      cache_unit: -1
+      cache_duration: 1
+      thousand_separator: ''
+      decimal_separator: .
+      scale: 2
+      prefix_suffix: true
     third_party_settings: {  }
-    type: image
+    type: computed_decimal
     region: content
   inventory:
     weight: 15
@@ -98,7 +95,7 @@ content:
     type: entity_reference_label
     region: content
   kills_deaths_ratio:
-    weight: 7
+    weight: 5
     label: above
     settings:
       cache_unit: -1
@@ -110,13 +107,17 @@ content:
     third_party_settings: {  }
     type: computed_decimal
     region: content
-  member_for:
-    weight: 1
-    region: content
-    settings: {  }
+  level:
+    weight: 4
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
     third_party_settings: {  }
+    type: number_integer
+    region: content
   personaname:
-    weight: 2
+    weight: 1
     label: above
     settings:
       link_to_entity: false
@@ -124,7 +125,7 @@ content:
     type: string
     region: content
   primaryclanid:
-    weight: 4
+    weight: 3
     label: above
     settings:
       link_to_entity: false
@@ -132,7 +133,7 @@ content:
     type: string
     region: content
   realname:
-    weight: 3
+    weight: 2
     label: above
     settings:
       link_to_entity: false
@@ -141,7 +142,7 @@ content:
     region: content
   rounds_won:
     type: computed_decimal
-    weight: 10
+    weight: 13
     region: content
     label: above
     settings:
@@ -152,24 +153,24 @@ content:
       scale: 2
       prefix_suffix: true
     third_party_settings: {  }
-  settings:
-    weight: 16
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    type: entity_reference_label
-    region: content
   tactical_role:
-    weight: 5
+    weight: 8
+    label: visually_hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: list_key
+    region: content
+  total_deaths:
+    type: number_integer
+    weight: 7
+    region: content
     label: above
     settings:
-      link_to_entity: false
+      thousand_separator: ''
+      prefix_suffix: true
     third_party_settings: {  }
-    type: string
-    region: content
   total_kills:
-    weight: 9
+    weight: 6
     label: above
     settings:
       thousand_separator: ''
@@ -178,7 +179,7 @@ content:
     type: number_integer
     region: content
   total_mvps:
-    weight: 8
+    weight: 9
     label: above
     settings:
       thousand_separator: ''
@@ -187,7 +188,7 @@ content:
     type: number_integer
     region: content
   total_time_played:
-    weight: 12
+    weight: 11
     label: above
     settings:
       thousand_separator: ''
@@ -195,31 +196,15 @@ content:
     third_party_settings: {  }
     type: number_integer
     region: content
-  videos:
-    weight: 13
-    label: above
-    settings:
-      responsive: true
-      width: 854
-      height: 480
-      autoplay: true
-    third_party_settings: {  }
-    type: video_embed_field_video
-    region: content
 hidden:
-  dpi: true
-  edpi: true
-  hz: true
+  images: true
   langcode: true
-  mouse_acceleration: true
-  raw_input: true
-  sensitivity: true
+  member_for: true
+  setting: true
   steamid: true
-  total_deaths: true
   total_kills_headshot: true
   total_rounds_played: true
   total_shots_fired: true
   total_shots_hit: true
   total_wins: true
-  windows_sensitivity: true
-  zoom_sensitivity: true
+  videos: true

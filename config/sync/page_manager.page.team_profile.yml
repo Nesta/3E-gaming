@@ -1,0 +1,12 @@
+uuid: 86376481-07ac-4d14-98c6-ec1fd3a61b70
+langcode: en
+status: true
+dependencies: {  }
+id: team_profile
+label: 'Team profile'
+description: ''
+use_admin_theme: false
+path: '/teams/{id}'
+access_logic: and
+access_conditions: {  }
+parameters: {  }

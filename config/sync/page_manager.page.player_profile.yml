@@ -1,0 +1,12 @@
+uuid: e111615a-8cb9-439e-8099-ccd8585e6701
+langcode: en
+status: true
+dependencies: {  }
+id: player_profile
+label: 'Player profile'
+description: ''
+use_admin_theme: false
+path: '/player/{id}'
+access_logic: and
+access_conditions: {  }
+parameters: {  }
