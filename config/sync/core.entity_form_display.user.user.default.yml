@@ -8,7 +8,6 @@ dependencies:
     - field.field.user.user.efficient_ratio
     - field.field.user.user.headshot_percentage
     - field.field.user.user.images
-    - field.field.user.user.inventory
     - field.field.user.user.kills_deaths_ratio
     - field.field.user.user.level
     - field.field.user.user.personaname
@@ -81,7 +80,6 @@ hidden:
   avatarfull: true
   efficient_ratio: true
   headshot_percentage: true
-  inventory: true
   kills_deaths_ratio: true
   langcode: true
   level: true

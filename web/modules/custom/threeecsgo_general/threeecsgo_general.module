@@ -46,7 +46,7 @@ function threeecsgo_general_form_user_register_form_alter(&$form, &$form_state) 
 
   if ( $form['account']['name']['#default_value'] != "" ) {
     $form['account']['name']['#attributes'] = ['readonly' => TRUE];
-    $form['steamid']['#attributes'] = ['readonly' => TRUE];
+    $form['steamid']['widget'][0]['value']['#attributes'] = ['readonly' => TRUE];
     $form['steamid']['widget'][0]['value']['#default_value'] = $steamid;
   }
 

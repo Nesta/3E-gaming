@@ -125,7 +125,7 @@ class SearchGroupForm extends FormBase {
           ]);
 
           foreach ($stats as $stat) {
-            if($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
+            if ($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
               or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
               or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
               if ( $stat->name == "total_time_played" ) {
@@ -136,31 +136,10 @@ class SearchGroupForm extends FormBase {
             }
           }
 
-          // Create settings node
-          $settings = Node::create([
-            'title' => "Settings of " . $user->getUsername(),
-            'type' => 'settings',
-            'status' => 1,
-          ]);
-          $settings->{'dpi'}->setValue(0);
-          $settings->{'hz'}->setValue(0);
-          $settings->{'mouse_acceleration'}->setValue(FALSE);
-          $settings->{'raw_input'}->setValue(FALSE);
-          $settings->{'sensitivity'}->setValue(0);
-          $settings->{'windows_sensitivity'}->setValue(0);
-          $settings->{'zoom_sensitivity'}->setValue(0);
-          $settings->save();
-
-          $user->{'setting'}->setValue($settings->id());
           $user->activate();
           $user->save();
 
           $count_members_new ++;
-
-          $user_register = user_load_by_name($username_drupal);
-
-          $settings->{'owner_settings'}->setValue($user_register->id());
-          $settings->save();
 
           //$this->create_inventory($username_drupal);
         }

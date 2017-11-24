@@ -126,34 +126,49 @@ class SearchForm extends FormBase {
           }
         }
 
-        // Create settings node
-        $settings = Node::create([
-          'title' => "Settings of " . $user->getUsername(),
-          'type' => 'settings',
-          'status' => 1,
-        ]);
-        $settings->{'dpi'}->setValue(0);
-        $settings->{'hz'}->setValue(0);
-        $settings->{'mouse_acceleration'}->setValue(FALSE);
-        $settings->{'raw_input'}->setValue(FALSE);
-        $settings->{'sensitivity'}->setValue(0);
-        $settings->{'windows_sensitivity'}->setValue(0);
-        $settings->{'zoom_sensitivity'}->setValue(0);
-        $settings->save();
-
-        $user->{'setting'}->setValue($settings->id());
         $user->activate();
         $user->save();
 
-        $user_register = user_load_by_name($username_drupal);
-
-        $settings->{'owner_settings'}->setValue($user_register->id());
-        $settings->save();
+        $this->create_inventory($username_drupal);
 
         $form_state->setRedirectUrl(Url::fromUri($base_url . '/player/' . $user->id()));
       }
       else {
         $form_state->setRedirectUrl(Url::fromUri($base_url . '/player/' . $user_register->id()));
+      }
+    }
+  }
+
+  public function create_inventory($username_drupal) {
+    $user = user_load_by_name($username_drupal);
+    $url_api_steam_3 = "http://steamcommunity.com/profiles/" . $user->{'steamid'}->value . "/inventory/json/730/2";
+    $content_url_3 = file_get_contents($url_api_steam_3);
+    $json_steam_inventory = json_decode($content_url_3);
+    $inventory = $json_steam_inventory->rgDescriptions;
+
+    foreach ($inventory as $article) {
+      if (strpos(strtoupper($article->market_name), 'CAJA') != true and strpos(strtoupper($article->market_name), 'LLAVE') != true) {
+        $node_inventory = Node::create([
+          'title' => $user->getUsername() . " - " . $article->market_name,
+          'type' => 'article',
+          'status' => 1,
+        ]);
+
+        // Create file object from a locally copied file.
+        $uri = file_unmanaged_copy("https://steamcommunity-a.akamaihd.net/economy/image/" . $article->icon_url, 'public://inventory/' . $article->market_name . '.jpg', FILE_EXISTS_REPLACE);
+        $file = File::Create([
+          'uri' => $uri,
+        ]);
+        $file->save();
+
+        // Attach file in node.
+        $node_inventory->image_article->setValue([
+          'target_id' => $file->id(),
+        ]);
+
+        $node_inventory->{'owner_article'}->setValue($user->id());
+
+        $node_inventory->save();
       }
     }
   }
