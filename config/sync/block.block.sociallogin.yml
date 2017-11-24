@@ -1,0 +1,20 @@
+uuid: a90fbfb8-a8c4-42bc-881e-308bcf7dc1b1
+langcode: en
+status: false
+dependencies:
+  module:
+    - social_login
+  theme:
+    - material_admin
+id: sociallogin
+theme: material_admin
+region: content
+weight: -1
+provider: null
+plugin: social_login_block
+settings:
+  id: social_login_block
+  label: 'Social Login'
+  provider: social_login
+  label_display: visible
+visibility: {  }

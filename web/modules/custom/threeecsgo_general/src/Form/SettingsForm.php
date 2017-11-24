@@ -28,54 +28,63 @@ class SettingsForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $user = \Drupal::currentUser();
     $current_user = \Drupal\user\Entity\User::load($user->id());
-    $settings = $current_user->get('setting')->entity;
 
     $form['dpi'] = [
-      '#type'     => 'textfield',
-      '#title'    => $this->t('DPI'),
+      '#type' => 'textfield',
+      '#title' => $this->t('DPI'),
       '#required' => TRUE,
-      '#default_value' => $settings->get('dpi')->value,
     ];
 
     $form['sensitivity'] = [
-      '#type'     => 'textfield',
-      '#title'    => $this->t('Sensitivity'),
+      '#type' => 'textfield',
+      '#title' => $this->t('Sensitivity'),
       '#required' => TRUE,
-      '#default_value' => $settings->get('sensitivity')->value,
     ];
 
     $form['hz'] = [
-      '#type'     => 'textfield',
-      '#title'    => $this->t('HZ'),
+      '#type' => 'textfield',
+      '#title' => $this->t('HZ'),
       '#required' => TRUE,
-      '#default_value' => $settings->get('hz')->value,
     ];
 
     $form['zoom_sensitivity'] = [
-      '#type'     => 'textfield',
-      '#title'    => $this->t('Zoom Sensitivity'),
+      '#type' => 'textfield',
+      '#title' => $this->t('Zoom Sensitivity'),
       '#required' => TRUE,
-      '#default_value' => $settings->get('zoom_sensitivity')->value,
     ];
 
     $form['mouse_acceleration'] = [
-      '#type'     => 'checkbox',
-      '#title'    => $this->t('Mouse Acceleration'),
-      '#default_value' => $settings->get('mouse_acceleration')->value,
+      '#type' => 'checkbox',
+      '#title' => $this->t('Mouse Acceleration'),
     ];
 
     $form['windows_sensitivity'] = [
-      '#type'     => 'textfield',
-      '#title'    => $this->t('Windows Sensitivity'),
+      '#type' => 'textfield',
+      '#title' => $this->t('Windows Sensitivity'),
       '#required' => TRUE,
-      '#default_value' => $settings->get('windows_sensitivity')->value,
     ];
 
     $form['raw_input'] = [
-      '#type'     => 'checkbox',
-      '#title'    => $this->t('Raw Input'),
-      '#default_value' => $settings->get('raw_input')->value,
+      '#type' => 'checkbox',
+      '#title' => $this->t('Raw Input'),
     ];
+
+    $settings = $current_user->get('setting')->entity;
+    if( $settings != null ) {
+      $form['dpi']['#default_value'] = $settings->get('dpi')->value;
+
+      $form['sensitivity']['#default_value'] =  $settings->get('sensitivity')->value;
+
+      $form['hz']['#default_value'] = $settings->get('hz')->value;
+
+      $form['zoom_sensitivity']['#default_value'] = $settings->get('zoom_sensitivity')->value;
+
+      $form['mouse_acceleration']['#default_value'] = $settings->get('mouse_acceleration')->value;
+
+      $form['windows_sensitivity']['#default_value'] = $settings->get('windows_sensitivity')->value;
+
+      $form['raw_input']['#default_value'] = $settings->get('raw_input')->value;
+    }
 
     $form['submit'] = [
       '#type'  => 'submit',
@@ -93,7 +102,7 @@ class SettingsForm extends FormBase {
     $current_user = \Drupal::currentUser();
     $user = User::load($current_user->id());
 
-    if ($user->get('setting') == null) {
+    if ($user->get('setting')->entity == null) {
       $settings = Node::create([
         'title' => "Settings of " . $user->getUsername(),
         'type' => 'settings',

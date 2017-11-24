@@ -43,16 +43,8 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  avatarfull:
-    weight: 3
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
-    type: image_image
-    region: content
   images:
-    weight: 6
+    weight: 4
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
@@ -60,37 +52,33 @@ content:
     type: image_image
     region: content
   language:
-    weight: 1
+    weight: 2
     region: content
     settings: {  }
     third_party_settings: {  }
-  realname:
+  steamid:
     type: string_textfield
-    weight: 4
+    weight: 1
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   tactical_role:
-    weight: 7
+    weight: 5
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
-  timezone:
-    weight: 2
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   videos:
-    weight: 5
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     type: video_embed_field_textfield
     region: content
 hidden:
   accuracy: true
+  avatarfull: true
   efficient_ratio: true
   headshot_percentage: true
   inventory: true
@@ -99,9 +87,10 @@ hidden:
   level: true
   personaname: true
   primaryclanid: true
+  realname: true
   rounds_won: true
   setting: true
-  steamid: true
+  timezone: true
   total_deaths: true
   total_kills: true
   total_kills_headshot: true

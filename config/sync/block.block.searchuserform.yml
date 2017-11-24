@@ -10,7 +10,7 @@ dependencies:
 id: searchuserform
 theme: material_admin
 region: content
-weight: -1
+weight: -4
 provider: null
 plugin: search_block
 settings:

@@ -1,0 +1,20 @@
+uuid: 36d11d20-6d97-48a6-925b-0c782a948cc4
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.members
+field_name: members
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

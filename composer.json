@@ -22,7 +22,8 @@
         "drupal/video_embed_field": "^1.5",
         "drupal/field_group": "^1.0",
         "drupal/panels": "^4.2",
-        "drupal/page_manager": "^4.0@beta"
+        "drupal/page_manager": "^4.0@beta",
+        "drupal/social_login": "^1.6"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

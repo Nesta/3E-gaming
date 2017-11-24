@@ -53,20 +53,23 @@ class SearchGroupForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    global $base_url;
     $group_name = $form_state->getValue('group_name');
 
     $url_xml_group = "http://steamcommunity.com/groups/" . $group_name . "/memberslistxml/";
     $xml_content = file_get_contents($url_xml_group);
-    $group_data_xml = simplexml_load_string($xml_content);
+    $group_data_xml = simplexml_load_string($xml_content, NULL, LIBXML_NOCDATA);
     $json = json_encode($group_data_xml);
     $group_data = json_decode($json, TRUE);
 
     if ($json != "false") {
 
       $members = $group_data['members']['steamID64'];
+      $group_members = $group_data['groupDetails']['memberCount'];
+      $count_members_new = 0;
 
       foreach ($members as &$steamid) {
-        $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=9B2266D26FF1EEA14F77DFA355BF8FFB&steamids=" . $steamid;
+        $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=28ECE97465C977305C7D06CBBA0DE695&steamids=" . $steamid;
         $content_url_1 = file_get_contents($url_api_steam_1);
         $json_steam_data = json_decode($content_url_1);
 
@@ -83,7 +86,7 @@ class SearchGroupForm extends FormBase {
           $tmp = 'public://tmp/avatar.jpeg';
           file_put_contents($tmp, file_get_contents($avatar));
 
-          $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=9B2266D26FF1EEA14F77DFA355BF8FFB&steamid=" . $steamid;
+          $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=28ECE97465C977305C7D06CBBA0DE695&steamid=" . $steamid;
           $content_url_2 = file_get_contents($url_api_steam_2);
           $json_steam_stats = json_decode($content_url_2);
 
@@ -125,7 +128,11 @@ class SearchGroupForm extends FormBase {
             if($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
               or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
               or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
-              $user->{$stat->name}->setValue($stat->value);
+              if ( $stat->name == "total_time_played" ) {
+                $user->{$stat->name}->setValue(($stat->value/60)/60);
+              } else {
+                $user->{$stat->name}->setValue($stat->value);
+              }
             }
           }
 
@@ -148,6 +155,8 @@ class SearchGroupForm extends FormBase {
           $user->activate();
           $user->save();
 
+          $count_members_new ++;
+
           $user_register = user_load_by_name($username_drupal);
 
           $settings->{'owner_settings'}->setValue($user_register->id());
@@ -157,9 +166,36 @@ class SearchGroupForm extends FormBase {
         }
       }
 
-      $form_state->setRedirect('view.users.all', ['clanid' => $group_data['groupID64']]);
+      if ( $count_members_new == $group_members ) {
+        $group_name_2 = $group_data['groupDetails']['groupName'];
+        $group_avatar = $group_data['groupDetails']['avatarFull'];
+        // Create file object from a locally copied file.
+        $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name_2 . '.jpg', FILE_EXISTS_REPLACE);
+        $file = File::Create([
+          'uri' => $uri,
+        ]);
+        $file->save();
+
+        // Create settings node
+        $team = Node::create([
+          'title' => $group_name_2,
+          'type' => 'team',
+          'status' => 1,
+        ]);
+        $team->{'groupname'}->setValue($group_name_2);
+        $team->{'clanid'}->setValue($group_data['groupID64']);
+        $team->{'members'}->setValue($group_members);
+
+        // Attach file in node.
+        $team->avatarfull->setValue([
+          'target_id' => $file->id(),
+        ]);
+
+        $team->save();
+      }
+
+      $form_state->setRedirectUrl(Url::fromUri($base_url . '/teams/' . $group_data['groupID64']));
     } else {
-      global $base_url;
       $form_state->setRedirectUrl(Url::fromUri($base_url));
     }
   }

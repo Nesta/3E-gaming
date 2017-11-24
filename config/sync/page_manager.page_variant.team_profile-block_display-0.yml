@@ -1,0 +1,47 @@
+uuid: 9fc9052c-571c-4dfd-8614-4ec333797ab0
+langcode: en
+status: true
+dependencies:
+  config:
+    - page_manager.page.team_profile
+    - views.view.team_data
+    - views.view.team_players
+  module:
+    - views
+id: team_profile-block_display-0
+label: 'Team profile'
+variant: block_display
+variant_settings:
+  blocks:
+    b0efbbc4-0b08-419a-9a15-2a33a8ec4a12:
+      id: 'views_block:team_data-block_1'
+      label: ''
+      provider: views
+      label_display: '0'
+      views_label: ''
+      items_per_page: none
+      region: top
+      weight: 0
+      uuid: b0efbbc4-0b08-419a-9a15-2a33a8ec4a12
+      context_mapping: {  }
+    74c05cbb-23a2-49ea-9568-528e95ec5dd6:
+      id: 'views_block:team_players-block_1'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: bottom
+      weight: 0
+      uuid: 74c05cbb-23a2-49ea-9568-528e95ec5dd6
+      context_mapping: {  }
+  id: block_display
+  uuid: 1b59bfef-be98-4ad9-8075-8e12db990754
+  label: null
+  weight: 0
+  page_title: Team
+page: team_profile
+weight: 0
+selection_criteria: {  }
+selection_logic: and
+static_context: {  }
