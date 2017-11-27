@@ -41,9 +41,6 @@ settings:
     -
       value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qOBJww_zaZQJO7c6xkc7dkaOsYu_XxjoJu5N1j7_CrI3zi1KxqBZkMTyhIITBcVU8ZFyCrlS5366x0lkLS2aA">'
       label: Support
-    -
-      value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qOxVv7PXHeDF94N2kk4XFkfWna-OAkjwG7pIgjLjFpI2s2Ffh_EBkMT2hcIOXcFU9N1DQrwXryfCv28Fv4Pxlyg">'
-      label: Pro
   allowed_values_function: ''
 module: options
 locked: false

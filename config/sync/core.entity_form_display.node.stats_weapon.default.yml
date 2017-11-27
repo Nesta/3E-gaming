@@ -1,0 +1,113 @@
+uuid: 6bccee9e-1948-46f5-afec-fbf0e2972bea
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.stats_weapon.owner_stats_weapon
+    - field.field.node.stats_weapon.precision
+    - field.field.node.stats_weapon.total_hits
+    - field.field.node.stats_weapon.total_kills
+    - field.field.node.stats_weapon.total_shots
+    - field.field.node.stats_weapon.weapon
+    - node.type.stats_weapon
+  module:
+    - computed_field
+    - path
+id: node.stats_weapon.default
+targetEntityType: node
+bundle: stats_weapon
+mode: default
+content:
+  created:
+    type: datetime_timestamp
+    weight: 10
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  langcode:
+    type: language_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  owner_stats_weapon:
+    weight: 37
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  precision:
+    weight: 35
+    settings: {  }
+    third_party_settings: {  }
+    type: computed_number_widget
+    region: content
+  promote:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 15
+    region: content
+    third_party_settings: {  }
+  sticky:
+    type: boolean_checkbox
+    settings:
+      display_label: true
+    weight: 16
+    region: content
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  total_hits:
+    weight: 34
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  total_kills:
+    weight: 32
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  total_shots:
+    weight: 33
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  uid:
+    type: entity_reference_autocomplete
+    weight: 5
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  weapon:
+    weight: 38
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+hidden: {  }

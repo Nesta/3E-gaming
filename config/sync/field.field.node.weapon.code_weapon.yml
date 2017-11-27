@@ -1,0 +1,19 @@
+uuid: 50f2afad-d9a3-4c0c-bdd2-c5993b239741
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.code_weapon
+    - node.type.weapon
+id: node.weapon.code_weapon
+field_name: code_weapon
+entity_type: node
+bundle: weapon
+label: 'Code weapon'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

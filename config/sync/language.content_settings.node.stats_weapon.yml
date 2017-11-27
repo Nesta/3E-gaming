@@ -1,0 +1,11 @@
+uuid: 12959ae8-6277-4f26-b110-1909509cfe29
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.stats_weapon
+id: node.stats_weapon
+target_entity_type_id: node
+target_bundle: stats_weapon
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,40 @@
+uuid: 611860cc-5ba6-4473-a28b-099bf2bf027c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.weapon.code_weapon
+    - field.field.node.weapon.image_weapon
+    - field.field.node.weapon.title_weapon
+    - image.style.medium
+    - node.type.weapon
+  module:
+    - image
+    - user
+id: node.weapon.default
+targetEntityType: node
+bundle: weapon
+mode: default
+content:
+  image_weapon:
+    type: image
+    weight: 0
+    region: content
+    label: visually_hidden
+    settings:
+      image_style: medium
+      image_link: ''
+    third_party_settings: {  }
+  title_weapon:
+    type: string
+    weight: 1
+    region: content
+    label: visually_hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  code_weapon: true
+  langcode: true
+  links: true
+  title: true

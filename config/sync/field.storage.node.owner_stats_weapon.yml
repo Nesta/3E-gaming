@@ -1,0 +1,20 @@
+uuid: 1b9f0e83-749c-466e-b7c4-300bf983d69f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.owner_stats_weapon
+field_name: owner_stats_weapon
+entity_type: node
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

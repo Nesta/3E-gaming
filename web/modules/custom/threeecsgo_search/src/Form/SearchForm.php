@@ -113,6 +113,11 @@ class SearchForm extends FormBase {
           'target_id' => $file->id(),
         ]);
 
+        $user->activate();
+        $user->save();
+
+        $user = user_load_by_name($username_drupal);
+
         foreach ($stats as $stat) {
           if ($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
             or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
@@ -124,9 +129,62 @@ class SearchForm extends FormBase {
               $user->{$stat->name}->setValue($stat->value);
             }
           }
+          if ((strpos($stat->name, 'total_kills_') !== false or strpos($stat->name, 'total_hits_') !== false
+              or strpos($stat->name, 'total_shots_') !== false) and !(strpos($stat->name, '_headshot') !== false
+              or strpos($stat->name, '_enemy_weapon') !== false or strpos($stat->name, '_enemy_blinded') !== false
+              or strpos($stat->name, '_against_zoomed_sniper') !== false or strpos($stat->name, 'total_shots_hit') !== false
+              or strpos($stat->name, '_fired') !== false)) {
+            if (strpos($stat->name, 'total_kills_') !== false ) {
+              $name_weapon = str_replace('total_kills_', '', $stat->name);
+            } else {
+              if (strpos($stat->name, 'total_hits_') !== false) {
+                $name_weapon = str_replace('total_hits_', '', $stat->name);
+              } else {
+                $name_weapon = str_replace('total_shots_', '', $stat->name);
+              }
+            }
+
+            $query_1 = \Drupal::entityQuery('node')
+              ->condition('type', 'stats_weapon')
+              ->condition('status', 1)
+              ->condition('title', $username_drupal . " - " . $name_weapon);
+
+            $node_id = $query_1->execute();
+
+            if ( $node_id != null ) {
+              foreach ( $node_id as $id ) {
+                $node = Node::load($id);
+              }
+              $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+
+              $node->save();
+            } else {
+              $node = Node::create([
+                'title' => $username_drupal . " - " . $name_weapon,
+                'type' => 'stats_weapon',
+                'status' => 1,
+              ]);
+
+              $query_2 = \Drupal::entityQuery('node')
+                ->condition('type', 'weapon')
+                ->condition('status', 1)
+                ->condition('code_weapon', $name_weapon);
+
+              $result = $query_2->execute();
+
+              foreach ( $result as $id ) {
+                $node_weapon = Node::load($id);
+              }
+
+              $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+              $node->{'weapon'}->setValue($node_weapon);
+              $node->{'owner_stats_weapon'}->setValue($user->id());
+
+              $node->save();
+            }
+          }
         }
 
-        $user->activate();
         $user->save();
 
         $this->create_inventory($username_drupal);
@@ -147,9 +205,9 @@ class SearchForm extends FormBase {
     $inventory = $json_steam_inventory->rgDescriptions;
 
     foreach ($inventory as $article) {
-      if (strpos(strtoupper($article->market_name), 'CAJA') != true and strpos(strtoupper($article->market_name), 'LLAVE') != true) {
+      if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true) {
         $node_inventory = Node::create([
-          'title' => $user->getUsername() . " - " . $article->market_name,
+          'title' => $article->market_name,
           'type' => 'article',
           'status' => 1,
         ]);

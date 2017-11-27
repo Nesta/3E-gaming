@@ -1,0 +1,11 @@
+uuid: eff259f3-8cf1-4fbf-9479-bf8580e2d661
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.weapon
+id: node.weapon
+target_entity_type_id: node
+target_bundle: weapon
+default_langcode: site_default
+language_alterable: false

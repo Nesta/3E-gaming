@@ -1,0 +1,18 @@
+uuid: 5701ed49-f84c-48fe-b7d2-07ef4e30da5c
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.stats_weapon
+id: node.stats_weapon.title
+field_name: title
+entity_type: node
+bundle: stats_weapon
+label: 'Stats weapon'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
