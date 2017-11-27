@@ -1,0 +1,21 @@
+uuid: 61fbcab1-2462-4474-985b-6e6c8e047f39
+langcode: en
+status: true
+dependencies:
+  module:
+    - computed_field
+    - node
+id: node.precision
+field_name: precision
+entity_type: node
+type: computed_decimal
+settings:
+  precision: '10'
+  scale: '2'
+module: computed_field
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

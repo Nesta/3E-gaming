@@ -1,0 +1,27 @@
+uuid: 19c581ad-bfef-4499-85a9-c7011a52aa3b
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - node.type.stats_weapon
+  module:
+    - user
+id: node.stats_weapon.teaser
+targetEntityType: node
+bundle: stats_weapon
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+  title:
+    label: hidden
+    type: string
+    weight: -5
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  langcode: true

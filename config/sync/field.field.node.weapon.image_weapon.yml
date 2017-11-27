@@ -1,0 +1,38 @@
+uuid: 9c7778c5-4b78-43b7-b825-5d3d8d7fef7a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.image_weapon
+    - node.type.weapon
+  module:
+    - image
+id: node.weapon.image_weapon
+field_name: image_weapon
+entity_type: node
+bundle: weapon
+label: 'Image weapon'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: ''
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: false
+  title_field: false
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: image

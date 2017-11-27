@@ -1,0 +1,26 @@
+uuid: ef456bdb-292f-493e-87d7-835561d28485
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.precision
+    - node.type.stats_weapon
+  module:
+    - computed_field
+id: node.stats_weapon.precision
+field_name: precision
+entity_type: node
+bundle: stats_weapon
+label: Precision
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  code: "$total_hits = $fields['total_hits'][0]['value'];\r\n$total_shots = $fields['total_shots'][0]['value'];\r\nif( $total_hits != null and $total_shots != null ) {\r\n  $value = ($total_hits * 100) / $total_shots;\r\n}"
+  prefix: ''
+  suffix: ''
+field_type: computed_decimal

@@ -5,8 +5,10 @@ dependencies:
   config:
     - page_manager.page.player_profile
     - views.view.images_player
+    - views.view.inventory
     - views.view.player
     - views.view.settings
+    - views.view.stats_weapon
     - views.view.videos
   module:
     - panels
@@ -56,7 +58,7 @@ variant_settings:
       views_label: ''
       items_per_page: none
       region: top
-      weight: 0
+      weight: -3
       uuid: db6b4efa-fefa-48bd-b3e2-e5ee2f428138
       context_mapping: {  }
     9c2f2489-bd1f-48d5-aefe-24058618dd99:
@@ -69,6 +71,28 @@ variant_settings:
       region: third
       weight: -2
       uuid: 9c2f2489-bd1f-48d5-aefe-24058618dd99
+      context_mapping: {  }
+    e6beaecf-d7d7-4843-8141-be6f240b0c46:
+      id: 'views_block:stats_weapon-profile'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: top
+      weight: 0
+      uuid: e6beaecf-d7d7-4843-8141-be6f240b0c46
+      context_mapping: {  }
+    7906a5d2-16ac-48a8-b0b3-68b126992e1c:
+      id: 'views_block:inventory-profile'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: top
+      weight: 0
+      uuid: 7906a5d2-16ac-48a8-b0b3-68b126992e1c
       context_mapping: {  }
   id: panels_variant
   uuid: 76a516ec-e7d2-4043-af7d-86cc46a82cf4

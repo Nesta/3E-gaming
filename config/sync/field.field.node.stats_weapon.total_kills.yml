@@ -1,0 +1,23 @@
+uuid: 2d7f8bc8-6f59-4862-a17e-f0e6669aee63
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.total_kills
+    - node.type.stats_weapon
+id: node.stats_weapon.total_kills
+field_name: total_kills
+entity_type: node
+bundle: stats_weapon
+label: 'Total kills'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

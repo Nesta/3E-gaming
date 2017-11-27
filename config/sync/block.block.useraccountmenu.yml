@@ -1,22 +1,22 @@
-uuid: efa241cf-1404-4d90-8283-c149252a2196
+uuid: 3cad7224-840d-4892-8f22-73440d1d16d3
 langcode: en
 status: true
 dependencies:
   config:
-    - system.menu.main
+    - system.menu.account
   module:
     - system
   theme:
     - material_admin
-id: mainnavigation
+id: useraccountmenu
 theme: material_admin
 region: header
-weight: -6
+weight: -5
 provider: null
-plugin: 'system_menu_block:main'
+plugin: 'system_menu_block:account'
 settings:
-  id: 'system_menu_block:main'
-  label: 'Main navigation'
+  id: 'system_menu_block:account'
+  label: 'User account menu'
   provider: system
   label_display: '0'
   level: 1

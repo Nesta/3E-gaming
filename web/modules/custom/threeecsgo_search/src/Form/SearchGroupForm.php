@@ -124,24 +124,83 @@ class SearchGroupForm extends FormBase {
             'target_id' => $file->id(),
           ]);
 
+          $user->activate();
+          $user->save();
+
+          $user = user_load_by_name($username_drupal);
+
           foreach ($stats as $stat) {
             if ($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
               or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
               or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
-              if ( $stat->name == "total_time_played" ) {
-                $user->{$stat->name}->setValue(($stat->value/60)/60);
-              } else {
+              if ($stat->name == "total_time_played") {
+                $user->{$stat->name}->setValue(($stat->value / 60) / 60);
+              }
+              else {
                 $user->{$stat->name}->setValue($stat->value);
+              }
+            }
+            if ((strpos($stat->name, 'total_kills_') !== false or strpos($stat->name, 'total_hits_') !== false
+                or strpos($stat->name, 'total_shots_') !== false) and !(strpos($stat->name, '_headshot') !== false
+                or strpos($stat->name, '_enemy_weapon') !== false or strpos($stat->name, '_enemy_blinded') !== false
+                or strpos($stat->name, '_against_zoomed_sniper') !== false or strpos($stat->name, 'total_shots_hit') !== false
+                or strpos($stat->name, '_fired') !== false)) {
+              if (strpos($stat->name, 'total_kills_') !== false ) {
+                $name_weapon = str_replace('total_kills_', '', $stat->name);
+              } else {
+                if (strpos($stat->name, 'total_hits_') !== false) {
+                  $name_weapon = str_replace('total_hits_', '', $stat->name);
+                } else {
+                  $name_weapon = str_replace('total_shots_', '', $stat->name);
+                }
+              }
+
+              $query_1 = \Drupal::entityQuery('node')
+                ->condition('type', 'stats_weapon')
+                ->condition('status', 1)
+                ->condition('title', $username_drupal . " - " . $name_weapon);
+
+              $node_id = $query_1->execute();
+
+              if ( $node_id != null ) {
+                foreach ( $node_id as $id ) {
+                  $node = Node::load($id);
+                }
+                $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+
+                $node->save();
+              } else {
+                $node = Node::create([
+                  'title' => $username_drupal . " - " . $name_weapon,
+                  'type' => 'stats_weapon',
+                  'status' => 1,
+                ]);
+
+                $query_2 = \Drupal::entityQuery('node')
+                  ->condition('type', 'weapon')
+                  ->condition('status', 1)
+                  ->condition('code_weapon', $name_weapon);
+
+                $result = $query_2->execute();
+
+                foreach ( $result as $id ) {
+                  $node_weapon = Node::load($id);
+                }
+
+                $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+                $node->{'weapon'}->setValue($node_weapon);
+                $node->{'owner_stats_weapon'}->setValue($user->id());
+
+                $node->save();
               }
             }
           }
 
-          $user->activate();
           $user->save();
 
           $count_members_new ++;
 
-          //$this->create_inventory($username_drupal);
+          $this->create_inventory($username_drupal);
         }
       }
 
@@ -181,16 +240,15 @@ class SearchGroupForm extends FormBase {
 
   public function create_inventory($username_drupal) {
     $user = user_load_by_name($username_drupal);
-
-    $url_api_steam_3 = "http://steamcommunity.com/profiles/76561198224522144/inventory/json/730/2";
+    $url_api_steam_3 = "http://steamcommunity.com/profiles/" . $user->{'steamid'}->value . "/inventory/json/730/2";
     $content_url_3 = file_get_contents($url_api_steam_3);
     $json_steam_inventory = json_decode($content_url_3);
     $inventory = $json_steam_inventory->rgDescriptions;
 
     foreach ($inventory as $article) {
-      if (strpos(strtoupper($article->market_name), 'CAJA') !== false) {
+      if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true) {
         $node_inventory = Node::create([
-          'title' => $user->getUsername() . " - " . $article->market_name,
+          'title' => $article->market_name,
           'type' => 'article',
           'status' => 1,
         ]);
@@ -210,12 +268,6 @@ class SearchGroupForm extends FormBase {
         $node_inventory->{'owner_article'}->setValue($user->id());
 
         $node_inventory->save();
-
-        $user->{'inventory'}->setValue($node_inventory->id());
-
-        $user->save();
-
-        break;
       }
     }
   }

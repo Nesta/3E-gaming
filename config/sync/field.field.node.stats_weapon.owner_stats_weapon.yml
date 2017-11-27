@@ -1,0 +1,23 @@
+uuid: 7f62986d-410a-4f3e-8f8b-2bb5103c4b91
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.owner_stats_weapon
+    - node.type.stats_weapon
+id: node.stats_weapon.owner_stats_weapon
+field_name: owner_stats_weapon
+entity_type: node
+bundle: stats_weapon
+label: 'Owner stats weapon'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
