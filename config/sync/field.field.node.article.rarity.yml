@@ -1,15 +1,15 @@
-uuid: 08456e6e-9bca-4f7b-ad1f-c1e2c3069060
+uuid: 322fee1e-fb39-459c-bdc1-2f8e2ee3f056
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.owner_article
+    - field.storage.node.rarity
     - node.type.article
-id: node.article.owner_article
-field_name: owner_article
+id: node.article.rarity
+field_name: rarity
 entity_type: node
 bundle: article
-label: Owner
+label: Rarity
 description: ''
 required: false
 translatable: false

@@ -3,8 +3,11 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.article.exterior
     - field.field.node.article.image_article
     - field.field.node.article.owner_article
+    - field.field.node.article.quality
+    - field.field.node.article.rarity
     - image.style.thumbnail
     - node.type.article
   module:
@@ -23,6 +26,14 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  exterior:
+    weight: 33
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   image_article:
     weight: 31
     settings:
@@ -58,6 +69,22 @@ content:
     weight: 15
     region: content
     third_party_settings: {  }
+  quality:
+    weight: 35
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  rarity:
+    weight: 34
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   sticky:
     type: boolean_checkbox
     settings:

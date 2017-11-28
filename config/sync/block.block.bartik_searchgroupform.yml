@@ -1,0 +1,26 @@
+uuid: deb72a5f-6a17-4107-8923-4a756c921378
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - threeecsgo_search
+  theme:
+    - bartik
+id: bartik_searchgroupform
+theme: bartik
+region: content
+weight: -6
+provider: null
+plugin: search_group_block
+settings:
+  id: search_group_block
+  label: 'Search group form'
+  provider: threeecsgo_search
+  label_display: visible
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }
