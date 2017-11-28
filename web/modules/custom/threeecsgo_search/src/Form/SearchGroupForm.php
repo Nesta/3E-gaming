@@ -73,6 +73,12 @@ class SearchGroupForm extends FormBase {
         $content_url_1 = file_get_contents($url_api_steam_1);
         $json_steam_data = json_decode($content_url_1);
 
+        if ($json_steam_data == null) {
+          $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=6C8548C8E9A4AD096820E41BB1252B27&steamids=" . $user->get('steamid')->value;
+          $content_url_1 = file_get_contents($url_api_steam_1);
+          $json_steam_data = json_decode($content_url_1);
+        }
+
         $personaname = $json_steam_data->response->players[0]->personaname;
 
         $username_drupal = strtolower(str_replace(' ', '', preg_replace('([^A-Za-z0-9])', '', $personaname)));
@@ -89,6 +95,12 @@ class SearchGroupForm extends FormBase {
           $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=28ECE97465C977305C7D06CBBA0DE695&steamid=" . $steamid;
           $content_url_2 = file_get_contents($url_api_steam_2);
           $json_steam_stats = json_decode($content_url_2);
+
+          if ($json_steam_stats == null) {
+            $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $user->get('steamid')->value;
+            $content_url_2 = file_get_contents($url_api_steam_2);
+            $json_steam_stats = json_decode($content_url_2);
+          }
 
           $stats = $json_steam_stats->playerstats->stats;
 
@@ -198,14 +210,20 @@ class SearchGroupForm extends FormBase {
 
           $user->save();
 
-          $count_members_new ++;
-
           $this->create_inventory($username_drupal);
         }
       }
 
-      if ( $count_members_new == $group_members ) {
-        $group_name_2 = $group_data['groupDetails']['groupName'];
+      $group_name_2 = $group_data['groupDetails']['groupName'];
+
+      $query = \Drupal::entityQuery('node')
+        ->condition('type', 'team')
+        ->condition('status', 1)
+        ->condition('title', $group_name_2);
+
+      $group_id = $query->execute();
+
+      if ( $group_id == null ) {
         $group_avatar = $group_data['groupDetails']['avatarFull'];
         // Create file object from a locally copied file.
         $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name_2 . '.jpg', FILE_EXISTS_REPLACE);
@@ -266,6 +284,14 @@ class SearchGroupForm extends FormBase {
         ]);
 
         $node_inventory->{'owner_article'}->setValue($user->id());
+
+        $tags = $article->tags;
+
+        foreach ($tags as $tag) {
+          if ( $tag->category == "Exterior" or $tag->category == "Rarity" or $tag->category == "Quality" ) {
+            $node_inventory->{strtolower($tag->category)}->setValue($tag->name);
+          }
+        }
 
         $node_inventory->save();
       }
