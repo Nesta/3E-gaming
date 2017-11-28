@@ -226,6 +226,14 @@ class SearchForm extends FormBase {
 
         $node_inventory->{'owner_article'}->setValue($user->id());
 
+        $tags = $article->tags;
+
+        foreach ($tags as $tag) {
+          if ( $tag->category == "Exterior" or $tag->category == "Rarity" or $tag->category == "Quality" ) {
+            $node_inventory->{strtolower($tag->category)}->setValue($tag->name);
+          }
+        }
+
         $node_inventory->save();
       }
     }

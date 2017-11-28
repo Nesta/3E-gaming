@@ -1,0 +1,21 @@
+uuid: c12fb252-57d2-4ba0-ad9a-d700f6c7567d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.exterior
+field_name: exterior
+entity_type: node
+type: string
+settings:
+  max_length: 200
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
