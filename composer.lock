@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "458320253a9c743ad67936fa870dba68",
+    "content-hash": "d74ccc2cbcd2424ef01dca3c2e61a62e",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1434,6 +1434,56 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/ctools",
                 "issues": "https://www.drupal.org/project/issues/ctools"
+            }
+        },
+        {
+            "name": "drupal/da_vinci",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupal.org/project/da_vinci",
+                "reference": "8.x-4.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/da_vinci-8.x-4.1.zip",
+                "reference": "8.x-4.1",
+                "shasum": "abbf8fa5bae7bb92ca81f2fbe6a982b8dfc428f2"
+            },
+            "require": {
+                "drupal/core": "~8.0"
+            },
+            "type": "drupal-theme",
+            "extra": {
+                "branch-alias": {
+                    "dev-4.x": "4.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-4.1",
+                    "datestamp": "1482144184",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Karmen",
+                    "homepage": "https://www.drupal.org/user/2267652"
+                },
+                {
+                    "name": "nesta_",
+                    "homepage": "https://www.drupal.org/user/370767"
+                }
+            ],
+            "homepage": "https://www.drupal.org/project/da_vinci",
+            "support": {
+                "source": "http://cgit.drupalcode.org/da_vinci"
             }
         },
         {
