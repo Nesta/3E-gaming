@@ -1,5 +1,9 @@
 <?php
 
+use Drupal\Core\Url;
+use Drupal\file\Entity\File;
+use Drupal\node\Entity\Node;
+
 /**
  * Implements hook_form_FORM_ID_alter().
  */
@@ -54,7 +58,7 @@ function threeecsgo_general_form_user_register_form_alter(&$form, &$form_state) 
   $form['#validate'][0] = 'threeecsgo_general_user_validation';
   $form['#validate'][1] = '::validateForm';
   global $base_url;
-  $form_state->setRedirectUrl(\Drupal\Core\Url::fromUri($base_url));
+  $form_state->setRedirectUrl(Url::fromUri($base_url));
 }
 
 function threeecsgo_general_user_validation(&$form, &$form_state) {
@@ -71,5 +75,172 @@ function threeecsgo_general_user_validation(&$form, &$form_state) {
   $user_register = user_load_by_name($username_drupal);
   if ($user_register->{'steamid'} != null) {
     user_delete($user_register->{'uid'}->value);
+  }
+}
+
+/**
+ * Implements hook_entity_postsave().
+ */
+function threeecsgo_general_user_insert($entity) {
+  $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=28ECE97465C977305C7D06CBBA0DE695&steamids=" . $entity->get('steamid')->value;
+  $content_url_1 = file_get_contents($url_api_steam_1);
+  $json_steam_data = json_decode($content_url_1);
+
+  if ($json_steam_data == null) {
+    $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=6C8548C8E9A4AD096820E41BB1252B27&steamids=" . $entity->get('steamid')->value;
+    $content_url_1 = file_get_contents($url_api_steam_1);
+    $json_steam_data = json_decode($content_url_1);
+  }
+
+  $personaname = $json_steam_data->response->players[0]->personaname;
+
+  $realname = $json_steam_data->response->players[0]->realname;
+  $primaryclanid = $json_steam_data->response->players[0]->primaryclanid;
+  $avatar = $json_steam_data->response->players[0]->avatarfull;
+  $tmp = 'public://tmp/avatar.jpeg';
+  file_put_contents($tmp, file_get_contents($avatar));
+
+  $entity->{'personaname'}->setValue($personaname);
+  $entity->{'primaryclanid'}->setValue($primaryclanid);
+
+  if ($realname != NULL) {
+    $entity->{'realname'}->setValue($realname);
+  }
+  else {
+    $entity->{'realname'}->setValue('No name');
+  }
+
+  // Create file object from a locally copied file.
+  $uri = file_unmanaged_copy($avatar, 'public://avatars/' . $entity->get('steamid')->value . '.jpg', FILE_EXISTS_REPLACE);
+  $file = File::Create([
+    'uri' => $uri,
+  ]);
+  $file->save();
+
+  // Attach file in node.
+  $entity->avatarfull->setValue([
+    'target_id' => $file->id(),
+  ]);
+
+  $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=28ECE97465C977305C7D06CBBA0DE695&steamid=" . $entity->get('steamid')->value;
+  $content_url_2 = file_get_contents($url_api_steam_2);
+  $json_steam_stats = json_decode($content_url_2);
+
+  if ($json_steam_stats == null) {
+    $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $entity->get('steamid')->value;
+    $content_url_2 = file_get_contents($url_api_steam_2);
+    $json_steam_stats = json_decode($content_url_2);
+  }
+
+  $stats = $json_steam_stats->playerstats->stats;
+
+  foreach ($stats as $stat) {
+    if ($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
+      or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
+      or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
+      if ($stat->name == "total_time_played") {
+        $entity->{$stat->name}->setValue(($stat->value / 60) / 60);
+      }
+      else {
+        $entity->{$stat->name}->setValue($stat->value);
+      }
+    }
+    if ((strpos($stat->name, 'total_kills_') !== false or strpos($stat->name, 'total_hits_') !== false
+        or strpos($stat->name, 'total_shots_') !== false) and !(strpos($stat->name, '_headshot') !== false
+        or strpos($stat->name, '_enemy_weapon') !== false or strpos($stat->name, '_enemy_blinded') !== false
+        or strpos($stat->name, '_against_zoomed_sniper') !== false or strpos($stat->name, 'total_shots_hit') !== false
+        or strpos($stat->name, '_fired') !== false)) {
+      if (strpos($stat->name, 'total_kills_') !== false ) {
+        $name_weapon = str_replace('total_kills_', '', $stat->name);
+      } else {
+        if (strpos($stat->name, 'total_hits_') !== false) {
+          $name_weapon = str_replace('total_hits_', '', $stat->name);
+        } else {
+          $name_weapon = str_replace('total_shots_', '', $stat->name);
+        }
+      }
+
+      $query_1 = \Drupal::entityQuery('node')
+        ->condition('type', 'stats_weapon')
+        ->condition('status', 1)
+        ->condition('title', $entity->getUsername() . " - " . $name_weapon);
+
+      $node_id = $query_1->execute();
+
+      if ( $node_id != null ) {
+        foreach ( $node_id as $id ) {
+          $node = Node::load($id);
+        }
+        $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+
+        $node->save();
+      } else {
+        $node = Node::create([
+          'title' => $entity->getUsername() . " - " . $name_weapon,
+          'type' => 'stats_weapon',
+          'status' => 1,
+        ]);
+
+        $query_2 = \Drupal::entityQuery('node')
+          ->condition('type', 'weapon')
+          ->condition('status', 1)
+          ->condition('code_weapon', $name_weapon);
+
+        $result = $query_2->execute();
+
+        foreach ( $result as $id ) {
+          $node_weapon = Node::load($id);
+        }
+
+        $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+        $node->{'weapon'}->setValue($node_weapon);
+        $node->{'owner_stats_weapon'}->setValue($entity->id());
+
+        $node->save();
+      }
+    }
+  }
+
+  $entity->save();
+
+  // Create Inventory
+  $user = user_load_by_name($entity->getUsername());
+  $url_api_steam_3 = "http://steamcommunity.com/profiles/" . $user->{'steamid'}->value . "/inventory/json/730/2";
+  $content_url_3 = file_get_contents($url_api_steam_3);
+  $json_steam_inventory = json_decode($content_url_3);
+  $inventory = $json_steam_inventory->rgDescriptions;
+
+  foreach ($inventory as $article) {
+    if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true) {
+      $node_inventory = Node::create([
+        'title' => $article->market_name,
+        'type' => 'article',
+        'status' => 1,
+      ]);
+
+      // Create file object from a locally copied file.
+      $uri = file_unmanaged_copy("https://steamcommunity-a.akamaihd.net/economy/image/" . $article->icon_url, 'public://inventory/' . $article->market_name . '.jpg', FILE_EXISTS_REPLACE);
+      $file = File::Create([
+        'uri' => $uri,
+      ]);
+      $file->save();
+
+      // Attach file in node.
+      $node_inventory->image_article->setValue([
+        'target_id' => $file->id(),
+      ]);
+
+      $node_inventory->{'owner_article'}->setValue($user->id());
+
+      $tags = $article->tags;
+
+      foreach ($tags as $tag) {
+        if ( $tag->category == "Exterior" or $tag->category == "Rarity" or $tag->category == "Quality" ) {
+          $node_inventory->{strtolower($tag->category)}->setValue($tag->name);
+        }
+      }
+
+      $node_inventory->save();
+    }
   }
 }

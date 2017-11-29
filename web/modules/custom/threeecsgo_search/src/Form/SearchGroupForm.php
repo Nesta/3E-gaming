@@ -66,7 +66,6 @@ class SearchGroupForm extends FormBase {
 
       $members = $group_data['members']['steamID64'];
       $group_members = $group_data['groupDetails']['memberCount'];
-      $count_members_new = 0;
 
       foreach ($members as &$steamid) {
         $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=28ECE97465C977305C7D06CBBA0DE695&steamids=" . $steamid;
@@ -74,7 +73,7 @@ class SearchGroupForm extends FormBase {
         $json_steam_data = json_decode($content_url_1);
 
         if ($json_steam_data == null) {
-          $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=6C8548C8E9A4AD096820E41BB1252B27&steamids=" . $user->get('steamid')->value;
+          $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=6C8548C8E9A4AD096820E41BB1252B27&steamids=" . $steamid;
           $content_url_1 = file_get_contents($url_api_steam_1);
           $json_steam_data = json_decode($content_url_1);
         }
@@ -97,7 +96,7 @@ class SearchGroupForm extends FormBase {
           $json_steam_stats = json_decode($content_url_2);
 
           if ($json_steam_stats == null) {
-            $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $user->get('steamid')->value;
+            $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $steamid;
             $content_url_2 = file_get_contents($url_api_steam_2);
             $json_steam_stats = json_decode($content_url_2);
           }
