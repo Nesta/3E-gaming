@@ -86,7 +86,7 @@ class SearchForm extends FormBase {
         $json_steam_stats = json_decode($content_url_2);
 
         if ($json_steam_stats == null) {
-          $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $user->get('steamid')->value;
+          $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $steamid;
           $content_url_2 = file_get_contents($url_api_steam_2);
           $json_steam_stats = json_decode($content_url_2);
         }
