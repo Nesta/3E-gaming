@@ -23,7 +23,8 @@
         "drupal/field_group": "^1.0",
         "drupal/panels": "^4.2",
         "drupal/page_manager": "^4.0@beta",
-        "drupal/social_login": "^1.6"
+        "drupal/social_login": "^1.6",
+        "drupal/da_vinci": "^4.1"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
