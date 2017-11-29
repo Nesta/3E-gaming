@@ -115,7 +115,7 @@ class SettingsForm extends FormBase {
       $settings->{'sensitivity'}->setValue($form_state->getValue('sensitivity'));
       $settings->{'windows_sensitivity'}->setValue($form_state->getValue('windows_sensitivity'));
       $settings->{'zoom_sensitivity'}->setValue($form_state->getValue('zoom_sensitivity'));
-      $settings->{'owner_settings'}->setValue($user->id());
+      $settings->{'owner_settings'}->setValue($user);
 
       $settings->save();
 

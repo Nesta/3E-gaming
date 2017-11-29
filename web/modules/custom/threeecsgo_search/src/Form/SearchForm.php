@@ -237,6 +237,7 @@ class SearchForm extends FormBase {
         ]);
 
         $node_inventory->{'owner_article'}->setValue($user->id());
+        $node_inventory->{'display'}->setValue(FALSE);
 
         $tags = $article->tags;
 
