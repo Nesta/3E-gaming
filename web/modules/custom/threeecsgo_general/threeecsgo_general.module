@@ -79,7 +79,7 @@ function threeecsgo_general_user_validation(&$form, &$form_state) {
 }
 
 /**
- * Implements hook_entity_postsave().
+ * Implements hook_entity_insert().
  */
 function threeecsgo_general_user_insert($entity) {
   $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=28ECE97465C977305C7D06CBBA0DE695&steamids=" . $entity->get('steamid')->value;
@@ -211,7 +211,9 @@ function threeecsgo_general_user_insert($entity) {
   $inventory = $json_steam_inventory->rgDescriptions;
 
   foreach ($inventory as $article) {
-    if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true) {
+    if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true
+      and strpos(strtoupper($article->market_name), 'GRAFFITI') != true and strpos(strtoupper($article->market_name), 'MUSIC KIT') != true
+      and strpos(strtoupper($article->market_name), 'MEDAL') != true and strpos(strtoupper($article->market_name), 'COIN') != true) {
       $node_inventory = Node::create([
         'title' => $article->market_name,
         'type' => 'article',
@@ -231,6 +233,7 @@ function threeecsgo_general_user_insert($entity) {
       ]);
 
       $node_inventory->{'owner_article'}->setValue($user->id());
+      $node_inventory->{'display'}->setValue(FALSE);
 
       $tags = $article->tags;
 
