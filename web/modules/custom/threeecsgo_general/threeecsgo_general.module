@@ -8,6 +8,7 @@ use Drupal\node\Entity\Node;
  * Implements hook_form_FORM_ID_alter().
  */
 function threeecsgo_general_form_user_register_form_alter(&$form, &$form_state) {
+  global $base_url;
   // Modification for the form with the given form ID goes here. For example, if
   // FORM_ID is "user_register_form" this code would run only on the user
   // registration form.
@@ -56,6 +57,8 @@ function threeecsgo_general_form_user_register_form_alter(&$form, &$form_state) 
 
   $form['#validate'][0] = 'threeecsgo_general_user_validation';
   $form['#validate'][1] = '::validateForm';
+
+  $form_state->setRedirectUrl(Url::fromUri($base_url));
 }
 
 function threeecsgo_general_user_validation(&$form, &$form_state) {
@@ -78,7 +81,10 @@ function threeecsgo_general_user_validation(&$form, &$form_state) {
 
     $stats_weapon = $query_1->execute();
 
-    node_delete_multiple($stats_weapon);
+    foreach ($stats_weapon as $stats) {
+      $node = Node::load($stats);
+      $node->delete();
+    }
 
     $query_2 = \Drupal::entityQuery('node')
       ->condition('type', 'article')
@@ -87,7 +93,10 @@ function threeecsgo_general_user_validation(&$form, &$form_state) {
 
     $inventory = $query_2->execute();
 
-    node_delete_multiple($inventory);
+    foreach ($inventory as $article_id) {
+      $node = Node::load($article_id);
+      $node->delete();
+    }
 
     user_delete($user_register->{'uid'}->value);
   }
