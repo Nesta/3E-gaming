@@ -67,6 +67,58 @@ class SearchGroupForm extends FormBase {
       $members = $group_data['members']['steamID64'];
       $group_members = $group_data['groupDetails']['memberCount'];
 
+      $group_name_2 = $group_data['groupDetails']['groupName'];
+
+      $query = \Drupal::entityQuery('node')
+        ->condition('type', 'team')
+        ->condition('status', 1)
+        ->condition('title', $group_name_2);
+
+      $team_id = $query->execute();
+
+      if ( $team_id == null ) {
+        $group_avatar = $group_data['groupDetails']['avatarFull'];
+        $primaryclanid = $group_data['groupID64'];
+        // Create file object from a locally copied file.
+        $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name_2 . '.jpg', FILE_EXISTS_REPLACE);
+        $file = File::Create([
+          'uri' => $uri,
+        ]);
+        $file->save();
+
+        // Create settings node
+        $team = Node::create([
+          'title' => $group_name_2,
+          'type' => 'team',
+          'status' => 1,
+        ]);
+        $team->{'groupname'}->setValue($group_name_2);
+        $team->{'clanid'}->setValue($group_data['groupID64']);
+        $team->{'members'}->setValue($group_members);
+
+        // Attach file in node.
+        $team->avatarfull->setValue([
+          'target_id' => $file->id(),
+        ]);
+
+        $team->save();
+
+        $query = \Drupal::entityQuery('node')
+          ->condition('type', 'team')
+          ->condition('status', 1)
+          ->condition('clanid', $primaryclanid);
+
+        $team_id = $query->execute();
+
+        foreach ( $team_id as $id ) {
+          $team = Node::load($id);
+        }
+      } else {
+        foreach ( $team_id as $id ) {
+          $team = Node::load($id);
+        }
+      }
+
       foreach ($members as &$steamid) {
         $url_api_steam_1 = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=28ECE97465C977305C7D06CBBA0DE695&steamids=" . $steamid;
         $content_url_1 = file_get_contents($url_api_steam_1);
@@ -86,7 +138,6 @@ class SearchGroupForm extends FormBase {
 
         if ($user_register == NULL) {
           $realname = $json_steam_data->response->players[0]->realname;
-          $primaryclanid = $json_steam_data->response->players[0]->primaryclanid;
           $avatar = $json_steam_data->response->players[0]->avatarfull;
           $tmp = 'public://tmp/avatar.jpeg';
           file_put_contents($tmp, file_get_contents($avatar));
@@ -114,7 +165,7 @@ class SearchGroupForm extends FormBase {
           //$user->addRole('authenticated');
           $user->{'steamid'}->setValue($steamid);
           $user->{'personaname'}->setValue($personaname);
-          $user->{'primaryclanid'}->setValue($primaryclanid);
+          $user->{'team'}->setValue($team->id());
 
           if ($realname != NULL) {
             $user->{'realname'}->setValue($realname);
@@ -211,42 +262,6 @@ class SearchGroupForm extends FormBase {
 
           $this->create_inventory($username_drupal);
         }
-      }
-
-      $group_name_2 = $group_data['groupDetails']['groupName'];
-
-      $query = \Drupal::entityQuery('node')
-        ->condition('type', 'team')
-        ->condition('status', 1)
-        ->condition('title', $group_name_2);
-
-      $group_id = $query->execute();
-
-      if ( $group_id == null ) {
-        $group_avatar = $group_data['groupDetails']['avatarFull'];
-        // Create file object from a locally copied file.
-        $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name_2 . '.jpg', FILE_EXISTS_REPLACE);
-        $file = File::Create([
-          'uri' => $uri,
-        ]);
-        $file->save();
-
-        // Create settings node
-        $team = Node::create([
-          'title' => $group_name_2,
-          'type' => 'team',
-          'status' => 1,
-        ]);
-        $team->{'groupname'}->setValue($group_name_2);
-        $team->{'clanid'}->setValue($group_data['groupID64']);
-        $team->{'members'}->setValue($group_members);
-
-        // Attach file in node.
-        $team->avatarfull->setValue([
-          'target_id' => $file->id(),
-        ]);
-
-        $team->save();
       }
 
       $form_state->setRedirectUrl(Url::fromUri($base_url . '/teams/' . $group_data['groupID64']));

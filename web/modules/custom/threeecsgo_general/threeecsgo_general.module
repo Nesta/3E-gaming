@@ -54,11 +54,8 @@ function threeecsgo_general_form_user_register_form_alter(&$form, &$form_state) 
     $form['steamid']['widget'][0]['value']['#default_value'] = $steamid;
   }
 
-  //$form['#submit'][] = 'threecsgo_general_form_user_register_submit';
   $form['#validate'][0] = 'threeecsgo_general_user_validation';
   $form['#validate'][1] = '::validateForm';
-  global $base_url;
-  $form_state->setRedirectUrl(Url::fromUri($base_url));
 }
 
 function threeecsgo_general_user_validation(&$form, &$form_state) {
@@ -100,8 +97,65 @@ function threeecsgo_general_user_insert($entity) {
   $tmp = 'public://tmp/avatar.jpeg';
   file_put_contents($tmp, file_get_contents($avatar));
 
+  $query = \Drupal::entityQuery('node')
+    ->condition('type', 'team')
+    ->condition('status', 1)
+    ->condition('clanid', $primaryclanid);
+
+  $team_id = $query->execute();
+
+  if ( $team_id == null ) {
+    $url_xml_group = "http://steamcommunity.com/gid/" . $primaryclanid . "/memberslistxml/";
+    $xml_content = file_get_contents($url_xml_group);
+    $group_data_xml = simplexml_load_string($xml_content, NULL, LIBXML_NOCDATA);
+    $json = json_encode($group_data_xml);
+    $group_data = json_decode($json, TRUE);
+
+    $group_name = $group_data['groupDetails']['groupName'];
+    $group_members = $group_data['groupDetails']['memberCount'];
+    $group_avatar = $group_data['groupDetails']['avatarFull'];
+    // Create file object from a locally copied file.
+    $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name . '.jpg', FILE_EXISTS_REPLACE);
+    $file = File::Create([
+      'uri' => $uri,
+    ]);
+    $file->save();
+
+    // Create settings node
+    $team = Node::create([
+      'title' => $group_name,
+      'type' => 'team',
+      'status' => 1,
+    ]);
+    $team->{'groupname'}->setValue($group_name);
+    $team->{'clanid'}->setValue($primaryclanid);
+    $team->{'members'}->setValue($group_members);
+
+    // Attach file in node.
+    $team->avatarfull->setValue([
+      'target_id' => $file->id(),
+    ]);
+
+    $team->save();
+
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'team')
+      ->condition('status', 1)
+      ->condition('clanid', $primaryclanid);
+
+    $team_id = $query->execute();
+
+    foreach ( $team_id as $id ) {
+      $team = Node::load($id);
+    }
+  } else {
+    foreach ( $team_id as $id ) {
+      $team = Node::load($id);
+    }
+  }
+
   $entity->{'personaname'}->setValue($personaname);
-  $entity->{'primaryclanid'}->setValue($primaryclanid);
+  $entity->{'team'}->setValue($team->id());
 
   if ($realname != NULL) {
     $entity->{'realname'}->setValue($realname);
@@ -175,28 +229,44 @@ function threeecsgo_general_user_insert($entity) {
 
         $node->save();
       } else {
-        $node = Node::create([
-          'title' => $entity->getUsername() . " - " . $name_weapon,
-          'type' => 'stats_weapon',
-          'status' => 1,
-        ]);
-
         $query_2 = \Drupal::entityQuery('node')
-          ->condition('type', 'weapon')
+          ->condition('type', 'stats_weapon')
           ->condition('status', 1)
-          ->condition('code_weapon', $name_weapon);
+          ->condition('title', $entity->getUsername() . " - " . $name_weapon);
 
-        $result = $query_2->execute();
+        $stats_weapon = $query_2->execute();
 
-        foreach ( $result as $id ) {
-          $node_weapon = Node::load($id);
+        if ( $stats_weapon != null ) {
+          foreach ($stats_weapon as $id_stats) {
+            $node_stats_weapon = Node::load($id_stats);
+            $node_stats_weapon->{'owner_stats_weapon'}->setValue($entity->id());
+
+            $node_stats_weapon->save();
+          }
+        } else {
+          $node = Node::create([
+            'title' => $entity->getUsername() . " - " . $name_weapon,
+            'type' => 'stats_weapon',
+            'status' => 1,
+          ]);
+
+          $query_3 = \Drupal::entityQuery('node')
+            ->condition('type', 'weapon')
+            ->condition('status', 1)
+            ->condition('code_weapon', $name_weapon);
+
+          $result = $query_3->execute();
+
+          foreach ($result as $id) {
+            $node_weapon = Node::load($id);
+          }
+
+          $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+          $node->{'weapon'}->setValue($node_weapon);
+          $node->{'owner_stats_weapon'}->setValue($entity->id());
+
+          $node->save();
         }
-
-        $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
-        $node->{'weapon'}->setValue($node_weapon);
-        $node->{'owner_stats_weapon'}->setValue($entity->id());
-
-        $node->save();
       }
     }
   }
