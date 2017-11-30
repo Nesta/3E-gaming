@@ -5,3 +5,11 @@ threeecsgo_general.settings:
         _title: 'Settings'
     requirements:
         _permission: 'access content'
+
+threeecsgo_general.inventory:
+    path: '/my-inventory'
+    defaults:
+        _controller: '\Drupal\threeecsgo_general\Controller\InventoryController::inventoryBuild'
+        _title: 'My inventory'
+    requirements:
+        _permission: 'access content'
