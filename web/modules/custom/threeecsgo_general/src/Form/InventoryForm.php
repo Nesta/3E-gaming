@@ -42,7 +42,7 @@ class InventoryForm extends FormBase {
         '#type' => 'checkbox',
         '#title' => $article->get('title')->value,
         '#id' => $article->id(),
-        '#default_value' => $article->get('title')->value,
+        '#default_value' => $article->get('display')->value,
       ];
     }
 
@@ -58,12 +58,19 @@ class InventoryForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $user = \Drupal::currentUser();
+    global $base_url;
+
     foreach ($form as $i) {
-      if ((!strpos($i, '#') !== false) and $i['#id'] != null and $i['#value'] == 1){
+      if ((!strpos($i, '#') !== false) and $i['#id'] != null){
         $article = Node::load($i['#id']);
-        $article->{'display'}->setValue(true);
-        $article->save();
+        if ($article != null) {
+          $article->{'display'}->setValue($i['#value']);
+          $article->save();
+        }
       }
     }
+
+    $form_state->setRedirectUrl(Url::fromUri($base_url . '/player/' . $user->id()));
   }
 }
