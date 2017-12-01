@@ -275,7 +275,9 @@ class SearchForm extends FormBase {
     $inventory = $json_steam_inventory->rgDescriptions;
 
     foreach ($inventory as $article) {
-      if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true) {
+      if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true
+        and strpos(strtoupper($article->market_name), 'GRAFFITI') != true and strpos(strtoupper($article->market_name), 'MUSIC KIT') != true
+        and strpos(strtoupper($article->market_name), 'MEDAL') != true and strpos(strtoupper($article->market_name), 'COIN') != true) {
         $node_inventory = Node::create([
           'title' => $article->market_name,
           'type' => 'article',
