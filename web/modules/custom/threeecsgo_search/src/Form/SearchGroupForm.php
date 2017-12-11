@@ -279,8 +279,9 @@ class SearchGroupForm extends FormBase {
 
     foreach ($inventory as $article) {
       if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true
-        and strpos(strtoupper($article->market_name), 'GRAFFITI') != true and strpos(strtoupper($article->market_name), 'MUSIC KIT') != true
-        and strpos(strtoupper($article->market_name), 'MEDAL') != true and strpos(strtoupper($article->market_name), 'COIN') != true) {
+        and strpos(strtoupper($article->market_name), 'GRAFFITI') != true and strpos(strtoupper($article->market_name), 'MUSIC') != true
+        and strpos(strtoupper($article->market_name), 'MEDAL') != true and strpos(strtoupper($article->market_name), 'COIN') != true
+        and strpos(strtoupper($article->market_name), 'TROPHY')) {
         $node_inventory = Node::create([
           'title' => $article->market_name,
           'type' => 'article',
@@ -310,7 +311,9 @@ class SearchGroupForm extends FormBase {
           }
         }
 
-        $node_inventory->save();
+        if ($node_inventory->{'exterior'} != null) {
+          $node_inventory->save();
+        }
       }
     }
   }

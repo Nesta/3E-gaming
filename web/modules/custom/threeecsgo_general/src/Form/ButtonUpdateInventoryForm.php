@@ -63,8 +63,9 @@ class ButtonUpdateInventoryForm extends FormBase {
 
     foreach ($inventory as $article) {
       if (strpos(strtoupper($article->market_name), 'CASE') != TRUE and strpos(strtoupper($article->market_name), 'KEY') != TRUE
-        and strpos(strtoupper($article->market_name), 'GRAFFITI') != TRUE and strpos(strtoupper($article->market_name), 'MUSIC KIT') != TRUE
-        and strpos(strtoupper($article->market_name), 'MEDAL') != TRUE and strpos(strtoupper($article->market_name), 'COIN') != TRUE) {
+        and strpos(strtoupper($article->market_name), 'GRAFFITI') != TRUE and strpos(strtoupper($article->market_name), 'MUSIC') != TRUE
+        and strpos(strtoupper($article->market_name), 'MEDAL') != TRUE and strpos(strtoupper($article->market_name), 'COIN') != TRUE
+        and strpos(strtoupper($article->market_name), 'TROPHY')) {
         $node_inventory = Node::create([
           'title' => $article->market_name,
           'type' => 'article',
@@ -94,7 +95,9 @@ class ButtonUpdateInventoryForm extends FormBase {
           }
         }
 
-        $node_inventory->save();
+        if ($node_inventory->{'exterior'} != null) {
+          $node_inventory->save();
+        }
       }
     }
 
