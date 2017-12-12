@@ -144,8 +144,8 @@ class SearchForm extends FormBase {
               or strpos($stat->name, 'total_shots_') !== false) and !(strpos($stat->name, '_headshot') !== false
               or strpos($stat->name, '_enemy_weapon') !== false or strpos($stat->name, '_enemy_blinded') !== false
               or strpos($stat->name, '_against_zoomed_sniper') !== false or strpos($stat->name, 'total_shots_hit') !== false
-              or strpos($stat->name, '_fired') !== false)) {
-            if (strpos($stat->name, 'total_kills_') !== false ) {
+              or strpos($stat->name, '_fired') !== false or strpos($stat->name, 'knife_fight') !== false)) {
+            if (strpos($stat->name, 'total_kills_') !== false) {
               $name_weapon = str_replace('total_kills_', '', $stat->name);
             } else {
               if (strpos($stat->name, 'total_hits_') !== false) {
@@ -278,7 +278,7 @@ class SearchForm extends FormBase {
       if (strpos(strtoupper($article->market_name), 'CASE') != true and strpos(strtoupper($article->market_name), 'KEY') != true
         and strpos(strtoupper($article->market_name), 'GRAFFITI') != true and strpos(strtoupper($article->market_name), 'MUSIC') != true
         and strpos(strtoupper($article->market_name), 'MEDAL') != true and strpos(strtoupper($article->market_name), 'COIN') != true
-        and strpos(strtoupper($article->market_name), 'TROPHY')) {
+        and strpos(strtoupper($article->market_name), 'TROPHY') != true) {
         $node_inventory = Node::create([
           'title' => $article->market_name,
           'type' => 'article',
@@ -308,7 +308,7 @@ class SearchForm extends FormBase {
           }
         }
 
-        if ($node_inventory->{'exterior'} != null) {
+        if ($node_inventory->{'exterior'}->value != null) {
           $node_inventory->save();
         }
       }
