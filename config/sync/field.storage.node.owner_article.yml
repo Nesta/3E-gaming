@@ -1,17 +1,16 @@
-uuid: c44e8152-a1af-498e-88f0-f22a404eea87
+uuid: 95924611-a363-4b9f-87b6-365dceb9f157
 langcode: en
 status: true
 dependencies:
   module:
     - node
+    - user
 id: node.owner_article
 field_name: owner_article
 entity_type: node
-type: string
+type: entity_reference
 settings:
-  max_length: 150
-  is_ascii: false
-  case_sensitive: false
+  target_type: user
 module: core
 locked: false
 cardinality: 1

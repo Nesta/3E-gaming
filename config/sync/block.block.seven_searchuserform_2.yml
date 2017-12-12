@@ -1,0 +1,26 @@
+uuid: 5ed3ac13-95a6-47b2-9632-dba4cb321665
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - threeecsgo_search
+  theme:
+    - seven
+id: seven_searchuserform_2
+theme: seven
+region: content
+weight: -6
+provider: null
+plugin: search_block
+settings:
+  id: search_block
+  label: 'Search user form'
+  provider: threeecsgo_search
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: /players
+    negate: false
+    context_mapping: {  }

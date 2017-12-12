@@ -1,0 +1,26 @@
+uuid: 2385e1be-f0a4-423c-9df4-945edb1e6e2e
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - user
+  theme:
+    - seven
+id: seven_userlogin
+theme: seven
+region: content
+weight: -4
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: 'User login'
+  provider: user
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

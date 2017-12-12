@@ -1,16 +1,19 @@
-uuid: ff8fba94-6891-4c1f-9bee-a1a39164495c
+uuid: c7ca7878-517d-4c75-936f-53f4c10c9655
 langcode: en
 status: true
 dependencies:
   config:
+    - field.storage.node.clanid
+    - field.storage.node.groupname
     - field.storage.user.avatarfull
     - field.storage.user.personaname
-    - field.storage.user.primaryclanid
     - field.storage.user.realname
     - field.storage.user.steamid
     - image.style.thumbnail
   module:
+    - better_exposed_filters
     - image
+    - node
     - rest
     - serialization
     - user
@@ -44,15 +47,29 @@ display:
           query_comment: ''
           query_tags: {  }
       exposed_form:
-        type: basic
+        type: bef
         options:
-          submit_button: Apply
+          submit_button: Search
           reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
+          input_required: false
+          text_input_required: 'Select any filter and click on Apply to see results'
+          bef:
+            general:
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              autosubmit: false
+              autosubmit_hide: true
+            personaname_value:
+              bef_format: default
+              more_options:
+                is_secondary: false
+                placeholder_text: ''
+          text_input_required_format: basic_html
       pager:
         type: mini
         options:
@@ -78,49 +95,57 @@ display:
           row_class: ''
           default_row_class: true
           override: true
-          sticky: true
+          sticky: false
           caption: ''
           summary: ''
           description: ''
           columns:
+            uid: uid
             avatarfull: avatarfull
             personaname: personaname
             realname: realname
             steamid: steamid
-            primaryclanid: primaryclanid
+            groupname: groupname
           info:
+            uid:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
             avatarfull:
+              sortable: false
+              default_sort_order: asc
+              align: ''
+              separator: ''
+              empty_column: false
+              responsive: ''
+            personaname:
               sortable: false
               default_sort_order: asc
               align: views-align-center
               separator: ''
               empty_column: false
               responsive: ''
-            personaname:
-              sortable: true
-              default_sort_order: asc
-              align: ''
-              separator: ''
-              empty_column: false
-              responsive: ''
             realname:
-              sortable: true
+              sortable: false
               default_sort_order: asc
-              align: ''
+              align: views-align-center
               separator: ''
               empty_column: false
               responsive: ''
             steamid:
-              sortable: true
+              sortable: false
               default_sort_order: asc
-              align: ''
+              align: views-align-center
               separator: ''
               empty_column: false
               responsive: ''
-            primaryclanid:
+            groupname:
               sortable: true
               default_sort_order: asc
-              align: ''
+              align: views-align-center
               separator: ''
               empty_column: false
               responsive: ''
@@ -129,6 +154,69 @@ display:
       row:
         type: fields
       fields:
+        clanid:
+          id: clanid
+          table: node__clanid
+          field: clanid
+          relationship: team
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
         uid:
           id: uid
           table: users_field_data
@@ -205,7 +293,7 @@ display:
           label: Avatar
           exclude: false
           alter:
-            alter_text: false
+            alter_text: true
             text: ''
             make_link: true
             path: '/player/{{uid}}'
@@ -448,20 +536,20 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        primaryclanid:
-          id: primaryclanid
-          table: user__primaryclanid
-          field: primaryclanid
-          relationship: none
+        groupname:
+          id: groupname
+          table: node__groupname
+          field: groupname
+          relationship: team
           group_type: group
           admin_label: ''
-          label: ClanID
+          label: Team
           exclude: false
           alter:
             alter_text: false
             text: ''
-            make_link: false
-            path: ''
+            make_link: true
+            path: '/teams/{{clanid}}'
             absolute: false
             external: false
             replace_spaces: false
@@ -530,8 +618,54 @@ display:
           relationship: none
           group_type: group
           admin_label: ''
-          operator: 'not empty'
+          operator: contains
           value: ''
+          group: 1
+          exposed: true
+          expose:
+            operator_id: personaname_value_op
+            label: 'Username Steam'
+            description: ''
+            use_operator: false
+            operator: personaname_value_op
+            identifier: personaname_value
+            required: false
+            remember: false
+            multiple: false
+            remember_roles:
+              authenticated: authenticated
+              anonymous: '0'
+              administrator: '0'
+              content_administrator: '0'
+              client_developer: '0'
+          is_grouped: false
+          group_info:
+            label: 'Username Steam (personaname)'
+            description: null
+            identifier: personaname_value
+            optional: true
+            widget: select
+            multiple: false
+            remember: false
+            default_group: All
+            default_group_multiple: {  }
+            group_items:
+              1: {  }
+              2: {  }
+              3: {  }
+          plugin_id: string
+        avatarfull_target_id:
+          id: avatarfull_target_id
+          table: user__avatarfull
+          field: avatarfull_target_id
+          relationship: none
+          group_type: group
+          admin_label: ''
+          operator: 'not empty'
+          value:
+            min: ''
+            max: ''
+            value: ''
           group: 1
           exposed: false
           expose:
@@ -558,7 +692,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: string
+          plugin_id: numeric
       sorts:
         efficient_ratio_value:
           id: efficient_ratio_value
@@ -576,7 +710,16 @@ display:
       header: {  }
       footer: {  }
       empty: {  }
-      relationships: {  }
+      relationships:
+        team:
+          id: team
+          table: user__team
+          field: team
+          relationship: none
+          group_type: group
+          admin_label: 'team: Content'
+          required: false
+          plugin_id: standard
       arguments: {  }
       display_extenders: {  }
     cache_metadata:
@@ -584,11 +727,13 @@ display:
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
       tags:
+        - 'config:field.storage.node.clanid'
+        - 'config:field.storage.node.groupname'
         - 'config:field.storage.user.avatarfull'
         - 'config:field.storage.user.personaname'
-        - 'config:field.storage.user.primaryclanid'
         - 'config:field.storage.user.realname'
         - 'config:field.storage.user.steamid'
   all:
@@ -598,17 +743,19 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: home
+      path: players
     cache_metadata:
       max-age: 0
       contexts:
         - 'languages:language_content'
         - 'languages:language_interface'
+        - url
         - url.query_args
       tags:
+        - 'config:field.storage.node.clanid'
+        - 'config:field.storage.node.groupname'
         - 'config:field.storage.user.avatarfull'
         - 'config:field.storage.user.personaname'
-        - 'config:field.storage.user.primaryclanid'
         - 'config:field.storage.user.realname'
         - 'config:field.storage.user.steamid'
   rest_export_1:
@@ -618,7 +765,7 @@ display:
     position: 2
     display_options:
       display_extenders: {  }
-      path: players-data
+      path: /players-data
       style:
         type: serializer
       defaults:
@@ -638,9 +785,11 @@ display:
         - 'languages:language_content'
         - 'languages:language_interface'
         - request_format
+        - url
       tags:
+        - 'config:field.storage.node.clanid'
+        - 'config:field.storage.node.groupname'
         - 'config:field.storage.user.avatarfull'
         - 'config:field.storage.user.personaname'
-        - 'config:field.storage.user.primaryclanid'
         - 'config:field.storage.user.realname'
         - 'config:field.storage.user.steamid'

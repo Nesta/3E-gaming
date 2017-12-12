@@ -31,11 +31,13 @@ content:
     settings: {  }
     third_party_settings: {  }
   owner_stats_weapon:
-    weight: 37
+    weight: 40
     settings:
+      match_operator: CONTAINS
+      size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: number
+    type: entity_reference_autocomplete
     region: content
   path:
     type: path

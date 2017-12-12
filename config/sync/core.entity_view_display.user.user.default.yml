@@ -11,12 +11,12 @@ dependencies:
     - field.field.user.user.kills_deaths_ratio
     - field.field.user.user.level
     - field.field.user.user.personaname
-    - field.field.user.user.primaryclanid
     - field.field.user.user.realname
     - field.field.user.user.rounds_won
     - field.field.user.user.setting
     - field.field.user.user.steamid
     - field.field.user.user.tactical_role
+    - field.field.user.user.team
     - field.field.user.user.total_deaths
     - field.field.user.user.total_kills
     - field.field.user.user.total_kills_headshot
@@ -38,7 +38,7 @@ bundle: user
 mode: default
 content:
   accuracy:
-    weight: 12
+    weight: 11
     label: above
     settings:
       cache_unit: -1
@@ -60,7 +60,7 @@ content:
     type: image
     region: content
   efficient_ratio:
-    weight: 14
+    weight: 13
     label: above
     settings:
       cache_unit: -1
@@ -73,7 +73,7 @@ content:
     type: computed_decimal
     region: content
   headshot_percentage:
-    weight: 10
+    weight: 9
     label: above
     settings:
       cache_unit: -1
@@ -86,7 +86,7 @@ content:
     type: computed_decimal
     region: content
   kills_deaths_ratio:
-    weight: 5
+    weight: 4
     label: above
     settings:
       cache_unit: -1
@@ -99,7 +99,7 @@ content:
     type: computed_decimal
     region: content
   level:
-    weight: 4
+    weight: 3
     label: above
     settings:
       thousand_separator: ''
@@ -109,14 +109,6 @@ content:
     region: content
   personaname:
     weight: 1
-    label: above
-    settings:
-      link_to_entity: false
-    third_party_settings: {  }
-    type: string
-    region: content
-  primaryclanid:
-    weight: 3
     label: above
     settings:
       link_to_entity: false
@@ -133,7 +125,7 @@ content:
     region: content
   rounds_won:
     type: computed_decimal
-    weight: 13
+    weight: 12
     region: content
     label: above
     settings:
@@ -145,7 +137,7 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
   tactical_role:
-    weight: 8
+    weight: 7
     label: visually_hidden
     settings: {  }
     third_party_settings: {  }
@@ -153,7 +145,7 @@ content:
     region: content
   total_deaths:
     type: number_integer
-    weight: 7
+    weight: 6
     region: content
     label: above
     settings:
@@ -161,7 +153,7 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
   total_kills:
-    weight: 6
+    weight: 5
     label: above
     settings:
       thousand_separator: ''
@@ -170,7 +162,7 @@ content:
     type: number_integer
     region: content
   total_mvps:
-    weight: 9
+    weight: 8
     label: above
     settings:
       thousand_separator: ''
@@ -179,7 +171,7 @@ content:
     type: number_integer
     region: content
   total_time_played:
-    weight: 11
+    weight: 10
     label: above
     settings:
       thousand_separator: ''
@@ -193,6 +185,7 @@ hidden:
   member_for: true
   setting: true
   steamid: true
+  team: true
   total_kills_headshot: true
   total_rounds_played: true
   total_shots_fired: true

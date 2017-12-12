@@ -24,13 +24,12 @@ content:
     settings: {  }
     third_party_settings: {  }
   owner_stats_weapon:
-    weight: 6
+    weight: 9
     label: above
     settings:
-      thousand_separator: ''
-      prefix_suffix: true
+      link: true
     third_party_settings: {  }
-    type: number_integer
+    type: entity_reference_label
     region: content
   precision:
     weight: 5

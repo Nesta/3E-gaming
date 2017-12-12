@@ -1,4 +1,4 @@
-uuid: 08456e6e-9bca-4f7b-ad1f-c1e2c3069060
+uuid: b85eac11-ea07-471c-ad96-ef6050a1d35c
 langcode: en
 status: true
 dependencies:
@@ -11,9 +11,18 @@ entity_type: node
 bundle: article
 label: Owner
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
-settings: {  }
-field_type: string
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: false
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

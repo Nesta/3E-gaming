@@ -12,17 +12,11 @@ type: list_string
 settings:
   allowed_values:
     -
-      value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qKhBw1uH3fTxQ69n4woSOwPWkY7-CwTwEvJ0m0rjH84_22gLiqEdtYW70d9SWc1BtNwzVq0_-n7kTb9TIOQ">'
-      label: Awper
-    -
-      value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qKQZpx_baTjFD_tuz2obex_SnNe6FxG0J7MQgibuR8N323wa2rxFoMWj2JoLBcVc3NVqG81eggbC4IvaHa-Q">'
-      label: Baiter
-    -
-      value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qKQht0fbaTjFD_tuz2tnbxKOlYeOCkjNQucMi27iW84-h0A2wqRE-Mmz6ItWXcA5rMF6C-1iggbC4Eu4BV9w">'
-      label: Bomber
-    -
       value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qKQh07P_JYzpHoouzl4XflfSkY-nVlW0BvJIk2b_D94ihjlHhqEE-NjiiddKQegJqMgzOug_pjG1a1gI">'
       label: Bot
+    -
+      value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qKhBw1uH3fTxQ69n4woSOwPWkY7-CwTwEvJ0m0rjH84_22gLiqEdtYW70d9SWc1BtNwzVq0_-n7kTb9TIOQ">'
+      label: Awper
     -
       value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qLRVh1PTNYwJO7c6xkc7YxqXyZ7iEwWkF7ZR32u_H9I6i2lDgqUs4ZGj0I4TGe1M2aFrU-Fbo366x0vxbluaU">'
       label: Fragger
@@ -32,12 +26,6 @@ settings:
     -
       value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qJxJy2PbaTjFD_tuz2oPZwvSlMuqBkzoF65MmiOzHpN70iwzt-RE-MG_6ddCXIwdraV3Rr1mggbC4k9DKVUo">'
       label: Lurker
-    -
-      value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qJQZk1uH3fTxQ69n4zdWNxKD3a-nXlDIH6p0h3-3Crdyk2ge28kI4YTqlIdPEIwJtYFHQrE_-n7lxQmZJDg">'
-      label: Nader
-    -
-      value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qJQ5u2fL3fTxQ69n4xNTdk_WkMu_XxTkJ6sMm2bDHrdum2gy2rxdsYW3zIdWcd1A9aV7S_E_-n7k5Gm_4RQ">'
-      label: Ninja
     -
       value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qOBJww_zaZQJO7c6xkc7dkaOsYu_XxjoJu5N1j7_CrI3zi1KxqBZkMTyhIITBcVU8ZFyCrlS5366x0lkLS2aA">'
       label: Support

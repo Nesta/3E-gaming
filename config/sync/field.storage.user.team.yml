@@ -1,0 +1,20 @@
+uuid: 0a2471e0-c053-4b1b-a96d-a3dd9f69c32e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - user
+id: user.team
+field_name: team
+entity_type: user
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
