@@ -72,8 +72,8 @@ variant_settings:
       weight: -2
       uuid: 9c2f2489-bd1f-48d5-aefe-24058618dd99
       context_mapping: {  }
-    e6beaecf-d7d7-4843-8141-be6f240b0c46:
-      id: 'views_block:stats_weapon-profile'
+    6e3d7fe9-a938-42ee-81a0-b9b63591ea6a:
+      id: 'views_block:stats_weapon-primary'
       label: ''
       provider: views
       label_display: visible
@@ -81,9 +81,20 @@ variant_settings:
       items_per_page: none
       region: top
       weight: 0
-      uuid: e6beaecf-d7d7-4843-8141-be6f240b0c46
+      uuid: 6e3d7fe9-a938-42ee-81a0-b9b63591ea6a
       context_mapping: {  }
-    7906a5d2-16ac-48a8-b0b3-68b126992e1c:
+    ec19ed25-3d2e-4c7f-87e2-bd2dbdb469e9:
+      id: 'views_block:stats_weapon-secondary'
+      label: ''
+      provider: views
+      label_display: visible
+      views_label: ''
+      items_per_page: none
+      region: top
+      weight: 0
+      uuid: ec19ed25-3d2e-4c7f-87e2-bd2dbdb469e9
+      context_mapping: {  }
+    cbd8d667-3224-4159-9fd1-160b1c9006a3:
       id: 'views_block:inventory-profile'
       label: ''
       provider: views
@@ -92,7 +103,7 @@ variant_settings:
       items_per_page: none
       region: top
       weight: 0
-      uuid: 7906a5d2-16ac-48a8-b0b3-68b126992e1c
+      uuid: cbd8d667-3224-4159-9fd1-160b1c9006a3
       context_mapping: {  }
   id: panels_variant
   uuid: 76a516ec-e7d2-4043-af7d-86cc46a82cf4
@@ -100,7 +111,7 @@ variant_settings:
   weight: 0
   layout: layout_threecol_33_34_33
   layout_settings: {  }
-  page_title: ''
+  page_title: 'Player profile'
   storage_type: page_manager
   storage_id: player_profile-panels_variant-0
   builder: standard

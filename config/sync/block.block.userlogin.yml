@@ -1,0 +1,26 @@
+uuid: f141d53a-1575-43f1-8e88-b7bc33140a55
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - user
+  theme:
+    - da_vinci
+id: userlogin
+theme: da_vinci
+region: content
+weight: -4
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: 'User login'
+  provider: user
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

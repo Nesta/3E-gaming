@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.weapon.code_weapon
     - field.field.node.weapon.image_weapon
     - field.field.node.weapon.title_weapon
+    - field.field.node.weapon.type_weapon
     - image.style.thumbnail
     - node.type.weapon
   module:
@@ -74,6 +75,14 @@ content:
     third_party_settings: {  }
   title_weapon:
     weight: 31
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  type_weapon:
+    weight: 34
     settings:
       size: 60
       placeholder: ''

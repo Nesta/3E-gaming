@@ -4,8 +4,13 @@ status: true
 dependencies:
   config:
     - field.storage.node.image_article
+    - field.storage.user.personaname
     - image.style.medium
+    - user.role.administrator
+    - user.role.authenticated
+    - user.role.content_administrator
   module:
+    - better_exposed_filters
     - image
     - node
     - user
@@ -25,9 +30,12 @@ display:
     position: 0
     display_options:
       access:
-        type: perm
+        type: role
         options:
-          perm: 'access content'
+          role:
+            authenticated: authenticated
+            administrator: administrator
+            content_administrator: content_administrator
       cache:
         type: tag
         options: {  }
@@ -52,14 +60,19 @@ display:
       pager:
         type: some
         options:
-          items_per_page: 8
+          items_per_page: 6
           offset: 0
       style:
-        type: default
+        type: grid
         options:
           grouping: {  }
-          row_class: ''
-          default_row_class: true
+          columns: 3
+          automatic_width: true
+          alignment: horizontal
+          col_class_default: true
+          col_class_custom: ''
+          row_class_default: true
+          row_class_custom: ''
       row:
         type: fields
       fields:
@@ -190,6 +203,69 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
+        personaname:
+          id: personaname
+          table: user__personaname
+          field: personaname
+          relationship: owner_article
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
       filters:
         status:
           id: status
@@ -229,18 +305,15 @@ display:
           plugin_id: boolean
           entity_type: node
           entity_field: status
-        image_article_target_id:
-          id: image_article_target_id
-          table: node__image_article
-          field: image_article_target_id
+        display_value:
+          id: display_value
+          table: node__display
+          field: display_value
           relationship: none
           group_type: group
           admin_label: ''
-          operator: 'not empty'
-          value:
-            min: ''
-            max: ''
-            value: ''
+          operator: '='
+          value: '1'
           group: 1
           exposed: false
           expose:
@@ -267,7 +340,7 @@ display:
             default_group: All
             default_group_multiple: {  }
             group_items: {  }
-          plugin_id: numeric
+          plugin_id: boolean
       sorts:
         created:
           id: created
@@ -299,13 +372,22 @@ display:
           tokenize: false
           content: 'The player''s inventory can not be accessed.'
           plugin_id: text_custom
-      relationships: {  }
-      arguments:
-        owner_article_value:
-          id: owner_article_value
+      relationships:
+        owner_article:
+          id: owner_article
           table: node__owner_article
-          field: owner_article_value
+          field: owner_article
           relationship: none
+          group_type: group
+          admin_label: 'owner_article: User'
+          required: false
+          plugin_id: standard
+      arguments:
+        uid:
+          id: uid
+          table: users_field_data
+          field: uid
+          relationship: owner_article
           group_type: group
           admin_label: ''
           default_action: default
@@ -334,57 +416,15 @@ display:
             type: none
             fail: 'not found'
           validate_options: {  }
-          glossary: false
-          limit: 0
-          case: none
-          path_case: none
-          transform_dash: false
           break_phrase: false
-          plugin_id: string
-        exterior_value:
-          id: exterior_value
-          table: node__exterior
-          field: exterior_value
-          relationship: none
-          group_type: group
-          admin_label: ''
-          default_action: default
-          exception:
-            value: all
-            title_enable: false
-            title: All
-          title_enable: false
-          title: ''
-          default_argument_type: query_parameter
-          default_argument_options:
-            query_param: exterior
-            fallback: ''
-            multiple: and
-          default_argument_skip_url: false
-          summary_options:
-            base_path: ''
-            count: true
-            items_per_page: 25
-            override: false
-          summary:
-            sort_order: asc
-            number_of_records: 0
-            format: default_summary
-          specify_validation: false
-          validate:
-            type: none
-            fail: 'not found'
-          validate_options: {  }
-          glossary: false
-          limit: 0
-          case: none
-          path_case: none
-          transform_dash: false
-          break_phrase: false
-          plugin_id: string
+          not: false
+          entity_type: user
+          entity_field: uid
+          plugin_id: user_uid
       display_extenders: {  }
       link_url: ''
       link_display: page_1
+      use_ajax: true
     cache_metadata:
       max-age: -1
       contexts:
@@ -392,9 +432,10 @@ display:
         - 'languages:language_interface'
         - url
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.node.image_article'
+        - 'config:field.storage.user.personaname'
   all:
     display_plugin: page
     id: all
@@ -416,6 +457,8 @@ display:
         filters: false
         filter_groups: false
         use_ajax: false
+        access: true
+        empty: false
       style:
         type: grid
         options:
@@ -431,10 +474,10 @@ display:
         type: fields
         options: {  }
       arguments:
-        owner_article_value:
-          id: owner_article_value
+        owner_article_target_id:
+          id: owner_article_target_id
           table: node__owner_article
-          field: owner_article_value
+          field: owner_article_target_id
           relationship: none
           group_type: group
           admin_label: ''
@@ -464,24 +507,44 @@ display:
             type: none
             fail: 'not found'
           validate_options: {  }
-          glossary: false
-          limit: 0
-          case: none
-          path_case: none
-          transform_dash: false
           break_phrase: false
-          plugin_id: string
+          not: false
+          plugin_id: numeric
       exposed_block: false
       exposed_form:
-        type: basic
+        type: bef
         options:
-          submit_button: Search
-          reset_button: true
+          submit_button: Apply
+          reset_button: false
           reset_button_label: Reset
           exposed_sorts_label: 'Sort by'
           expose_sort_order: true
           sort_asc_label: Asc
           sort_desc_label: Desc
+          input_required: false
+          text_input_required: 'Select any filter and click on Apply to see results'
+          bef:
+            general:
+              allow_secondary: false
+              secondary_label: 'Advanced options'
+              autosubmit: true
+              autosubmit_hide: true
+            exterior_value:
+              bef_format: default
+              more_options:
+                is_secondary: false
+                placeholder_text: ''
+            quality_value:
+              bef_format: default
+              more_options:
+                is_secondary: false
+                placeholder_text: ''
+            rarity_value:
+              bef_format: default
+              more_options:
+                is_secondary: false
+                placeholder_text: ''
+          text_input_required_format: basic_html
       use_ajax: false
       filters:
         status:
@@ -667,7 +730,7 @@ display:
               2:
                 title: StatTrak™
                 operator: '='
-                value: StatTrak\u2122
+                value: StatTrak™
               3:
                 title: Souvenir
                 operator: '='
@@ -769,6 +832,18 @@ display:
         operator: AND
         groups:
           1: AND
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: false
+          content: 'No inventory found.'
+          plugin_id: text_custom
     cache_metadata:
       max-age: -1
       contexts:
@@ -776,9 +851,10 @@ display:
         - 'languages:language_interface'
         - url
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.node.image_article'
+        - 'config:field.storage.user.personaname'
   profile:
     display_plugin: block
     id: profile
@@ -793,52 +869,247 @@ display:
         use_more_text: false
         link_display: false
         link_url: false
-        arguments: false
+        arguments: true
+        style: false
+        row: false
+        filters: true
+        filter_groups: true
+        empty: false
+        footer: false
+        fields: false
       use_more_always: true
-      use_more_text: more
+      use_more_text: 'ALL INVENTORY'
       link_display: page_1
       link_url: ''
-      arguments:
-        owner_article_value:
-          id: owner_article_value
-          table: node__owner_article
-          field: owner_article_value
+      style:
+        type: grid
+        options:
+          grouping: {  }
+          columns: 3
+          automatic_width: true
+          alignment: horizontal
+          col_class_default: true
+          col_class_custom: ''
+          row_class_default: true
+          row_class_custom: ''
+      row:
+        type: fields
+        options: {  }
+      empty:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
           relationship: none
           group_type: group
           admin_label: ''
-          default_action: default
-          exception:
-            value: all
-            title_enable: false
-            title: All
-          title_enable: false
-          title: ''
-          default_argument_type: raw
-          default_argument_options:
-            index: 1
-            use_alias: false
-          default_argument_skip_url: false
-          summary_options:
-            base_path: ''
-            count: true
-            items_per_page: 25
-            override: false
-          summary:
-            sort_order: asc
-            number_of_records: 0
-            format: default_summary
-          specify_validation: false
-          validate:
-            type: none
-            fail: 'not found'
-          validate_options: {  }
-          glossary: false
-          limit: 0
-          case: none
-          path_case: none
-          transform_dash: false
-          break_phrase: false
-          plugin_id: string
+          empty: true
+          tokenize: false
+          content: 'The player has not selected any article to show. <a href="/my-inventory">Add inventory to my profile</a>'
+          plugin_id: text_custom
+      footer:
+        area_text_custom:
+          id: area_text_custom
+          table: views
+          field: area_text_custom
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: false
+          tokenize: false
+          content: '<a href="/my-inventory">Edit inventory of my profile</a>'
+          plugin_id: text_custom
+      fields:
+        image_article:
+          id: image_article
+          table: node__image_article
+          field: image_article
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: target_id
+          type: image
+          settings:
+            image_style: medium
+            image_link: ''
+          group_column: ''
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        title:
+          id: title
+          table: node_field_data
+          field: title
+          relationship: none
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: false
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
+        personaname:
+          id: personaname
+          table: user__personaname
+          field: personaname
+          relationship: owner_article
+          group_type: group
+          admin_label: ''
+          label: ''
+          exclude: true
+          alter:
+            alter_text: false
+            text: ''
+            make_link: false
+            path: ''
+            absolute: false
+            external: false
+            replace_spaces: false
+            path_case: none
+            trim_whitespace: false
+            alt: ''
+            rel: ''
+            link_class: ''
+            prefix: ''
+            suffix: ''
+            target: ''
+            nl2br: false
+            max_length: 0
+            word_boundary: true
+            ellipsis: true
+            more_link: false
+            more_link_text: ''
+            more_link_path: ''
+            strip_tags: false
+            trim: false
+            preserve_tags: ''
+            html: false
+          element_type: ''
+          element_class: ''
+          element_label_type: ''
+          element_label_class: ''
+          element_label_colon: false
+          element_wrapper_type: ''
+          element_wrapper_class: ''
+          element_default_classes: true
+          empty: ''
+          hide_empty: false
+          empty_zero: false
+          hide_alter_empty: true
+          click_sort_column: value
+          type: string
+          settings:
+            link_to_entity: false
+          group_column: value
+          group_columns: {  }
+          group_rows: true
+          delta_limit: 0
+          delta_offset: 0
+          delta_reversed: false
+          delta_first_last: false
+          multi_type: separator
+          separator: ', '
+          field_api_classes: false
+          plugin_id: field
     cache_metadata:
       max-age: -1
       contexts:
@@ -846,6 +1117,7 @@ display:
         - 'languages:language_interface'
         - url
         - 'user.node_grants:view'
-        - user.permissions
+        - user.roles
       tags:
         - 'config:field.storage.node.image_article'
+        - 'config:field.storage.user.personaname'

@@ -1,16 +1,16 @@
-uuid: 1b9f0e83-749c-466e-b7c4-300bf983d69f
+uuid: 27ce076a-4e5f-4052-8cd7-b45ba7a8e73e
 langcode: en
 status: true
 dependencies:
   module:
     - node
+    - user
 id: node.owner_stats_weapon
 field_name: owner_stats_weapon
 entity_type: node
-type: integer
+type: entity_reference
 settings:
-  unsigned: false
-  size: normal
+  target_type: user
 module: core
 locked: false
 cardinality: 1

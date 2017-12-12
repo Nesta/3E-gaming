@@ -1,0 +1,19 @@
+uuid: c49226fc-8452-48dd-9dec-388191f9a608
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.type_weapon
+    - node.type.weapon
+id: node.weapon.type_weapon
+field_name: type_weapon
+entity_type: node
+bundle: weapon
+label: Type
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

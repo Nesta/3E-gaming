@@ -11,12 +11,12 @@ dependencies:
     - field.field.user.user.kills_deaths_ratio
     - field.field.user.user.level
     - field.field.user.user.personaname
-    - field.field.user.user.primaryclanid
     - field.field.user.user.realname
     - field.field.user.user.rounds_won
     - field.field.user.user.setting
     - field.field.user.user.steamid
     - field.field.user.user.tactical_role
+    - field.field.user.user.team
     - field.field.user.user.total_deaths
     - field.field.user.user.total_kills
     - field.field.user.user.total_kills_headshot
@@ -84,10 +84,10 @@ hidden:
   langcode: true
   level: true
   personaname: true
-  primaryclanid: true
   realname: true
   rounds_won: true
   setting: true
+  team: true
   timezone: true
   total_deaths: true
   total_kills: true

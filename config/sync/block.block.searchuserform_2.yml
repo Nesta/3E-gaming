@@ -1,0 +1,26 @@
+uuid: 45c3fa81-d8cf-4a5a-87df-a0d43e6cf1b9
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - threeecsgo_search
+  theme:
+    - da_vinci
+id: searchuserform_2
+theme: da_vinci
+region: content
+weight: -6
+provider: null
+plugin: search_block
+settings:
+  id: search_block
+  label: 'Search user form'
+  provider: threeecsgo_search
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: /players
+    negate: false
+    context_mapping: {  }

@@ -1,0 +1,26 @@
+uuid: 6b5d375d-65da-4e09-950c-f4a67e0e2960
+langcode: en
+status: true
+dependencies:
+  module:
+    - system
+    - threeecsgo_general
+  theme:
+    - da_vinci
+id: buttonupdateinventory
+theme: da_vinci
+region: content
+weight: 0
+provider: null
+plugin: update_inventory_block
+settings:
+  id: update_inventory_block
+  label: 'Button update inventory'
+  provider: threeecsgo_general
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '/inventory/*'
+    negate: false
+    context_mapping: {  }

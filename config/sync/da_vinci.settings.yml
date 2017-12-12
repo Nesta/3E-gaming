@@ -1,0 +1,16 @@
+logo:
+  path: 'public://3e-gaming_0.png'
+  use_default: false
+_core:
+  default_config_hash: '--wlZcg4Xm0Z4YsSHdMH6JgxmsX4SCTNU1Vn7MXPABE'
+features:
+  node_user_picture: true
+  comment_user_picture: true
+  comment_user_verification: true
+  favicon: true
+favicon:
+  use_default: false
+  path: 'public://Hopstarter-Puck-Counter-Strike-Condition-Zero.ico'
+  mimetype: image/vnd.microsoft.icon
+grid: 0
+border-region: 0

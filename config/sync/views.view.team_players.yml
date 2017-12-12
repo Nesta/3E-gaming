@@ -10,6 +10,7 @@ dependencies:
     - image.style.thumbnail
   module:
     - image
+    - node
     - rest
     - serialization
     - user
@@ -499,13 +500,22 @@ display:
       header: {  }
       footer: {  }
       empty: {  }
-      relationships: {  }
-      arguments:
-        primaryclanid_value:
-          id: primaryclanid_value
-          table: user__primaryclanid
-          field: primaryclanid_value
+      relationships:
+        team:
+          id: team
+          table: user__team
+          field: team
           relationship: none
+          group_type: group
+          admin_label: 'team: Content'
+          required: false
+          plugin_id: standard
+      arguments:
+        clanid_value:
+          id: clanid_value
+          table: node__clanid
+          field: clanid_value
+          relationship: team
           group_type: group
           admin_label: ''
           default_action: default

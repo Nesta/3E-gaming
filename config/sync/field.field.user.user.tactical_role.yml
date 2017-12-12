@@ -15,7 +15,9 @@ label: 'Tactical role'
 description: ''
 required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    value: '<img src="https://steamcommunity-a.akamaihd.net/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXQ9QVcJY8gulRJSU3dePai28rAbF51NRdCur_qKQh07P_JYzpHoouzl4XflfSkY-nVlW0BvJIk2b_D94ihjlHhqEE-NjiiddKQegJqMgzOug_pjG1a1gI">'
 default_value_callback: ''
 settings: {  }
 field_type: list_string

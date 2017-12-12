@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - field.field.node.article.display
     - field.field.node.article.exterior
     - field.field.node.article.image_article
     - field.field.node.article.owner_article
@@ -26,6 +27,13 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  display:
+    weight: 37
+    settings:
+      display_label: true
+    third_party_settings: {  }
+    type: boolean_checkbox
+    region: content
   exterior:
     weight: 33
     settings:
@@ -49,12 +57,13 @@ content:
     settings: {  }
     third_party_settings: {  }
   owner_article:
-    weight: 32
+    weight: 36
     settings:
+      match_operator: CONTAINS
       size: 60
       placeholder: ''
     third_party_settings: {  }
-    type: string_textfield
+    type: entity_reference_autocomplete
     region: content
   path:
     type: path

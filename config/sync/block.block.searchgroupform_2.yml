@@ -1,0 +1,26 @@
+uuid: 4caf5c2f-84f3-4225-af6b-fb1684a95e4f
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+    - threeecsgo_search
+  theme:
+    - da_vinci
+id: searchgroupform_2
+theme: da_vinci
+region: content
+weight: 0
+provider: null
+plugin: search_group_block
+settings:
+  id: search_group_block
+  label: 'Search group form'
+  provider: threeecsgo_search
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }

@@ -1,8 +1,9 @@
 uuid: 6f1be894-22f1-4e75-a7cf-d51e6e4a66e8
 langcode: en
-status: false
+status: true
 dependencies:
   module:
+    - system
     - user
   theme:
     - bartik
@@ -19,4 +20,9 @@ settings:
   label: 'User login'
   provider: user
   label_display: visible
-visibility: {  }
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false
+    context_mapping: {  }
