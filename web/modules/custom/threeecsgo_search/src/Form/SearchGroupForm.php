@@ -206,8 +206,8 @@ class SearchGroupForm extends FormBase {
                 or strpos($stat->name, 'total_shots_') !== false) and !(strpos($stat->name, '_headshot') !== false
                 or strpos($stat->name, '_enemy_weapon') !== false or strpos($stat->name, '_enemy_blinded') !== false
                 or strpos($stat->name, '_against_zoomed_sniper') !== false or strpos($stat->name, 'total_shots_hit') !== false
-                or strpos($stat->name, '_fired') !== false)) {
-              if (strpos($stat->name, 'total_kills_') !== false ) {
+                or strpos($stat->name, '_fired') !== false or strpos($stat->name, 'knife_fight') !== false)) {
+              if (strpos($stat->name, 'total_kills_') !== false) {
                 $name_weapon = str_replace('total_kills_', '', $stat->name);
               } else {
                 if (strpos($stat->name, 'total_hits_') !== false) {
