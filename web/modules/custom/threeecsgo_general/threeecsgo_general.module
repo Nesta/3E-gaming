@@ -3,6 +3,7 @@
 use Drupal\Core\Url;
 use Drupal\file\Entity\File;
 use Drupal\node\Entity\Node;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -335,7 +336,7 @@ function threeecsgo_general_user_insert($entity) {
 /**
  * Implements hook_user_view().
  */
-function threeecsgo_search_user_view($account, $view_mode, $langcode) {
+function threeecsgo_general_user_view($account, $view_mode, $langcode) {
   if ($account['#user']->getUsername() != "admin") {
     $username = $account['#user']->get('name')->value;
 
@@ -478,4 +479,15 @@ function threeecsgo_search_user_view($account, $view_mode, $langcode) {
 
     $user->save();
   }
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function threeecsgo_general_user_login($account) {
+  // We want to redirect user on login.
+  $response = new RedirectResponse('/player/' . $account->id());
+  $response->send();
+
+  return;
 }

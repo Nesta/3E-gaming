@@ -3,8 +3,6 @@ module:
   breakpoint: 0
   ckeditor: 0
   comment: 0
-  computed_field: 0
-  computed_field_php_formatter: 0
   config: 0
   consumer_image_styles: 0
   consumers: 0
@@ -41,8 +39,6 @@ module:
   options: 0
   page_cache: 0
   path: 0
-  recipes_magazin: 0
-  recipes_magazin_contenta: 0
   remote_stream_wrapper: 0
   rest: 0
   schemata: 0
@@ -56,12 +52,10 @@ module:
   taxonomy: 0
   telephone: 0
   text: 0
-  threeecsgo_search: 0
   toolbar: 0
   update: 0
   user: 0
   views: 0
-  views_ui: 0
   menu_link_content: 1
   contenta_jsonapi: 1000
 theme:
