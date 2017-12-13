@@ -135,8 +135,7 @@ class SearchForm extends FormBase {
             or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
             if ($stat->name == "total_time_played") {
               $user->{$stat->name}->setValue(($stat->value / 60) / 60);
-            }
-            else {
+            } else {
               $user->{$stat->name}->setValue($stat->value);
             }
           }

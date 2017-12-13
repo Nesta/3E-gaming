@@ -9,17 +9,17 @@ use Drupal\node\Entity\Node;
 use Drupal\user\Entity\User;
 
 /**
- * Class ButtonUpdateInventoryForm.
+ * Class ButtonEditInventoryDisplayForm.
  *
  * @package Drupal\threeecsgo_general\Form
  */
-class ButtonUpdateInventoryForm extends FormBase {
+class ButtonEditInventoryDisplayForm extends FormBase {
 
   /**
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'update_inventory_form';
+    return 'edit_inventory_display_form';
   }
 
   /**
@@ -28,7 +28,7 @@ class ButtonUpdateInventoryForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['submit'] = [
       '#type'  => 'submit',
-      '#value' => $this->t('Update my inventory'),
+      '#value' => $this->t('Edit inventory of my profile'),
     ];
 
     return $form;
@@ -41,18 +41,6 @@ class ButtonUpdateInventoryForm extends FormBase {
     global $base_url;
     $current_user = \Drupal::currentUser();
     $user = User::load($current_user->id());
-
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'article')
-      ->condition('status', 1)
-      ->condition('owner_article', $user->id());
-
-    $inventory = $query->execute();
-
-    foreach ($inventory as $article_id) {
-      $node = Node::load($article_id);
-      $node->delete();
-    }
 
     // Create Inventory
     $user = user_load_by_name($user->getUsername());
@@ -74,7 +62,7 @@ class ButtonUpdateInventoryForm extends FormBase {
 
         $inventory = $query->execute();
 
-        if ($inventory == NULL) {
+        if ($inventory == null) {
           $node_inventory = Node::create([
             'title' => $article->market_name,
             'type' => 'article',
@@ -111,6 +99,6 @@ class ButtonUpdateInventoryForm extends FormBase {
       }
     }
 
-    $form_state->setRedirectUrl(Url::fromUri($base_url . '/inventory/' . $user->id()));
+    $form_state->setRedirectUrl(Url::fromUri($base_url . '/my-inventory'));
   }
 }
