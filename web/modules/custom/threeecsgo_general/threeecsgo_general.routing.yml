@@ -13,3 +13,11 @@ threeecsgo_general.inventory:
         _title: 'My inventory'
     requirements:
         _permission: 'access content'
+
+threeecsgo_general.home:
+    path: '/home'
+    defaults:
+        _controller: '\Drupal\threeecsgo_general\Controller\HomeController::homeBuild'
+        _title: 'Home'
+    requirements:
+        _permission: 'access content'

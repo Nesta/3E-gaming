@@ -1,6 +1,6 @@
 uuid: 53c7c075-4dde-4e90-8925-cf395b3cbb11
 langcode: en
-status: false
+status: true
 dependencies:
   theme:
     - material_admin
