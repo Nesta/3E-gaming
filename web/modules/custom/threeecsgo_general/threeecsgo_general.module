@@ -204,85 +204,6 @@ function threeecsgo_general_user_insert($entity) {
     'target_id' => $file->id(),
   ]);
 
-  $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=28ECE97465C977305C7D06CBBA0DE695&steamid=" . $entity->get('steamid')->value;
-  $content_url_2 = file_get_contents($url_api_steam_2);
-  $json_steam_stats = json_decode($content_url_2);
-
-  if ($json_steam_stats == null) {
-    $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v0002/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $entity->get('steamid')->value;
-    $content_url_2 = file_get_contents($url_api_steam_2);
-    $json_steam_stats = json_decode($content_url_2);
-  }
-
-  $stats = $json_steam_stats->playerstats->stats;
-
-  foreach ($stats as $stat) {
-    if ($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
-      or $stat->name == "total_wins" or $stat->name == "total_kills_headshot" or $stat->name == "total_mvps"
-      or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
-      if ($stat->name == "total_time_played") {
-        $entity->{$stat->name}->setValue(($stat->value / 60) / 60);
-      }
-      else {
-        $entity->{$stat->name}->setValue($stat->value);
-      }
-    }
-    if ((strpos($stat->name, 'total_kills_') !== false or strpos($stat->name, 'total_hits_') !== false
-        or strpos($stat->name, 'total_shots_') !== false) and !(strpos($stat->name, '_headshot') !== false
-        or strpos($stat->name, '_enemy_weapon') !== false or strpos($stat->name, '_enemy_blinded') !== false
-        or strpos($stat->name, '_against_zoomed_sniper') !== false or strpos($stat->name, 'total_shots_hit') !== false
-        or strpos($stat->name, '_fired') !== false or strpos($stat->name, 'knife_fight') !== false)) {
-      if (strpos($stat->name, 'total_kills_') !== false) {
-        $name_weapon = str_replace('total_kills_', '', $stat->name);
-      } else {
-        if (strpos($stat->name, 'total_hits_') !== false) {
-          $name_weapon = str_replace('total_hits_', '', $stat->name);
-        } else {
-          $name_weapon = str_replace('total_shots_', '', $stat->name);
-        }
-      }
-
-      $query_1 = \Drupal::entityQuery('node')
-        ->condition('type', 'stats_weapon')
-        ->condition('status', 1)
-        ->condition('title', $entity->getUsername() . " - " . $name_weapon);
-
-      $node_id = $query_1->execute();
-
-      if ( $node_id != null ) {
-        foreach ( $node_id as $id ) {
-          $node = Node::load($id);
-        }
-        $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
-
-        $node->save();
-      } else {
-        $node = Node::create([
-          'title' => $entity->getUsername() . " - " . $name_weapon,
-          'type' => 'stats_weapon',
-          'status' => 1,
-        ]);
-
-        $query_3 = \Drupal::entityQuery('node')
-          ->condition('type', 'weapon')
-          ->condition('status', 1)
-          ->condition('code_weapon', $name_weapon);
-
-        $result = $query_3->execute();
-
-        foreach ($result as $id) {
-          $node_weapon = Node::load($id);
-        }
-
-        $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
-        $node->{'weapon'}->setValue($node_weapon);
-        $node->{'owner_stats_weapon'}->setValue($entity->id());
-
-        $node->save();
-      }
-    }
-  }
-
   $entity->save();
 
   // Create Inventory
@@ -376,6 +297,18 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
 
     $stats = $json_steam_stats->playerstats->stats;
 
+    $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=730&key=28ECE97465C977305C7D06CBBA0DE695&steamid=" . $user->get('steamid')->value;
+    $content_url_2 = file_get_contents($url_api_steam_2);
+    $json_steam_stats = json_decode($content_url_2);
+
+    if ($json_steam_stats == null) {
+      $url_api_steam_2 = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001/?appid=730&key=6C8548C8E9A4AD096820E41BB1252B27&steamid=" . $user->get('steamid')->value;
+      $content_url_2 = file_get_contents($url_api_steam_2);
+      $json_steam_stats = json_decode($content_url_2);
+    }
+
+    $achievements = $json_steam_stats->playerstats->achievements;
+
     $user->{'personaname'}->setValue($personaname);
     $user->setUsername($username_drupal);
 
@@ -417,8 +350,7 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
         or $stat->name == "total_rounds_played" or $stat->name == "total_shots_fired" or $stat->name == "total_shots_hit") {
         if ($stat->name == "total_time_played") {
           $user->{$stat->name}->setValue(($stat->value / 60) / 60);
-        }
-        else {
+        } else {
           $user->{$stat->name}->setValue($stat->value);
         }
       }
@@ -427,57 +359,98 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
           or strpos($stat->name, '_enemy_weapon') !== false or strpos($stat->name, '_enemy_blinded') !== false
           or strpos($stat->name, '_against_zoomed_sniper') !== false or strpos($stat->name, 'total_shots_hit') !== false
           or strpos($stat->name, '_fired') !== false or strpos($stat->name, 'knife_fight') !== false)) {
-            if (strpos($stat->name, 'total_kills_') !== false ) {
-              $name_weapon = str_replace('total_kills_', '', $stat->name);
+          if (strpos($stat->name, 'total_kills_') !== false ) {
+            $name_weapon = str_replace('total_kills_', '', $stat->name);
+          } else {
+            if (strpos($stat->name, 'total_hits_') !== false) {
+              $name_weapon = str_replace('total_hits_', '', $stat->name);
             } else {
-              if (strpos($stat->name, 'total_hits_') !== false) {
-                $name_weapon = str_replace('total_hits_', '', $stat->name);
-              } else {
-                $name_weapon = str_replace('total_shots_', '', $stat->name);
-              }
-            }
-
-            $query_1 = \Drupal::entityQuery('node')
-              ->condition('type', 'stats_weapon')
-              ->condition('status', 1)
-              ->condition('title', $user->getUsername() . " - " . $name_weapon);
-
-            $node_id = $query_1->execute();
-
-            if ( $node_id != null ) {
-              foreach ( $node_id as $id ) {
-                $node = Node::load($id);
-              }
-              $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
-
-              $node->save();
-            } else {
-              $node = Node::create([
-                'title' => $user->getUsername() . " - " . $name_weapon,
-                'type' => 'stats_weapon',
-                'status' => 1,
-              ]);
-
-              $query_3 = \Drupal::entityQuery('node')
-                ->condition('type', 'weapon')
-                ->condition('status', 1)
-                ->condition('code_weapon', $name_weapon);
-
-              $result = $query_3->execute();
-
-              foreach ($result as $id) {
-                $node_weapon = Node::load($id);
-              }
-
-              $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
-              $node->{'weapon'}->setValue($node_weapon);
-              $node->{'owner_stats_weapon'}->setValue($user->id());
-
-              $node->save();
+              $name_weapon = str_replace('total_shots_', '', $stat->name);
             }
           }
+
+          $query_1 = \Drupal::entityQuery('node')
+            ->condition('type', 'stats_weapon')
+            ->condition('status', 1)
+            ->condition('title', $user->getUsername() . " - " . $name_weapon);
+
+          $node_id = $query_1->execute();
+
+          if ( $node_id != null ) {
+            foreach ( $node_id as $id ) {
+              $node = Node::load($id);
+            }
+            $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+
+            $node->save();
+          } else {
+            $node = Node::create([
+              'title' => $user->getUsername() . " - " . $name_weapon,
+              'type' => 'stats_weapon',
+              'status' => 1,
+            ]);
+
+            $query_3 = \Drupal::entityQuery('node')
+              ->condition('type', 'weapon')
+              ->condition('status', 1)
+              ->condition('code_weapon', $name_weapon);
+
+            $result = $query_3->execute();
+
+            foreach ($result as $id) {
+              $node_weapon = Node::load($id);
+            }
+
+            $node->{str_replace('_' . $name_weapon, '', $stat->name)}->setValue($stat->value);
+            $node->{'weapon'}->setValue($node_weapon);
+            $node->{'owner_stats_weapon'}->setValue($user->id());
+
+            $node->save();
+          }
       }
-      $user->save();
+    }
+    foreach ($achievements as $achievement) {
+      if ($achievement->achieved == 1) {
+        $query_4 = \Drupal::entityQuery('node')
+          ->condition('type', 'achievement')
+          ->condition('status', 1)
+          ->condition('title', $user->getUsername() . " - " . $achievement->apiname);
+
+        $achievement_id = $query_4->execute();
+
+        if ($achievement_id == NULL) {
+          $query_5 = \Drupal::entityQuery('node')
+            ->condition('type', 'achievements')
+            ->condition('status', 1)
+            ->condition('code_achievement', $achievement->apiname);
+
+          $result = $query_5->execute();
+
+          foreach ($result as $id) {
+            $node_achievement = Node::load($id);
+          }
+
+          if ($node_achievement != null) {
+            $node = Node::create([
+              'title' => $user->getUsername() . " - " . $achievement->apiname,
+              'type' => 'achievements_by_user',
+              'status' => 1,
+            ]);
+
+            $node->{'achievement'}->setValue($node_achievement);
+            $node->{'owner_achievements'}->setValue($user->id());
+            $node->{'unlock_time'}->setValue(gmdate("Y-m-d", $achievement->unlocktime));
+
+            $node->save();
+          }
+        }
+      }
+    }
+    $user->save();
+    $response = new RedirectResponse('/player/' . $user->id());
+    $response->send();
+
+    return;
   }
 }
 
