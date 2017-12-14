@@ -412,7 +412,7 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
     foreach ($achievements as $achievement) {
       if ($achievement->achieved == 1) {
         $query_4 = \Drupal::entityQuery('node')
-          ->condition('type', 'achievement')
+          ->condition('type', 'achievements_by_user')
           ->condition('status', 1)
           ->condition('title', $user->getUsername() . " - " . $achievement->apiname);
 
