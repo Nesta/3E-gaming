@@ -30,30 +30,39 @@ class EditRankForm extends FormBase {
     $entityManager = \Drupal::service('entity_field.manager');
     $fields = $entityManager->getFieldStorageDefinitions('user');
     $options = options_allowed_values($fields['rank_player']);
+    $current_path = \Drupal::service('path.current')->getPath();
     $current_user = \Drupal::currentUser();
-    $user = User::load($current_user->id());
 
     $form['container'] = [
       '#type'       => 'container',
       '#attributes' => ['id' => 'edit-rank'],
     ];
 
-    $form['container']['rank'] = [
-      '#type' => 'markup',
-      '#markup' => render($user->get('rank_player')->value),
-    ];
+    if ($current_path == ("/player/" . $current_user->id())) {
+      $user = User::load($current_user->id());
+      $form['container']['rank'] = [
+        '#type' => 'markup',
+        '#markup' => render($user->get('rank_player')->value),
+      ];
 
-    $form['rank_player'] = array(
-      '#type' => 'select',
-      '#description' => 'Select your current rank.',
-      '#options' => $options,
-      '#default_value' => $user->get('rank_player')->value,
-      '#ajax' => [
-        'callback' => '::submitForm',
-        'event' => 'change',
-        'wrapper' => 'edit-rank',
-      ],
-    );
+      $form['rank_player'] = array(
+        '#type' => 'select',
+        '#description' => 'Select your current rank.',
+        '#options' => $options,
+        '#default_value' => $user->get('rank_player')->value,
+        '#ajax' => [
+          'callback' => '::submitForm',
+          'event' => 'change',
+          'wrapper' => 'edit-rank',
+        ],
+      );
+    } else {
+      $user = User::load(str_replace('/player/', '', $current_path));
+      $form['container']['rank'] = [
+        '#type' => 'markup',
+        '#markup' => render($user->get('rank_player')->value),
+      ];
+    }
 
     // Disable caching on this form.
     $form_state->setCached(FALSE);
@@ -75,6 +84,8 @@ class EditRankForm extends FormBase {
       '#type' => 'markup',
       '#markup' => render($user->get('rank_player')->value),
     ];
+
+    $form_state->setRebuild();
 
     return $form['container'];
   }

@@ -140,50 +140,52 @@ function threeecsgo_general_user_insert($entity) {
     $group_data = json_decode($json, TRUE);
 
     $group_name = $group_data['groupDetails']['groupName'];
-    $group_members = $group_data['groupDetails']['memberCount'];
-    $group_avatar = $group_data['groupDetails']['avatarFull'];
-    // Create file object from a locally copied file.
-    $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name . '.jpg', FILE_EXISTS_REPLACE);
-    $file = File::Create([
-      'uri' => $uri,
-    ]);
-    $file->save();
+    if ($group_name != null) {
+      $group_members = $group_data['groupDetails']['memberCount'];
+      $group_avatar = $group_data['groupDetails']['avatarFull'];
+      // Create file object from a locally copied file.
+      $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name . '.jpg', FILE_EXISTS_REPLACE);
+      $file = File::Create([
+        'uri' => $uri,
+      ]);
+      $file->save();
 
-    // Create settings node
-    $team = Node::create([
-      'title' => $group_name,
-      'type' => 'team',
-      'status' => 1,
-    ]);
-    $team->{'groupname'}->setValue($group_name);
-    $team->{'clanid'}->setValue($primaryclanid);
-    $team->{'members'}->setValue($group_members);
+      // Create settings node
+      $team = Node::create([
+        'title' => $group_name,
+        'type' => 'team',
+        'status' => 1,
+      ]);
+      $team->{'groupname'}->setValue($group_name);
+      $team->{'clanid'}->setValue($primaryclanid);
+      $team->{'members'}->setValue($group_members);
 
-    // Attach file in node.
-    $team->avatarfull->setValue([
-      'target_id' => $file->id(),
-    ]);
+      // Attach file in node.
+      $team->avatarfull->setValue([
+        'target_id' => $file->id(),
+      ]);
 
-    $team->save();
+      $team->save();
 
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'team')
-      ->condition('status', 1)
-      ->condition('clanid', $primaryclanid);
+      $query = \Drupal::entityQuery('node')
+        ->condition('type', 'team')
+        ->condition('status', 1)
+        ->condition('clanid', $primaryclanid);
 
-    $team_id = $query->execute();
+      $team_id = $query->execute();
 
-    foreach ( $team_id as $id ) {
-      $team = Node::load($id);
+      foreach ($team_id as $id) {
+        $team = Node::load($id);
+      }
+      $entity->{'team'}->setValue($team->id());
     }
   } else {
-    foreach ( $team_id as $id ) {
+    foreach ($team_id as $id) {
       $team = Node::load($id);
     }
+    $entity->{'team'}->setValue($team->id());
   }
-
   $entity->{'personaname'}->setValue($personaname);
-  $entity->{'team'}->setValue($team->id());
 
   if ($realname != NULL) {
     $entity->{'realname'}->setValue($realname);
@@ -312,18 +314,72 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
     $user->{'personaname'}->setValue($personaname);
     $user->setUsername($username_drupal);
 
-    $query = \Drupal::entityQuery('node')
-      ->condition('type', 'team')
-      ->condition('status', 1)
-      ->condition('clanid', $primaryclanid);
+    if ($primaryclanid == null) {
+      $team = null;
+    } else {
+      $query = \Drupal::entityQuery('node')
+        ->condition('type', 'team')
+        ->condition('status', 1)
+        ->condition('clanid', $primaryclanid);
 
-    $team_id = $query->execute();
+      $team_id = $query->execute();
 
-    foreach ( $team_id as $id ) {
-      $team = Node::load($id);
+      foreach ($team_id as $id) {
+        $team = Node::load($id);
+      }
     }
+    if ($team != null) {
+      $user->{'team'}->setValue($team->id());
+    } else {
+      if ($primaryclanid != null) {
+        $url_xml_group = "http://steamcommunity.com/gid/" . $primaryclanid . "/memberslistxml/";
+        $xml_content = file_get_contents($url_xml_group);
+        $group_data_xml = simplexml_load_string($xml_content, NULL, LIBXML_NOCDATA);
+        $json = json_encode($group_data_xml);
+        $group_data = json_decode($json, TRUE);
 
-    $user->{'team'}->setValue($team->id());
+        $group_name = $group_data['groupDetails']['groupName'];
+        if ($group_name != NULL) {
+          $group_members = $group_data['groupDetails']['memberCount'];
+          $group_avatar = $group_data['groupDetails']['avatarFull'];
+          // Create file object from a locally copied file.
+          $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name . '.jpg', FILE_EXISTS_REPLACE);
+          $file = File::Create([
+            'uri' => $uri,
+          ]);
+          $file->save();
+
+          // Create settings node
+          $team = Node::create([
+            'title' => $group_name,
+            'type' => 'team',
+            'status' => 1,
+          ]);
+          $team->{'groupname'}->setValue($group_name);
+          $team->{'clanid'}->setValue($primaryclanid);
+          $team->{'members'}->setValue($group_members);
+
+          // Attach file in node.
+          $team->avatarfull->setValue([
+            'target_id' => $file->id(),
+          ]);
+
+          $team->save();
+
+          $query = \Drupal::entityQuery('node')
+            ->condition('type', 'team')
+            ->condition('status', 1)
+            ->condition('clanid', $primaryclanid);
+
+          $team_id = $query->execute();
+
+          foreach ($team_id as $id) {
+            $team = Node::load($id);
+          }
+          $user->{'team'}->setValue($team->id());
+        }
+      }
+    }
 
     if ($realname != NULL) {
       $user->{'realname'}->setValue($realname);
