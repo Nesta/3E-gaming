@@ -15,21 +15,13 @@ use Drupal\Core\Block\BlockBase;
 class EditRankBlock extends BlockBase {
 
   public function build() {
-    $current_path = \Drupal::service('path.current')->getPath();
     $user = \Drupal::currentUser();
     if ( $user->id() != 1 ) {
-      if ($current_path == ("/player/" . $user->id())) {
-        return [
-          '#type' => 'markup',
-          '#markup' => render($form = \Drupal::formBuilder()
-            ->getForm(\Drupal\threeecsgo_general\Form\EditRankForm::class)),
-        ];
-      } else {
-        return [
-          '#type' => 'markup',
-          '#markup' => '',
-        ];
-      }
+      return [
+        '#type' => 'markup',
+        '#markup' => render($form = \Drupal::formBuilder()
+          ->getForm(\Drupal\threeecsgo_general\Form\EditRankForm::class)),
+      ];
     } else {
       return [
         '#type' => 'markup',

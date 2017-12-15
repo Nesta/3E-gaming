@@ -195,65 +195,6 @@ class SearchForm extends FormBase {
           }
         }
 
-        $query = \Drupal::entityQuery('node')
-          ->condition('type', 'team')
-          ->condition('status', 1)
-          ->condition('clanid', $primaryclanid);
-
-        $team_id = $query->execute();
-
-        if ( $team_id == null ) {
-          $url_xml_group = "http://steamcommunity.com/gid/" . $primaryclanid . "/memberslistxml/";
-          $xml_content = file_get_contents($url_xml_group);
-          $group_data_xml = simplexml_load_string($xml_content, NULL, LIBXML_NOCDATA);
-          $json = json_encode($group_data_xml);
-          $group_data = json_decode($json, TRUE);
-
-          $group_avatar = $group_data['groupDetails']['avatarFull'];
-          $group_members = $group_data['groupDetails']['memberCount'];
-          $group_name = $group_data['groupDetails']['groupName'];
-          // Create file object from a locally copied file.
-          $uri = file_unmanaged_copy($group_avatar, 'public://avatars/' . $group_name . '.jpg', FILE_EXISTS_REPLACE);
-          $file = File::Create([
-            'uri' => $uri,
-          ]);
-          $file->save();
-
-          // Create settings node
-          $team = Node::create([
-            'title' => $group_name,
-            'type' => 'team',
-            'status' => 1,
-          ]);
-          $team->{'groupname'}->setValue($group_name);
-          $team->{'clanid'}->setValue($group_data['groupID64']);
-          $team->{'members'}->setValue($group_members);
-
-          // Attach file in node.
-          $team->avatarfull->setValue([
-            'target_id' => $file->id(),
-          ]);
-
-          $team->save();
-
-          $query = \Drupal::entityQuery('node')
-            ->condition('type', 'team')
-            ->condition('status', 1)
-            ->condition('clanid', $primaryclanid);
-
-          $team_id = $query->execute();
-
-          foreach ( $team_id as $id ) {
-            $team = Node::load($id);
-          }
-        } else {
-          foreach ( $team_id as $id ) {
-            $team = Node::load($id);
-          }
-        }
-
-        $user->{'team'}->setValue($team->id());
-
         $user->save();
 
         $this->create_inventory($username_drupal);
