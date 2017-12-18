@@ -28,13 +28,13 @@ class SearchGroupForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['group_name'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Group name'),
+      '#title' => 'Group name',
       '#required' => TRUE,
     ];
 
     $form['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Search'),
+      '#value' => 'Search',
     ];
 
     return $form;
@@ -45,7 +45,7 @@ class SearchGroupForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if (empty($form_state->getValue('group_name'))) {
-      $form_state->setErrorByName('group_name', $this->t('Not blank'));
+      $form_state->setErrorByName('group_name', 'Not blank');
     }
   }
 

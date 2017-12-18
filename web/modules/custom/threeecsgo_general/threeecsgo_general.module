@@ -464,7 +464,7 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
             $node->save();
           }
       }
-    }
+    }/*
     foreach ($achievements as $achievement) {
       if ($achievement->achieved == 1) {
         $query_4 = \Drupal::entityQuery('node')
@@ -501,7 +501,7 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
           }
         }
       }
-    }
+    }*/
     $user->save();
     $response = new RedirectResponse('/player/' . $user->id());
     $response->send();

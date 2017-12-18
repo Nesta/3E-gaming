@@ -28,13 +28,13 @@ class SearchForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['steamid'] = [
       '#type'     => 'textfield',
-      '#title'    => $this->t('SteamID'),
+      '#title'    => 'SteamID',
       '#required' => TRUE,
     ];
 
     $form['submit'] = [
       '#type'  => 'submit',
-      '#value' => $this->t('Save user'),
+      '#value' => 'Save user',
     ];
 
     return $form;
@@ -45,7 +45,7 @@ class SearchForm extends FormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
     if (empty($form_state->getValue('steamid')) or !(is_numeric($form_state->getValue('steamid')))) {
-      $form_state->setErrorByName('steamid', $this->t('Not blank and Numeric'));
+      $form_state->setErrorByName('steamid', 'Not blank and Numeric');
     }
   }
 

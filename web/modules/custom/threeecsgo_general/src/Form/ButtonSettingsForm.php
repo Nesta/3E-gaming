@@ -27,7 +27,7 @@ class ButtonSettingsForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['submit'] = [
       '#type'  => 'submit',
-      '#value' => $this->t('Edit my settings'),
+      '#value' => 'Edit my settings',
     ];
 
     return $form;

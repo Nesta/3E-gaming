@@ -31,42 +31,42 @@ class SettingsForm extends FormBase {
 
     $form['dpi'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('DPI'),
+      '#title' => 'DPI',
       '#required' => TRUE,
     ];
 
     $form['sensitivity'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Sensitivity'),
+      '#title' => 'Sensitivity',
       '#required' => TRUE,
     ];
 
     $form['hz'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('HZ'),
+      '#title' => 'HZ',
       '#required' => TRUE,
     ];
 
     $form['zoom_sensitivity'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Zoom Sensitivity'),
+      '#title' => 'Zoom Sensitivity',
       '#required' => TRUE,
     ];
 
     $form['mouse_acceleration'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Mouse Acceleration'),
+      '#title' => 'Mouse Acceleration',
     ];
 
     $form['windows_sensitivity'] = [
       '#type' => 'textfield',
-      '#title' => $this->t('Windows Sensitivity'),
+      '#title' => 'Windows Sensitivity',
       '#required' => TRUE,
     ];
 
     $form['raw_input'] = [
       '#type' => 'checkbox',
-      '#title' => $this->t('Raw Input'),
+      '#title' => 'Raw Input',
     ];
 
     $settings = $current_user->get('setting')->entity;
@@ -88,7 +88,7 @@ class SettingsForm extends FormBase {
 
     $form['submit'] = [
       '#type'  => 'submit',
-      '#value' => $this->t('Save'),
+      '#value' => 'Save',
     ];
 
     return $form;
