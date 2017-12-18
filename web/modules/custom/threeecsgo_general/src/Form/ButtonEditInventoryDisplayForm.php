@@ -28,7 +28,7 @@ class ButtonEditInventoryDisplayForm extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['submit'] = [
       '#type'  => 'submit',
-      '#value' => $this->t('Edit inventory of my profile'),
+      '#value' => 'Edit inventory of my profile',
     ];
 
     return $form;
@@ -41,6 +41,22 @@ class ButtonEditInventoryDisplayForm extends FormBase {
     global $base_url;
     $current_user = \Drupal::currentUser();
     $user = User::load($current_user->id());
+
+    $query = \Drupal::entityQuery('node')
+      ->condition('type', 'article')
+      ->condition('status', 1)
+      ->condition('owner_article', $user->id());
+
+    $inventory = $query->execute();
+    $inventory_profile = [];
+
+    foreach ($inventory as $article_id) {
+      $node = Node::load($article_id);
+      if ($node->{'display'}->value == true) {
+        array_push($inventory_profile, $node->{'title'}->value);
+      }
+      $node->delete();
+    }
 
     // Create Inventory
     $user = user_load_by_name($user->getUsername());
@@ -62,7 +78,7 @@ class ButtonEditInventoryDisplayForm extends FormBase {
 
         $inventory = $query->execute();
 
-        if ($inventory == null) {
+        if ($inventory == NULL) {
           $node_inventory = Node::create([
             'title' => $article->market_name,
             'type' => 'article',
@@ -82,7 +98,11 @@ class ButtonEditInventoryDisplayForm extends FormBase {
           ]);
 
           $node_inventory->{'owner_article'}->setValue($user->id());
-          $node_inventory->{'display'}->setValue(FALSE);
+          if (in_array($article->market_name, $inventory_profile)) {
+            $node_inventory->{'display'}->setValue(TRUE);
+          } else {
+            $node_inventory->{'display'}->setValue(FALSE);
+          }
 
           $tags = $article->tags;
 
@@ -99,6 +119,6 @@ class ButtonEditInventoryDisplayForm extends FormBase {
       }
     }
 
-    $form_state->setRedirectUrl(Url::fromUri($base_url . '/my-inventory'));
+    $form_state->setRedirectUrl(Url::fromUri($base_url . '/inventory/' . $user->id()));
   }
 }

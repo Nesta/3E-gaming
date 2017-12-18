@@ -48,7 +48,7 @@ class InventoryForm extends FormBase {
 
     $form['submit'] = [
       '#type'  => 'submit',
-      '#value' => $this->t('Save'),
+      '#value' => 'Save',
     ];
 
     return $form;
