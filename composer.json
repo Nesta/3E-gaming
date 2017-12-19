@@ -26,7 +26,8 @@
         "drupal/social_login": "^1.6",
         "drupal/da_vinci": "^4.1",
         "drupal/smtp": "^1.0@beta",
-        "drupal/better_exposed_filters": "^3.0@alpha"
+        "drupal/better_exposed_filters": "^3.0@alpha",
+        "drupal/fullcalendar": "^1.0@alpha"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
