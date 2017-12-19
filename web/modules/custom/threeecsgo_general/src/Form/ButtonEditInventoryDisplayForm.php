@@ -119,6 +119,6 @@ class ButtonEditInventoryDisplayForm extends FormBase {
       }
     }
 
-    $form_state->setRedirectUrl(Url::fromUri($base_url . '/inventory/' . $user->id()));
+    $form_state->setRedirectUrl(Url::fromUri($base_url . '/my-inventory'));
   }
 }
