@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4788f5b2edc1b897dc726d058fd23f06",
+    "content-hash": "5e7e00662cf30824c2e201e499a8f6af",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1878,67 +1878,6 @@
             "homepage": "https://www.drupal.org/project/fieldable_path",
             "support": {
                 "source": "http://cgit.drupalcode.org/fieldable_path"
-            }
-        },
-        {
-            "name": "drupal/fullcalendar",
-            "version": "1.0.0-alpha2",
-            "source": {
-                "type": "git",
-                "url": "https://git.drupal.org/project/fullcalendar",
-                "reference": "8.x-1.0-alpha2"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/fullcalendar-8.x-1.0-alpha2.zip",
-                "reference": "8.x-1.0-alpha2",
-                "shasum": "76fda439854bebddf32424740f0e4b02e7d82110"
-            },
-            "require": {
-                "drupal/core": "~8.0"
-            },
-            "require-dev": {
-                "drupal/colors": "*"
-            },
-            "type": "drupal-module",
-            "extra": {
-                "branch-alias": {
-                    "dev-1.x": "1.x-dev"
-                },
-                "drupal": {
-                    "version": "8.x-1.0-alpha2",
-                    "datestamp": "1372191354",
-                    "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Alpha releases are not covered by Drupal security advisories."
-                    }
-                }
-            },
-            "notification-url": "https://packages.drupal.org/8/downloads",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "aspilicious",
-                    "homepage": "https://www.drupal.org/user/172527"
-                },
-                {
-                    "name": "dakala",
-                    "homepage": "https://www.drupal.org/user/53175"
-                },
-                {
-                    "name": "hefox",
-                    "homepage": "https://www.drupal.org/user/426416"
-                },
-                {
-                    "name": "tim.plunkett",
-                    "homepage": "https://www.drupal.org/user/241634"
-                }
-            ],
-            "homepage": "https://www.drupal.org/project/fullcalendar",
-            "support": {
-                "source": "http://cgit.drupalcode.org/fullcalendar"
             }
         },
         {
@@ -6100,8 +6039,7 @@
         "drupal/computed_field": 15,
         "drupal/page_manager": 10,
         "drupal/smtp": 10,
-        "drupal/better_exposed_filters": 15,
-        "drupal/fullcalendar": 15
+        "drupal/better_exposed_filters": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
