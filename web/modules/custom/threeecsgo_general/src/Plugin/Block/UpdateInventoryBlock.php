@@ -61,41 +61,44 @@ class UpdateInventoryBlock extends BlockBase {
             $inventory = $query->execute();
 
             if ($inventory == NULL) {
-              $node_inventory = Node::create([
-                'title' => $article->market_name,
-                'type' => 'article',
-                'status' => 1,
-              ]);
-
               // Create file object from a locally copied file.
               $uri = file_unmanaged_copy("https://steamcommunity-a.akamaihd.net/economy/image/" . $article->icon_url, 'public://inventory/' . $article->market_name . '.jpg', FILE_EXISTS_REPLACE);
-              $file = File::Create([
-                'uri' => $uri,
-              ]);
-              $file->save();
+              if ($uri != null) {
+                $node_inventory = Node::create([
+                  'title' => $article->market_name,
+                  'type' => 'article',
+                  'status' => 1,
+                ]);
 
-              // Attach file in node.
-              $node_inventory->image_article->setValue([
-                'target_id' => $file->id(),
-              ]);
+                $file = File::Create([
+                  'uri' => $uri,
+                ]);
+                $file->save();
 
-              $node_inventory->{'owner_article'}->setValue($user->id());
-              if (in_array($article->market_name, $inventory_profile)) {
-                $node_inventory->{'display'}->setValue(TRUE);
-              } else {
-                $node_inventory->{'display'}->setValue(FALSE);
-              }
+                // Attach file in node.
+                $node_inventory->image_article->setValue([
+                  'target_id' => $file->id(),
+                ]);
 
-              $tags = $article->tags;
-
-              foreach ($tags as $tag) {
-                if ($tag->category == "Exterior" or $tag->category == "Rarity" or $tag->category == "Quality") {
-                  $node_inventory->{strtolower($tag->category)}->setValue($tag->name);
+                $node_inventory->{'owner_article'}->setValue($user->id());
+                if (in_array($article->market_name, $inventory_profile)) {
+                  $node_inventory->{'display'}->setValue(TRUE);
                 }
-              }
+                else {
+                  $node_inventory->{'display'}->setValue(FALSE);
+                }
 
-              if ($node_inventory->{'exterior'}->value != NULL) {
-                $node_inventory->save();
+                $tags = $article->tags;
+
+                foreach ($tags as $tag) {
+                  if ($tag->category == "Exterior" or $tag->category == "Rarity" or $tag->category == "Quality") {
+                    $node_inventory->{strtolower($tag->category)}->setValue($tag->name);
+                  }
+                }
+
+                if ($node_inventory->{'exterior'}->value != NULL) {
+                  $node_inventory->save();
+                }
               }
             }
           }
