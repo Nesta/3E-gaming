@@ -390,15 +390,17 @@ function threeecsgo_general_user_view($account, $view_mode, $langcode) {
 
     // Create file object from a locally copied file.
     $uri = file_unmanaged_copy($avatar, 'public://avatars/' . $user->get('steamid')->value . '.jpg', FILE_EXISTS_REPLACE);
-    $file = File::Create([
-      'uri' => $uri,
-    ]);
-    $file->save();
+    if ($uri != null) {
+      $file = File::Create([
+        'uri' => $uri,
+      ]);
+      $file->save();
 
-    // Attach file in node.
-    $user->avatarfull->setValue([
-      'target_id' => $file->id(),
-    ]);
+      // Attach file in node.
+      $user->avatarfull->setValue([
+        'target_id' => $file->id(),
+      ]);
+    }
 
     foreach ($stats as $stat) {
       if($stat->name == "total_deaths" or $stat->name == "total_kills" or $stat->name == "total_time_played"
